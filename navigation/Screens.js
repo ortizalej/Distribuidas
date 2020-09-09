@@ -7,6 +7,7 @@ import { Block, Text, theme } from "galio-framework";
 
 import ComponentsScreen from '../screens/Components';
 import HomeScreen from '../screens/Home';
+import IngresosScreen from '../screens/Ingresos';
 import ProfileScreen from '../screens/Profile';
 import ProScreen from '../screens/Pro';
 import SettingsScreen from '../screens/Settings';
@@ -84,36 +85,29 @@ function ComponentsStack(props) {
   );
 }
 
-function HomeStack(props) {
+function HomeStack({navigation}) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen 
+      <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header 
-              search
-              tabs
-              title="Home"
-              navigation={navigation}
-              scene={scene}
-            />
-          )
-        }}
-      />
-      <Stack.Screen 
-        name="Pro"
-        component={ProScreen}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header back white transparent title="" navigation={navigation} scene={scene} />
-          ),
-          headerTransparent: true
-        }}
+        options={{ title: 'Home' }}
       />
     </Stack.Navigator>
   );
+
+}
+function IngresosStack({navigation}) {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Ingresos"
+        component={IngresosScreen}
+        options={{ title: 'Ingresos' }}
+      />
+    </Stack.Navigator>
+  );
+
 }
 
 function AppStack(props) {
@@ -151,145 +145,42 @@ function AppStack(props) {
       <Drawer.Screen
         name="Home"
         component={HomeStack}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon
-              size={16}
-              name="shop"
-              family="GalioExtra"
-              color={focused ? "white" : materialTheme.COLORS.MUTED}
-            />
-          )
-        }}
       />
       <Drawer.Screen
-        name="Woman"
+        name="Ingresos"
+        component={IngresosStack}
+      />
+      <Drawer.Screen
+        name="Egresos"
         component={HomeStack}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon
-              size={16}
-              name="md-woman"
-              family="ionicon"
-              color={focused ? "white" : materialTheme.COLORS.MUTED}
-              style={{ marginLeft: 4, marginRight: 4 }}
-            />
-          )
-        }}
       />
       <Drawer.Screen
-        name="Man"
-        component={HomeStack}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon
-              size={16}
-              name="man"
-              family="entypo"
-              color={focused ? "white" : materialTheme.COLORS.MUTED}
-            />
-          )
-        }}
-      />
-      <Drawer.Screen
-        name="Kids"
+        name="Tarjetas"
         component={ProScreen}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon
-              size={16}
-              name="baby"
-              family="GalioExtra"
-              color={focused ? "white" : materialTheme.COLORS.MUTED}
-            />
-          )
-        }}
       />
       <Drawer.Screen
-        name="New Collection"
+        name="Cuentas bancarias"
         component={ProScreen}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon
-              size={16}
-              name="grid-on"
-              family="material"
-              color={focused ? "white" : materialTheme.COLORS.MUTED}
-            />
-          )
-        }}
       />
       <Drawer.Screen
-        name="Profile"
+        name="Inversiones"
         component={ProfileStack}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon
-              size={16}
-              name="circle-10"
-              family="GalioExtra"
-              color={focused ? "white" : materialTheme.COLORS.MUTED}
-            />
-          )
-        }}
       />
       <Drawer.Screen
-        name="Settings"
+        name="Prestamos"
         component={SettingsStack}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon
-              size={16}
-              name="gears"
-              family="font-awesome"
-              color={focused ? "white" : materialTheme.COLORS.MUTED}
-              style={{ marginRight: -3 }}
-            />
-          )
-        }}
       />
       <Drawer.Screen
-        name="Components"
+        name="Presupuestos"
         component={ComponentsStack}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon
-              size={16}
-              name="md-switch"
-              family="ionicon"
-              color={focused ? "white" : materialTheme.COLORS.MUTED}
-              style={{ marginRight: 2, marginLeft: 2 }}
-            />
-          )
-        }}
       />
       <Drawer.Screen
         name="Sign In"
         component={ProScreen}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon
-              size={16}
-              name="ios-log-in"
-              family="ionicon"
-              color={focused ? "white" : materialTheme.COLORS.MUTED}
-            />
-          )
-        }}
       />
       <Drawer.Screen
         name="Sign Up"
         component={ProScreen}
-        options={{
-          drawerIcon: ({ focused }) => (
-            <Icon
-              size={16}
-              name="md-person-add"
-              family="ionicon"
-              color={focused ? "white" : materialTheme.COLORS.MUTED}
-            />
-          )
-        }}
       />
     </Drawer.Navigator>
   );
@@ -297,8 +188,8 @@ function AppStack(props) {
 
 export default function init(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="none">
-      <Stack.Screen name="App" component={AppStack} />
-    </Stack.Navigator>
+      <Stack.Navigator mode="card" headerMode="none">
+        <Stack.Screen name="App" component={AppStack} />
+      </Stack.Navigator>
   );
 }

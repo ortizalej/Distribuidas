@@ -6,16 +6,29 @@ const { width } = Dimensions.get('screen');
 export default class Ingresos extends React.Component {
   render() {
     return (
-      <Block flex center style={styles.home}>
-        {this.renderProducts()}
+      <Block flex center style={styles.ingresos}>
+        <Block >
+          <Block>
+            <Text color="black" size={60}>Unlock</Text>
+          </Block>
+          <Block>
+            <Text color="black" size={60}>Material</Text>
+          </Block>
+          <Block row>
+            <Text color="white" size={60}>Kit</Text>
+            <Block middle style={styles.pro}>
+              <Text size={16} color="white">PRO</Text>
+            </Block>
+          </Block>
+        </Block>
       </Block>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  home: {
-    width: width,    
+  ingresos: {
+    width: width,
   },
   search: {
     height: 48,
