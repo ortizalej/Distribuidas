@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 import {
     Container,
@@ -18,6 +18,7 @@ import {
     Text,
     Picker
 } from "native-base";
+const{width,height} = Dimensions.get('screen');
 
 export default class Formulario extends React.Component {
     constructor(props) {
@@ -57,9 +58,9 @@ function renderIngresos(props) {
     return (
         <Container style={styles.container}>
             <Content>
-                <Form>
+                <Form scrollEnabled ={false}>
                     <Item stackedLabel>
-                        <Input placeholder="Cantidad en $" placeholderTextColor="#697A8C" />
+                        <Input  style={{ color: "#697A8C" }} placeholder="Cantidad en $" placeholderTextColor="#697A8C"  />
                     </Item>
 
                     <Item >
@@ -114,7 +115,8 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#0B1F35",
         width: 320,
-        height: 230,
+        height: height,
+        paddingRight: 15,
         marginTop: 20,
         borderRadius: 20
 
