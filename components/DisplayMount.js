@@ -28,18 +28,7 @@ export default class DisplayMount extends React.Component {
 
     );
   }
-  onChange(value) {
-    // tcomb immutability helpers
-    // https://github.com/gcanti/tcomb/blob/master/docs/API.md#updating-immutable-instances
-    var options = t.update(this.state.options, {
-      fields: {
-        name: {
-          editable: {'$set': !value.disable}
-        }
-      }
-    });
-    this.setState({options: options, value: value});
-  }
+
 }
 
 const styles = StyleSheet.create({

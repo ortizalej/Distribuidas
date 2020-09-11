@@ -14,7 +14,11 @@ export default class IconExtra extends React.Component {
   }
 
   async componentDidMount() {
-    // await Font.loadAsync({ GalioExtra: GalioExtra });
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),     
+      GalioExtra: GalioExtra
+    });
     this.setState({ fontLoaded: true });
   }
 

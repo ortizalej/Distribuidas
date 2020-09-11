@@ -11,6 +11,8 @@ export default class Ingresos extends React.Component {
       <Block center flex style={styles.ingresos}>
         <Display />
         <Form type={'Ingresos'} />
+        <Form type={'Ingresos'} />
+
       </Block>
     );
   }
