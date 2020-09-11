@@ -45,8 +45,8 @@ export default class Formulario extends React.Component {
     render() {
         if (this.props.type === 'Ingresos') {
             return renderIngresos(this);
-        } else {
-
+        } else if (this.props.type === 'Egresos') {
+            return renderEgresos(this);
         }
 
     }
