@@ -10,6 +10,7 @@ export default class Ingresos extends React.Component {
   defaultBudget = '2400'
   defaultDate = 'Mensual'
   defaultCoin = '$'
+  
   render() {
     return (
       <Block center style={styles.ingresos}>

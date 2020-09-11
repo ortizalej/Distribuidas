@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Dimensions, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Dimensions, View, Modal, TouchableHighlight } from 'react-native';
 import { Block } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -28,7 +28,7 @@ export default class DisplayMount extends React.Component {
     return (
       <Block center >
         <View style={styles.buttonStyle}>
-          <TouchableOpacity onPress={() => onPressButton()} disabled={this.props.disabled}>
+          <TouchableHighlight onPress={() => this.visible = true} disabled={this.props.disabled}>
             <LinearGradient colors={['#FF004E', '#FF9040']} style={styles.linearGradient} start={{ x: 0.0, y: 0.0 }} end={{ x: 1, y: 1 }} >
               <Text
                 style={styles.dateText}>
@@ -39,7 +39,7 @@ export default class DisplayMount extends React.Component {
                 {this.props.defaultCoin} {this.props.defaultBudget}
               </Text>
             </LinearGradient>
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View>
       </Block>
 
@@ -47,20 +47,7 @@ export default class DisplayMount extends React.Component {
   }
 
 }
-function onPressButton() {
-  return (
-    <Item >
-      <Picker
-        textStyle={{ color: '#697A8C' }}
-        placeholder="Tipo"
-        placeholderTextColor="#697A8C"
-      >
-        <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
-        <Picker.Item label='Transferencia Bancaria' value='transferencia' color="#697A8C" />
-      </Picker>
-    </Item>
-  )
-}
+
 const styles = StyleSheet.create({
 
   linearGradient: {

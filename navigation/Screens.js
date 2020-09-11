@@ -12,6 +12,7 @@ import EgresosScreen from '../screens/Egresos';
 import ProfileScreen from '../screens/Profile';
 import SettingsScreen from '../screens/Settings';
 import TarjetasScreen from '../screens/Tarjetas';
+import AgregarTarjetas from '../screens/AddTarjetas'
 import CustomDrawerContent from './Menu';
 import { Icon, Header } from '../components';
 import { Images, materialTheme } from "../constants/";
@@ -91,7 +92,22 @@ function TarjetasStack() {
   );
 
 }
+function AgregarTarjetasStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="AgregarTarjeta"
+        component={AgregarTarjetas}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="AgregarTarjeta" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
 
+}
 function AppStack(props) {
   return (
     <Drawer.Navigator
@@ -156,6 +172,10 @@ function AppStack(props) {
         name="Presupuestos"
         component={HomeStack}
       />
+      <Drawer.Screen
+        name="Agregar Tarjeta"
+        component={AgregarTarjetasStack}
+      />      
       <Drawer.Screen
         name="Sign In"
         component={HomeStack}

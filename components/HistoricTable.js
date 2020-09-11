@@ -92,7 +92,8 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 30,
     borderRadius: 20,
-    marginBottom: 100
+    marginBottom: 100,
+    marginLeft:20
   },
   head: {
     height: 40,

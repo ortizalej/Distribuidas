@@ -31,7 +31,7 @@ export default class CarrouselCard extends React.Component {
 
     render() {
         return (
-            <View center  style={styles.container}>
+            <View center style={styles.container}>
                 <Carousel
                     ref={(c) => { this._carousel = c; }}
                     data={this.state.carouselItems}
@@ -46,7 +46,7 @@ export default class CarrouselCard extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 30,
+        marginTop: 5,
         marginLeft: 30
     }
 });

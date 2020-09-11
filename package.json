@@ -46,6 +46,7 @@
     "react-native-sqlite-storage": "^5.0.0",
     "react-native-table-component": "^1.2.1",
     "react-navigation": "^4.4.0",
+    "rn-modal-picker": "^0.3.0",
     "tcomb-form-native": "^0.6.20"
   },
   "devDependencies": {

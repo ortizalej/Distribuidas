@@ -57,8 +57,8 @@ export default class DisplayMount extends React.Component {
 const styles = StyleSheet.create({
 
     container: {
-        backgroundColor: "transparent",
-        marginTop: 60,
+        backgroundColor: "#071019",
+        paddingTop: 20
     },
     label: {
         color: "gray",
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     },
     inputCointaer: {
         borderBottomWidth: 1,
-        borderBottomColor: "white"
+        borderBottomColor: "#071019"
     },
     btnIngresar: {
         width: 200,
