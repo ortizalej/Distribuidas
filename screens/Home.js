@@ -2,44 +2,13 @@ import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Button, Block, Text, Input, theme } from 'galio-framework';
 
-import { Icon, Product } from '../components/';
-
 const { width } = Dimensions.get('screen');
-import products from '../constants/products';
 
 export default class Home extends React.Component {
-  renderSearch = () => {
-    const { navigation } = this.props;
-    const iconCamera = <Icon size={16} color={theme.COLORS.MUTED} name="zoom-in" family="material" />
-
-    return (
-      <Input
-        right
-        color="black"
-        style={styles.search}
-        iconContent={iconCamera}
-        placeholder="What are you looking for?"
-        onFocus={() => navigation.navigate('Pro')}
-      />
-    )
-  }
-  
-
-  renderProducts = () => {
-    return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.products}>
-        <Block flex>
-        </Block>
-      </ScrollView>
-    )
-  }
 
   render() {
     return (
       <Block flex center style={styles.home}>
-        {this.renderProducts()}
       </Block>
     );
   }
@@ -47,7 +16,8 @@ export default class Home extends React.Component {
 
 const styles = StyleSheet.create({
   home: {
-    width: width,    
+    width: width,
+    backgroundColor: "#071019"  
   },
   search: {
     height: 48,

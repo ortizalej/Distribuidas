@@ -9,30 +9,18 @@ import materialTheme from '../constants/Theme';
 const { height, width } = Dimensions.get('window');
 const iPhoneX = () => Platform.OS === 'ios' && (height === 812 || width === 812 || height === 896 || width === 896);
 
-const ChatButton = ({isWhite, style, navigation}) => (
-  <TouchableOpacity style={[styles.button, style]} onPress={() => navigation.navigate('Home')}>
-    <Icon
-      family="GalioExtra"
-      size={16}
-      name="chat-33"
-      color={theme.COLORS[isWhite ? 'WHITE' : 'ICON']}
-    />
-    <Block middle style={styles.notify} />
-  </TouchableOpacity>
-);
 
-const BasketButton = ({isWhite, style, navigation}) => (
-  <TouchableOpacity style={[styles.button, style]} onPress={() => navigation.navigate('Home')}>
+const NotificationButton = ({ isWhite, style}) => (
+  <TouchableOpacity style={[styles.button, style]}>
     <Icon
       family="GalioExtra"
       size={16}
       name="basket-simple"
-      color={theme.COLORS[isWhite ? 'WHITE' : 'ICON']}
+      color= 'white'
     />
     <Block middle style={styles.notify} />
   </TouchableOpacity>
 );
-
 
 class Header extends React.Component {
   handleLeftPress = () => {
@@ -41,48 +29,18 @@ class Header extends React.Component {
   }
 
   renderRight = () => {
-    const { white, title, navigation } = this.props;
-
-    if (title === 'Title') {
-      return [
-        <ChatButton key='chat-title' navigation={navigation} isWhite={white} />,
-        <BasketButton key='basket-title' navigation={navigation} isWhite={white} />
-      ]
-    }
-
-    switch (title) {
-      case 'Home':
-        return ([
-          <ChatButton key='chat-home' navigation={navigation} isWhite={white} />,
-          <BasketButton key='basket-home' navigation={navigation} isWhite={white} />
-        ]);
-      default:
-        break;
-    }
+    return (
+      <NotificationButton key='chat-home' navigation={this.props.navigation} isWhite={this.props.white} />
+    );
   }
 
-  renderHeader = () => {
-    const { search, tabs } = this.props;
-    if (search || tabs) {
-      return (
-        <Block center>
-        </Block>
-      )
-    }
-    return null;
-  }
 
   render() {
-    const { back, title, white, transparent, navigation } = this.props;
+    const { back, title, transparent} = this.props;
     // const { routeName } = navigation.state;
-    const noShadow = ["Search", "Categories", "Deals", "Pro", "Profile"].includes(title);
-    const headerStyles = [
-      !noShadow ? styles.shadow : null,
-      transparent ? { backgroundColor: 'rgba(0,0,0,0)' } : null,
-    ];
 
     return (
-      <Block style={headerStyles}>
+      <Block >
         <NavBar
           back={back}
           title={title}
@@ -90,16 +48,15 @@ class Header extends React.Component {
           transparent={transparent}
           right={this.renderRight()}
           rightStyle={{ alignItems: 'center' }}
-          leftStyle={{ flex: 0.3, paddingTop: 2  }}
+          leftStyle={{ flex: 0.3, paddingTop: 2 }}
           leftIconName={(back ? 'chevron-left' : 'navicon')}
-          leftIconColor={white ? theme.COLORS.WHITE : theme.COLORS.ICON}
+          leftIconColor={theme.COLORS.WHITE}
           titleStyle={[
             styles.title,
-            {color: theme.COLORS[white ? 'WHITE' : 'ICON']},
+            { color: theme.COLORS.WHITE },
           ]}
           onLeftPress={this.handleLeftPress}
         />
-        {this.renderHeader()}
       </Block>
     );
   }
@@ -122,6 +79,7 @@ const styles = StyleSheet.create({
     paddingBottom: theme.SIZES.BASE * 1.5,
     paddingTop: iPhoneX ? theme.SIZES.BASE * 4 : theme.SIZES.BASE,
     zIndex: 5,
+    backgroundColor: '#091A2B'
   },
   shadow: {
     backgroundColor: theme.COLORS.WHITE,
@@ -141,7 +99,7 @@ const styles = StyleSheet.create({
     right: 8,
   },
   header: {
-    backgroundColor: theme.COLORS.WHITE,
+    backgroundColor: '#0B1F35',
   },
   divider: {
     borderRightWidth: 0.3,

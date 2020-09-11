@@ -14,7 +14,7 @@ export default class IconExtra extends React.Component {
   }
 
   async componentDidMount() {
-    await Font.loadAsync({ GalioExtra: GalioExtra });
+    // await Font.loadAsync({ GalioExtra: GalioExtra });
     this.setState({ fontLoaded: true });
   }
 

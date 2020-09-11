@@ -85,25 +85,33 @@ function ComponentsStack(props) {
   );
 }
 
-function HomeStack({navigation}) {
+function HomeStack() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ title: 'Home' }}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Home" scene={scene} navigation={navigation} />
+          )
+        }}
       />
     </Stack.Navigator>
   );
 
 }
-function IngresosStack({navigation}) {
+function IngresosStack() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Ingresos"
         component={IngresosScreen}
-        options={{ title: 'Ingresos' }}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Ingresos" scene={scene} navigation={navigation} />
+          )
+        }}
       />
     </Stack.Navigator>
   );
@@ -129,10 +137,10 @@ function AppStack(props) {
         itemStyle: {
           width: width * 0.74,
           paddingHorizontal: 12,
-          // paddingVertical: 4,
+          paddingVertical: 4,
           justifyContent: "center",
           alignContent: "center",
-          // alignItems: 'center',
+          alignItems: 'center',
           overflow: "hidden"
         },
         labelStyle: {
@@ -140,7 +148,7 @@ function AppStack(props) {
           fontWeight: "normal"
         }
       }}
-      initialRouteName="Home"
+      initialRouteName="Ingresos"
     >
       <Drawer.Screen
         name="Home"
@@ -188,8 +196,8 @@ function AppStack(props) {
 
 export default function init(props) {
   return (
-      <Stack.Navigator mode="card" headerMode="none">
-        <Stack.Screen name="App" component={AppStack} />
-      </Stack.Navigator>
+    <Stack.Navigator mode="card" headerMode="none">
+      <Stack.Screen name="App" component={AppStack} />
+    </Stack.Navigator>
   );
 }
