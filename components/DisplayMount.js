@@ -1,26 +1,43 @@
 import React from 'react';
-import { StyleSheet,Dimensions, Text, Button, Alert, View } from 'react-native';
+import { StyleSheet, Dimensions, View } from 'react-native';
 import { Block } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Item,
+  Label,
+  Input,
+  Body,
+  Left,
+  Right,
+  Icon,
+  Form,
+  Button,
+  Text,
+  Picker
+} from "native-base";
 const { width } = Dimensions.get('screen');
 
 export default class DisplayMount extends React.Component {
 
   render() {
     return (
-      <Block  >
+      <Block center >
         <View style={styles.buttonStyle}>
-          <TouchableOpacity onPress={() => Alert.alert('Simple Button pressed')}>
-            <LinearGradient colors={['#FF004E', '#FF9040']} style={styles.linearGradient} start={{x: 0.0 , y: 0.0}} end={{x: 1, y: 1}} >
+          <TouchableOpacity onPress={() => onPressButton()} disabled={this.props.disabled}>
+            <LinearGradient colors={['#FF004E', '#FF9040']} style={styles.linearGradient} start={{ x: 0.0, y: 0.0 }} end={{ x: 1, y: 1 }} >
               <Text
                 style={styles.dateText}>
-                Mensual
+                {this.props.defaultDate}
               </Text>
               <Text
                 style={styles.budgetText}>
-                $ 2400
-          </Text>
+                {this.props.defaultCoin} {this.props.defaultBudget}
+              </Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -30,7 +47,20 @@ export default class DisplayMount extends React.Component {
   }
 
 }
-
+function onPressButton() {
+  return (
+    <Item >
+      <Picker
+        textStyle={{ color: '#697A8C' }}
+        placeholder="Tipo"
+        placeholderTextColor="#697A8C"
+      >
+        <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
+        <Picker.Item label='Transferencia Bancaria' value='transferencia' color="#697A8C" />
+      </Picker>
+    </Item>
+  )
+}
 const styles = StyleSheet.create({
 
   linearGradient: {
@@ -39,17 +69,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 69,
     width: 270,
-    marginTop: 50    
+    marginTop: 50
   },
-  dateText :{
+  dateText: {
     backgroundColor: 'transparent',
     fontSize: 8,
     color: '#fff',
   },
-  budgetText :{
+  budgetText: {
     backgroundColor: 'transparent',
     fontSize: 34,
     color: '#fff',
-  } 
+  }
 
 });

@@ -8,10 +8,10 @@ import { Block, Text, theme } from "galio-framework";
 import ComponentsScreen from '../screens/Components';
 import HomeScreen from '../screens/Home';
 import IngresosScreen from '../screens/Ingresos';
+import EgresosScreen from '../screens/Egresos';
 import ProfileScreen from '../screens/Profile';
-import ProScreen from '../screens/Pro';
 import SettingsScreen from '../screens/Settings';
-
+import TarjetasScreen from '../screens/Tarjetas';
 import CustomDrawerContent from './Menu';
 import { Icon, Header } from '../components';
 import { Images, materialTheme } from "../constants/";
@@ -26,64 +26,6 @@ const profile = {
   name: "Alejandro Ortiz"
 };
 
-function ProfileStack(props) {
-  return (
-    <Stack.Navigator initialRouteName="Profile" mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              white
-              transparent
-              title="Profile"
-              scene={scene}
-              navigation={navigation}
-            />
-          ),
-          headerTransparent: true
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function SettingsStack(props) {
-  return (
-    <Stack.Navigator
-      initialRouteName="Settings"
-      mode="card"
-      headerMode="screen"
-    >
-      <Stack.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="Settings" scene={scene} navigation={navigation} />
-          )
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function ComponentsStack(props) {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Components"
-        component={ComponentsScreen}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="Components" scene={scene} navigation={navigation} />
-          )
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
 
 function HomeStack() {
   return (
@@ -110,6 +52,38 @@ function IngresosStack() {
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Ingresos" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function EgresosStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Egresos"
+        component={EgresosScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Egresos" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function TarjetasStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Tarjetas"
+        component={TarjetasScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Tarjetas" scene={scene} navigation={navigation} />
           )
         }}
       />
@@ -148,7 +122,7 @@ function AppStack(props) {
           fontWeight: "normal"
         }
       }}
-      initialRouteName="Ingresos"
+      initialRouteName="Tarjetas"
     >
       <Drawer.Screen
         name="Home"
@@ -160,35 +134,35 @@ function AppStack(props) {
       />
       <Drawer.Screen
         name="Egresos"
-        component={HomeStack}
+        component={EgresosStack}
       />
       <Drawer.Screen
         name="Tarjetas"
-        component={ProScreen}
+        component={TarjetasStack}
       />
       <Drawer.Screen
         name="Cuentas bancarias"
-        component={ProScreen}
+        component={HomeStack}
       />
       <Drawer.Screen
         name="Inversiones"
-        component={ProfileStack}
+        component={HomeStack}
       />
       <Drawer.Screen
         name="Prestamos"
-        component={SettingsStack}
+        component={HomeStack}
       />
       <Drawer.Screen
         name="Presupuestos"
-        component={ComponentsStack}
+        component={HomeStack}
       />
       <Drawer.Screen
         name="Sign In"
-        component={ProScreen}
+        component={HomeStack}
       />
       <Drawer.Screen
         name="Sign Up"
-        component={ProScreen}
+        component={HomeStack}
       />
     </Drawer.Navigator>
   );

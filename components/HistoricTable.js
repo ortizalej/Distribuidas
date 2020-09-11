@@ -37,7 +37,11 @@ export default class HistoricTable extends React.Component {
   }
 
   render() {
-    return ingresosTable(this.state);
+    if (this.props.type === 'Ingresos') {
+      return ingresosTable(this.state);
+    } else if (this.props.type === 'Egresos') {
+      return egresosTable(this.state);
+    }
   }
 
 }
@@ -61,6 +65,24 @@ function ingresosTable(state) {
   )
 }
 
+function egresosTable(state) {
+  return (
+    <View style={styles.container} >
+      <ScrollView vertical={true}>
+
+        <Table >
+          <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
+          <TableWrapper style={styles.wrapper}>
+            <Col data={state.tableTitle} style={styles.title} heightArr={[28, 28]} textStyle={styles.text} />
+            <Rows data={state.tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
+          </TableWrapper>
+        </Table>
+      </ScrollView>
+    </View>
+
+  )
+}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -70,6 +92,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 30,
     borderRadius: 20,
+    marginBottom: 100
   },
   head: {
     height: 40,

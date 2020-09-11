@@ -19,7 +19,6 @@ import {
     Picker
 } from "native-base";
 const{width,height} = Dimensions.get('screen');
-
 export default class Formulario extends React.Component {
     constructor(props) {
         super(props);
@@ -101,6 +100,54 @@ function renderIngresos(props) {
                             <Picker.Item label='Cuenta2' value='Cuenta2' color="#697A8C" />
                         </Picker>
                     </Item>
+                    <Button style={styles.btnIngresar}>
+                        <Text>INGRESAR</Text>
+                    </Button>
+                </Form>
+
+            </Content>
+        </Container>
+    )
+}
+
+function renderEgresos(props) {
+    return (
+        <Container style={styles.container}>
+            <Content>
+                <Form scrollEnabled ={false}>
+                    <Item stackedLabel>
+                        <Input  style={{ color: "#697A8C" }} placeholder="Cantidad en $" placeholderTextColor="#697A8C"  />
+                    </Item>
+
+                    <Item >
+                        <Picker
+                            textStyle={{ color: '#697A8C' }}
+                            placeholder="Fuente"
+                            placeholderTextColor="#697A8C"
+                            selectedValue={props.state.fuente}
+                            onValueChange={props.onChangeFuente.bind(props)}
+
+                        >
+                            <Picker.Item label='Alquiler de Propiedad' value='alquiler' color="#697A8C" />
+                            <Picker.Item label='Sueldo' value='sueldo' color="#697A8C" />
+                            <Picker.Item label='Facturacion' value='facturacion' color="#697A8C" />
+                        </Picker>
+                    </Item>
+                    <Item >
+                        <Picker
+                            textStyle={{ color: '#697A8C' }}
+                            placeholder="Medio"
+                            placeholderTextColor="#697A8C"
+                            selectedValue={props.state.tipo}
+                            onValueChange={props.onChangeTipo.bind(props)}
+                        >
+                            <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
+                            <Picker.Item label='Transferencia Bancaria' value='transferencia' color="#697A8C" />
+                        </Picker>
+                    </Item>
+                    <Button style={styles.btnIngresar}>
+                        <Text>SUBIR ARCHIVO</Text>
+                    </Button>
                     <Button style={styles.btnIngresar}>
                         <Text>INGRESAR</Text>
                     </Button>
