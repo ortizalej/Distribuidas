@@ -18,14 +18,21 @@ import {
     Text,
     Picker
 } from "native-base";
-const{width,height} = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 export default class Formulario extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             tipo: undefined,
-            fuente: undefined
+            fuente: undefined,
+            cantidad: undefined,
+            medio: undefined
         };
+    }
+    onChangeCantidad(value) {
+        this.setState({
+            cantidad: value
+        });
     }
     onChangeTipo(value) {
         this.setState({
@@ -47,24 +54,37 @@ export default class Formulario extends React.Component {
             cuenta: value
         });
     }
+    getFormData(data) {
+        this.props.getFormData(data);
+    }
     render() {
         if (this.props.type === 'Ingresos') {
             return renderIngresos(this);
         } else if (this.props.type === 'Egresos') {
             return renderEgresos(this);
+
         }
 
     }
 
 }
 
+
+
 function renderIngresos(props) {
     return (
         <Container style={styles.container}>
             <Content>
-                <Form scrollEnabled ={false}>
+                <Form scrollEnabled={false}>
                     <Item stackedLabel>
-                        <Input  style={{ color: "#697A8C" }} placeholder="Cantidad en $" placeholderTextColor="#697A8C"  />
+                        <Input
+                            keyboardType="number-pad"
+                            style={{ color: "#697A8C" }}
+                            placeholder="Cantidad en $"
+                            placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeCantidad.bind(props)}
+
+                        />
                     </Item>
 
                     <Item >
@@ -105,7 +125,18 @@ function renderIngresos(props) {
                             <Picker.Item label='Cuenta2' value='Cuenta2' color="#697A8C" />
                         </Picker>
                     </Item>
-                    <Button style={styles.btnIngresar}>
+                    <Button
+                        style={styles.btnIngresar}
+                        onPress={() => {
+                            props.getFormData(
+                                {
+                                    fecha: '12/12/12',
+                                    cantidad: props.state.cantidad,
+                                    tipo: props.state.tipo,
+                                    fuente: props.state.fuente
+                                })
+                        }}
+                    >
                         <Text>INGRESAR</Text>
                     </Button>
                 </Form>
@@ -116,20 +147,24 @@ function renderIngresos(props) {
 }
 
 function renderEgresos(props) {
+
     return (
         <Container style={styles.container}>
             <Content >
-                <Form scrollEnabled ={false}>
+                <Form scrollEnabled={false}>
                     <Item stackedLabel>
-                        <Input  
-                        style={{ color: "#697A8C" }} 
-                        placeholder="Cantidad en $" placeholderTextColor="#697A8C"  />
+                        <Input
+                            keyboardType="number-pad"
+                            style={{ color: "#697A8C" }}
+                            placeholder="Cantidad en $" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeCantidad.bind(props)}
+                        />
                     </Item>
 
                     <Item >
                         <Picker
                             textStyle={{ color: '#697A8C' }}
-                            placeholder="Tipo"
+                            placeholder="Destino"
                             placeholderTextColor="#697A8C"
                             selectedValue={props.state.tipo}
                             onValueChange={props.onChangeTipo.bind(props)}
@@ -155,7 +190,17 @@ function renderEgresos(props) {
                     <Button style={styles.btnIngresar}>
                         <Text>SUBIR ARCHIVO</Text>
                     </Button>
-                    <Button style={styles.btnIngresar}>
+                    <Button
+                        style={styles.btnIngresar}
+                        onPress={() => {
+                            props.getFormData(
+                                {
+                                    fecha: '12/12/12',
+                                    cantidad: props.state.cantidad,
+                                    tipo: props.state.tipo,
+                                    medio: props.state.medio
+                                })
+                        }}>
                         <Text>REGISTRAR</Text>
                     </Button>
                 </Form>

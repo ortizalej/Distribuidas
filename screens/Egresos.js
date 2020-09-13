@@ -5,35 +5,49 @@ import Display from '../components/DisplayMount';
 import Form from '../components/Formulario';
 import HistoricTable from '../components/HistoricTable';
 const { width, height } = Dimensions.get('screen');
+
 export default class Egresos extends React.Component {
   defaultDate = 'Mensual'
   defaultCoin = '$'
   colTable = ['Fecha', 'Cantidad', 'Dest', 'Medio'];
   rowValues = [
-    ['1', 200, '3', '4'],
-    ['a', 300, 'c', 'd'],
-    ['1', 300, '3', '456\n789'],
-    ['a', 300, 'c', 'd']
-    ['1', 300, '3', '4'],
-    ['a', 300, 'c', 'd'],
-    ['1', 300, '3', '456\n789']
+
   ];
+
+  formData(data) {
+    let arrayData = [data.fecha, parseInt(data.cantidad), data.tipo, data.medio];
+    let totalSum = 0
+    this.rowValues.push(arrayData); 
+    for (let i = 0; i < this.rowValues.length; i++) {
+      if (!this.rowValues[i]) { continue; }
+      totalSum += this.rowValues[i][1];
+    }
+    this.HistoricTable.updateState(this.rowValues);
+    this.Display.updateState(totalSum);
+  }
+
   render() {
     let totalSum = 0;
     for (let i = 0; i < this.rowValues.length; i++) {
       if (!this.rowValues[i]) { continue; }
       totalSum += this.rowValues[i][1];
     }
+
     return (
       <Block center style={styles.egresos}>
         <ScrollView>
           <Display
+            ref={(display) => { this.Display = display }}
             defaultDate={this.defaultDate}
             defaultBudget={totalSum}
             defaultCoin={this.defaultCoin}
           />
-          <Form type={'Egresos'} />
+          <Form
+            type={'Egresos'}
+            getFormData={this.formData.bind(this)}
+          />
           <HistoricTable type={'Egresos'}
+            ref={(table) => { this.HistoricTable = table }}
             cols={this.colTable}
             rows={this.rowValues}
           />
@@ -41,7 +55,11 @@ export default class Egresos extends React.Component {
       </Block>
     );
   }
+
 }
+
+
+
 const styles = StyleSheet.create({
   egresos: {
     width: width,
