@@ -19,13 +19,13 @@ export default class DisplayMount extends React.Component {
     };
     _onChange = (formData) => console.log(JSON.stringify(formData));
     render() {
-        const {goBack} = this.props.navigation;
+        const { goBack } = this.props.navigation;
         return (
             <Container style={styles.container}>
                 <Content>
                     <Form >
                         <Button style={styles.btnGoBack} onPress={() => goBack()}>
-                            <Text style={{fontWeight: "bold"}}>{'<'}Tarjetas</Text>
+                            <Text style={{ fontWeight: "bold" }}>{'<'}Tarjetas</Text>
                         </Button>
                         <CreditCardInput
                             requiresName
@@ -47,7 +47,9 @@ export default class DisplayMount extends React.Component {
                         >
                             <Picker.Item label='Cuenta1' value='Cuenta1' color="#697A8C" />
                         </Picker>
-                        <Button style={styles.btnIngresar}>
+                        <Button style={styles.btnIngresar}
+                            onPress={() => this.props.navigation.navigate('Tarjetas', { user })}
+                        >
                             <Text>Agregar</Text>
                         </Button>
                     </Form>
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     btnGoBack: {
-        width: 100,
+        width: 110,
         height: 33,
         backgroundColor: 'transparent',
         marginTop: 10,

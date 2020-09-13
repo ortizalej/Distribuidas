@@ -6,36 +6,17 @@ export default class HistoricTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableHead: ['Fecha', 'Cantidad', 'Tipo', 'Fuente'],
-      tableData: [
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-      ]
+      tableHead: props.cols
     }
   }
-
+  updateState(value) {
+    console.log(value)
+    this.setState(
+      {
+        tableData : value 
+      }
+    )
+  }
   render() {
     if (this.props.type === 'Ingresos') {
       return ingresosTable(this.state);
@@ -48,8 +29,10 @@ export default class HistoricTable extends React.Component {
 }
 
 function ingresosTable(state) {
+
   return (
-    <View style={styles.container} >
+
+    <View style={styles.table} >
       <ScrollView vertical={true}>
         <Table >
           <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
@@ -65,7 +48,7 @@ function ingresosTable(state) {
 
 function egresosTable(state) {
   return (
-    <View style={styles.container} >
+    <View style={styles.table} >
       <ScrollView vertical={true}>
         <Table >
           <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
@@ -81,7 +64,7 @@ function egresosTable(state) {
 
 function tarjetasTable(state) {
   return (
-    <View style={styles.container} >
+    <View style={styles.table} >
       <ScrollView vertical={true}>
         <Table >
           <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
@@ -96,7 +79,7 @@ function tarjetasTable(state) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  table: {
     backgroundColor: '#0B1F35',
     width: 320,
     flex: 1,

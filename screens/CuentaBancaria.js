@@ -16,72 +16,69 @@ export default class Tarjetas extends React.Component {
         super(props);
         this.state = {
             type: 'card',
-            cards: [
+            carouselItems: [
+                {
+                    name: "Item 1",
+                    number: '12313123123',
+                    cvc: '123',
+                    brand: "visa",
+                },
+                {
+                    name: "Item 1",
+                    number: '12313123123',
+                    cvc: '123',
+                    brand: "visa",
+                },
                 {
                     name: "Item 1",
                     number: '12313123123',
                     cvc: '123',
                     brand: "visa",
                 }
-            ],
-            rowValues: [
-
-            ],
-            colTable: ['Fecha', 'Cantidad', 'Tipo', 'Operacion']
+            ]
         }
     }
     defaultDate = 'Mensual'
+    defaultBudget = '2400'
     defaultCoin = '$'
     render() {
-        let totalSum = 0;
-        for (let i = 0; i < this.state.rowValues.length; i++) {
-            if (!this.state.rowValues[i]) { continue; }
-            totalSum += this.state.rowValues[i][1];
-        }
         return (
             <Block style={styles.tarjetas}>
                 <Button
                     style={styles.btnNuevo}
-                    onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}
+                    onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}>
 
-                    >
-                    <Text style={{ fontWeight: "bold" }}>+</Text>
+                        <Text>Nueva tarjeta</Text>
                 </Button>
-                <CarrouselCard items={this.state.cards} type={this.state.type} />
+                <CarrouselCard items={this.state.carouselItems} type={this.state.type} />
                 <Display style={styles.display}
                     defaultBudget={this.defaultBudget}
                     defaultCoin={this.defaultCoin}
                     defaultDate={this.defaultDate}
                 />
-                <HistoricTable type={'Tarjetas'}
-                    ref={(table) => { this.HistoricTable = table }}
-                    cols={this.state.colTable}
-                    rows={this.state.rowValues}
-                />
+                <HistoricTable type={'Ingresos'} />
+
             </Block>
         );
     }
 }
 const styles = StyleSheet.create({
     tarjetas: {
-        height: height,
         width: width,
-        backgroundColor: "#071019"
+        height: height,
+        backgroundColor: "#071019",
+        alignContent: 'center'
     },
     btnNuevo: {
-        width: 50,
+        width: 150,
         height: 33,
         backgroundColor: '#F41F1F',
         marginTop: 10,
         marginBottom: 10,
         borderRadius: 8,
-        marginEnd: 46,
-        justifyContent: 'center',
+        marginEnd: 30,
+        justifyContent: 'flex-end',
         alignSelf: 'flex-end'
-    },
-    display: {
-        marginTop: 5,
-        marginLeft: 20
     }
 });
 

@@ -12,10 +12,11 @@ export default class CarrouselCard extends React.Component {
         super(props);
         this.state = {
             activeIndex: 0,
-            carouselItems: this.props.items
+            carouselItems: this.props.items,
+            type: this.props.type
         }
     }
-    _renderItem({ item, index }) {
+    _renderItemCard({ item, index }) {
         return (
             <View>
                 <ViewCard
@@ -27,6 +28,18 @@ export default class CarrouselCard extends React.Component {
             </View>
         )
     }
+    _renderItemBank({ item, index }) {
+        return (
+            <View>
+                <ViewCard
+                    name={item.name}
+                    number={item.number}
+                    cvc={item.cvc}
+                    brand={item.brand}
+                />
+            </View>
+        )
+    }    
 
     render() {
         return (
@@ -34,7 +47,7 @@ export default class CarrouselCard extends React.Component {
                 <Carousel
                     ref={(c) => { this._carousel = c; }}
                     data={this.state.carouselItems}
-                    renderItem={this._renderItem}
+                    renderItem={this.state.type === 'Card' ? this._renderItemCard : this._renderItemBank}
                     sliderWidth={300}
                     itemWidth={300}
                 />
