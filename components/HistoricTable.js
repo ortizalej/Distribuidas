@@ -12,16 +12,24 @@ export default class HistoricTable extends React.Component {
   }
 
   render() {
+<<<<<<< HEAD
     return stackTable(this.state);
+=======
+    if (this.props.type === 'Ingresos') {
+      return ingresosTable(this.state);
+    } else if (this.props.type === 'Egresos') {
+      return egresosTable(this.state);
+    } else if (this.props.type === 'Tarjetas'){
+      return tarjetasTable(this.state);
+    }
+>>>>>>> origin_master
   }
-
 }
 
 function stackTable(state) {
   return (
     <View style={styles.table} >
       <ScrollView vertical={true}>
-
         <Table >
           <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
           <TableWrapper style={styles.wrapper}>
@@ -30,13 +38,44 @@ function stackTable(state) {
           </TableWrapper>
         </Table>
       </ScrollView>
-
     </View>
-
   )
 }
 
+<<<<<<< HEAD
+=======
+function egresosTable(state) {
+  return (
+    <View style={styles.container} >
+      <ScrollView vertical={true}>
+        <Table >
+          <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
+          <TableWrapper style={styles.wrapper}>
+            <Col data={state.tableTitle} style={styles.title} heightArr={[28, 28]} textStyle={styles.text} />
+            <Rows data={state.tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
+          </TableWrapper>
+        </Table>
+      </ScrollView>
+    </View>
+  )
+}
+>>>>>>> origin_master
 
+function tarjetasTable(state) {
+  return (
+    <View style={styles.container} >
+      <ScrollView vertical={true}>
+        <Table >
+          <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
+          <TableWrapper style={styles.wrapper}>
+            <Col data={state.tableTitle} style={styles.title} heightArr={[28, 28]} textStyle={styles.text} />
+            <Rows data={state.tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
+          </TableWrapper>
+        </Table>
+      </ScrollView>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   table: {
@@ -46,9 +85,13 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 30,
     borderRadius: 20,
+<<<<<<< HEAD
     marginBottom: 100,
     marginLeft: 10,
     height: 200
+=======
+    marginBottom: 150
+>>>>>>> origin_master
   },
   head: {
     height: 40,

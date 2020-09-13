@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 69,
     width: 270,
-    marginTop: 50
+    marginTop: 30
   },
   dateText: {
     backgroundColor: 'transparent',
@@ -68,5 +68,4 @@ const styles = StyleSheet.create({
     fontSize: 34,
     color: '#fff',
   }
-
 });
