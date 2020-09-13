@@ -23,21 +23,37 @@ import {
 const { width } = Dimensions.get('screen');
 
 export default class DisplayMount extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      defaultDate: props.defaultDate,
+      defaultCoin: props.defaultCoin, 
+      defaultBudget: props.defaultBudget,
+      disabled: props.disabled
+    }
+  }  
+  updateState(value) {
+    console.log(value)
+    this.setState(
+      {
+        defaultBudget : value 
+      }
+    )
+  }
   render() {
     return (
       <Block center >
         <View style={styles.buttonStyle}>
-          <TouchableHighlight onPress={() => this.visible = true} disabled={this.props.disabled}>
+          <TouchableHighlight onPress={() => this.visible = true} disabled={this.state.disabled}>
             <LinearGradient colors={['#FF004E', '#FF9040']} style={styles.linearGradient} start={{ x: 0.0, y: 0.0 }} end={{ x: 1, y: 1 }} >
               <Text
                 style={styles.dateText}>
-                {this.props.defaultDate}
+                {this.state.defaultDate}
               </Text>
-              <Text
+              <Label
                 style={styles.budgetText}>
-                {this.props.defaultCoin} {this.props.defaultBudget}
-              </Text>
+                {this.state.defaultCoin} {this.state.defaultBudget}
+              </Label>
             </LinearGradient>
           </TouchableHighlight>
         </View>

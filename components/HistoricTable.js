@@ -6,11 +6,17 @@ export default class HistoricTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableHead: props.cols,
-      tableData: props.rows
+      tableHead: props.cols
     }
   }
-
+  updateState(value) {
+    console.log(value)
+    this.setState(
+      {
+        tableData : value 
+      }
+    )
+  }
   render() {
 <<<<<<< HEAD
     return stackTable(this.state);
@@ -27,7 +33,9 @@ export default class HistoricTable extends React.Component {
 }
 
 function stackTable(state) {
+
   return (
+
     <View style={styles.table} >
       <ScrollView vertical={true}>
         <Table >

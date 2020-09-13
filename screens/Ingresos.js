@@ -11,14 +11,19 @@ export default class Ingresos extends React.Component {
   defaultCoin = '$'
   colTable = ['Fecha', 'Cantidad', 'Tipo', 'Fuente'];
   rowValues = [
-    ['1', 200, '3', '4'],
-    ['a', 300, 'c', 'd'],
-    ['1', 300, '3', '456\n789'],
-    ['a', 300, 'c', 'd']
-    ['1', 300, '3', '4'],
-    ['a', 300, 'c', 'd'],
-    ['1', 22, '3', '456\n789']
   ];
+  formData(data) {
+    let arrayData = [data.fecha, parseInt(data.cantidad), data.tipo, data.fuente];
+    let totalSum = 0
+    this.rowValues.push(arrayData);
+    for (let i = 0; i < this.rowValues.length; i++) {
+      if (!this.rowValues[i]) { continue; }
+      totalSum += this.rowValues[i][1];
+    }
+    this.HistoricTable.updateState(this.rowValues);
+    this.Display.updateState(totalSum);
+
+  }
   render() {
     let totalSum = 0;
     for (let i = 0; i < this.rowValues.length; i++) {
@@ -30,12 +35,16 @@ export default class Ingresos extends React.Component {
         <ScrollView>
 
           <Display
+            ref={(display) => { this.Display = display }}
             defaultDate={this.defaultDate}
             defaultBudget={totalSum}
-            defaultCoin={this.props.defaultCoin}
+            defaultCoin={this.defaultCoin}
           />
-          <Form type={'Ingresos'} />
+          <Form type={'Ingresos'}
+            getFormData={this.formData.bind(this)}
+          />
           <HistoricTable type={'Ingresos'}
+            ref={(table) => { this.HistoricTable = table }}
             cols={this.colTable}
             rows={this.rowValues}
           />
