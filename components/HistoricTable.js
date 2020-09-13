@@ -41,16 +41,16 @@ export default class HistoricTable extends React.Component {
       return ingresosTable(this.state);
     } else if (this.props.type === 'Egresos') {
       return egresosTable(this.state);
+    } else if (this.props.type === 'Tarjetas'){
+      return tarjetasTable(this.state);
     }
   }
-
 }
 
 function ingresosTable(state) {
   return (
     <View style={styles.container} >
       <ScrollView vertical={true}>
-
         <Table >
           <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
           <TableWrapper style={styles.wrapper}>
@@ -59,9 +59,7 @@ function ingresosTable(state) {
           </TableWrapper>
         </Table>
       </ScrollView>
-
     </View>
-
   )
 }
 
@@ -69,7 +67,6 @@ function egresosTable(state) {
   return (
     <View style={styles.container} >
       <ScrollView vertical={true}>
-
         <Table >
           <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
           <TableWrapper style={styles.wrapper}>
@@ -79,10 +76,24 @@ function egresosTable(state) {
         </Table>
       </ScrollView>
     </View>
-
   )
 }
 
+function tarjetasTable(state) {
+  return (
+    <View style={styles.container} >
+      <ScrollView vertical={true}>
+        <Table >
+          <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
+          <TableWrapper style={styles.wrapper}>
+            <Col data={state.tableTitle} style={styles.title} heightArr={[28, 28]} textStyle={styles.text} />
+            <Rows data={state.tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
+          </TableWrapper>
+        </Table>
+      </ScrollView>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -92,8 +103,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 30,
     borderRadius: 20,
-    marginBottom: 100,
-    marginLeft:20
+    marginBottom: 150
   },
   head: {
     height: 40,

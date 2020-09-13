@@ -16,7 +16,7 @@ export default class Tarjetas extends React.Component {
         super(props);
         this.state = {
             type: 'card',
-            carouselItems: [
+            cards: [
                 {
                     name: "Item 1",
                     number: '12313123123',
@@ -41,44 +41,46 @@ export default class Tarjetas extends React.Component {
     defaultDate = 'Mensual'
     defaultBudget = '2400'
     defaultCoin = '$'
+
     render() {
         return (
             <Block style={styles.tarjetas}>
                 <Button
                     style={styles.btnNuevo}
                     onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}>
-
-                        <Text>Nueva tarjeta</Text>
+                    <Text style={{fontWeight: "bold"}}>+</Text>
                 </Button>
-                <CarrouselCard items={this.state.carouselItems} type={this.state.type} />
+                <CarrouselCard items={this.state.cards} type={this.state.type} />
                 <Display style={styles.display}
                     defaultBudget={this.defaultBudget}
                     defaultCoin={this.defaultCoin}
                     defaultDate={this.defaultDate}
                 />
-                <HistoricTable type={'Ingresos'} />
-
+                <HistoricTable type={'Tarjetas'} />
             </Block>
         );
     }
 }
 const styles = StyleSheet.create({
     tarjetas: {
-        width: width,
         height: height,
-        backgroundColor: "#071019",
-        alignContent: 'center'
+        width: width,
+        backgroundColor: "#071019"
     },
     btnNuevo: {
-        width: 150,
+        width: 50,
         height: 33,
         backgroundColor: '#F41F1F',
         marginTop: 10,
         marginBottom: 10,
         borderRadius: 8,
-        marginEnd: 30,
-        justifyContent: 'flex-end',
+        marginEnd: 46,
+        justifyContent: 'center',
         alignSelf: 'flex-end'
+    },
+    display:{
+        marginTop: 5,
+        marginLeft: 20
     }
 });
 

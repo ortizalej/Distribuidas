@@ -25,7 +25,6 @@ export default class CarrouselCard extends React.Component {
                     brand={item.brand}
                 />
             </View>
-
         )
     }
 

@@ -19,10 +19,14 @@ export default class DisplayMount extends React.Component {
     };
     _onChange = (formData) => console.log(JSON.stringify(formData));
     render() {
+        const {goBack} = this.props.navigation;
         return (
             <Container style={styles.container}>
                 <Content>
                     <Form >
+                        <Button style={styles.btnGoBack} onPress={() => goBack()}>
+                            <Text style={{fontWeight: "bold"}}>{'<'}Tarjetas</Text>
+                        </Button>
                         <CreditCardInput
                             requiresName
                             requiresCVC
@@ -81,5 +85,18 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         justifyContent: "center",
         alignSelf: 'center'
+    },
+    btnGoBack: {
+        width: 100,
+        height: 33,
+        backgroundColor: 'transparent',
+        marginTop: 10,
+        marginBottom: 10,
+        borderRadius: 8,
+        marginEnd: 46,
+        justifyContent: 'flex-start',
+        alignSelf: 'flex-start',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
