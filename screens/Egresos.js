@@ -15,7 +15,7 @@ export default class Egresos extends React.Component {
   ];
 
   formData(data) {
-    let arrayData = [data.fecha, parseInt(data.cantidad), data.tipo, data.medio];
+    let arrayData = [data.fecha, parseInt(data.cantidad), data.tipo, data.Operacion];
     let totalSum = 0
     this.rowValues.push(arrayData); 
     for (let i = 0; i < this.rowValues.length; i++) {

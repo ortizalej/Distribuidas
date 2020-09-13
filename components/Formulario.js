@@ -18,13 +18,7 @@ import {
     Text,
     Picker
 } from "native-base";
-<<<<<<< HEAD
-
-const{width,height} = Dimensions.get('screen');
-
-=======
 const { width, height } = Dimensions.get('screen');
->>>>>>> 8705634c66d79c03ebce73e26b2556a01b88aed7
 export default class Formulario extends React.Component {
     constructor(props) {
         super(props);
@@ -78,12 +72,6 @@ export default class Formulario extends React.Component {
 function renderIngresos(props) {
     return (
         <Container style={styles.container}>
-<<<<<<< HEAD
-            <Content bounces={false}>
-                <Form>
-                    <Item stackedLabel>
-                        <Input  style={{ color: "#697A8C" }} placeholder="   Cantidad en $" placeholderTextColor="#697A8C"  />
-=======
             <Content>
                 <Form scrollEnabled={false}>
                     <Item stackedLabel>
@@ -95,7 +83,6 @@ function renderIngresos(props) {
                             onChangeText={props.onChangeCantidad.bind(props)}
 
                         />
->>>>>>> 8705634c66d79c03ebce73e26b2556a01b88aed7
                     </Item>
                     <Item >
                         <Picker
@@ -158,17 +145,7 @@ function renderEgresos(props) {
 
     return (
         <Container style={styles.container}>
-<<<<<<< HEAD
-            <Content >
-<<<<<<< HEAD
-                <Form scrollEnabled ={false}>
-=======
             <Content bounces={false}>
-                <Form>
->>>>>>> origin_master
-                    <Item stackedLabel>
-                        <Input  style={{ color: "#697A8C" }} placeholder="   Cantidad en $" placeholderTextColor="#697A8C"  />
-=======
                 <Form scrollEnabled={false}>
                     <Item stackedLabel>
                         <Input
@@ -177,21 +154,14 @@ function renderEgresos(props) {
                             placeholder="Cantidad en $" placeholderTextColor="#697A8C"
                             onChangeText={props.onChangeCantidad.bind(props)}
                         />
->>>>>>> 8705634c66d79c03ebce73e26b2556a01b88aed7
                     </Item>
                     <Item >
                         <Picker
                             textStyle={{ color: '#697A8C' }}
                             placeholder="Destino"
                             placeholderTextColor="#697A8C"
-<<<<<<< HEAD
-                            selectedValue={props.state.tipo}
-                            onValueChange={props.onChangeTipo.bind(props)}
-
-=======
                             selectedValue={props.state.fuente}
                             onValueChange={props.onChangeFuente.bind(props)}
->>>>>>> origin_master
                         >
                             <Picker.Item label='Alquiler de Propiedad' value='alquiler' color="#697A8C" />
                             <Picker.Item label='Sueldo' value='sueldo' color="#697A8C" />

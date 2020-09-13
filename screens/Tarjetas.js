@@ -15,90 +15,37 @@ export default class Tarjetas extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-<<<<<<< HEAD
-            type: 'Card',
-            carouselItems: [
-=======
             type: 'card',
             cards: [
->>>>>>> origin_master
-                {
-                    name: "Item 1",
-                    number: '12313123123',
-                    cvc: '123',
-                    brand: "visa",
-                },
-                {
-                    name: "Item 1",
-                    number: '12313123123',
-                    cvc: '123',
-                    brand: "visa",
-                },
                 {
                     name: "Item 1",
                     number: '12313123123',
                     cvc: '123',
                     brand: "visa",
                 }
-            ]
+            ],
+            rowValues: [
+
+            ],
+            colTable: ['Fecha', 'Cantidad', 'Tipo', 'Operacion']
         }
     }
     defaultDate = 'Mensual'
     defaultCoin = '$'
-<<<<<<< HEAD
-    colTable = ['Fecha', 'Cantidad', 'Tipo', 'Operacion'];
-    rowValues = [
-        ['1', 200, '3', '4'],
-        ['a', 300, 'c', 'd'],
-        ['1', 300, '3', '456\n789'],
-        ['a', 300, 'c', 'd']
-        ['1', 300, '3', '4'],
-        ['a', 300, 'c', 'd'],
-        ['1', 300, '3', '456\n789'],
-        ['1', 200, '3', '4'],
-        ['a', 300, 'c', 'd'],
-        ['1', 300, '3', '456\n789'],
-        ['a', 300, 'c', 'd']
-        ['1', 300, '3', '4'],
-        ['a', 300, 'c', 'd'],
-        ['1', 300, '3', '456\n789']
-    ];
-=======
-
->>>>>>> origin_master
     render() {
         let totalSum = 0;
-        for (let i = 0; i < this.rowValues.length; i++) {
-            if (!this.rowValues[i]) { continue; }
-            totalSum += this.rowValues[i][1];
+        for (let i = 0; i < this.state.rowValues.length; i++) {
+            if (!this.state.rowValues[i]) { continue; }
+            totalSum += this.state.rowValues[i][1];
         }
         return (
             <Block style={styles.tarjetas}>
-<<<<<<< HEAD
-                <ScrollView>
-
-                    <Button
-                        style={styles.btnNuevo}
-                        onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}>
-
-                        <Text>Nueva tarjeta</Text>
-                    </Button>
-                    <CarrouselCard items={this.state.carouselItems} type={this.state.type} />
-                    <Display style={styles.display}
-                        defaultBudget={totalSum}
-                        defaultCoin={this.defaultCoin}
-                        defaultDate={this.defaultDate}
-                    />
-                    <HistoricTable type={'Egresos'}
-                        cols={this.colTable}
-                        rows={this.rowValues}
-                    />
-                </ScrollView>
-=======
                 <Button
                     style={styles.btnNuevo}
-                    onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}>
-                    <Text style={{fontWeight: "bold"}}>+</Text>
+                    onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}
+
+                    >
+                    <Text style={{ fontWeight: "bold" }}>+</Text>
                 </Button>
                 <CarrouselCard items={this.state.cards} type={this.state.type} />
                 <Display style={styles.display}
@@ -106,8 +53,11 @@ export default class Tarjetas extends React.Component {
                     defaultCoin={this.defaultCoin}
                     defaultDate={this.defaultDate}
                 />
-                <HistoricTable type={'Tarjetas'} />
->>>>>>> origin_master
+                <HistoricTable type={'Tarjetas'}
+                    ref={(table) => { this.HistoricTable = table }}
+                    cols={this.state.colTable}
+                    rows={this.state.rowValues}
+                />
             </Block>
         );
     }
@@ -129,7 +79,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'flex-end'
     },
-    display:{
+    display: {
         marginTop: 5,
         marginLeft: 20
     }

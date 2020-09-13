@@ -18,9 +18,6 @@ export default class HistoricTable extends React.Component {
     )
   }
   render() {
-<<<<<<< HEAD
-    return stackTable(this.state);
-=======
     if (this.props.type === 'Ingresos') {
       return ingresosTable(this.state);
     } else if (this.props.type === 'Egresos') {
@@ -28,11 +25,10 @@ export default class HistoricTable extends React.Component {
     } else if (this.props.type === 'Tarjetas'){
       return tarjetasTable(this.state);
     }
->>>>>>> origin_master
   }
 }
 
-function stackTable(state) {
+function ingresosTable(state) {
 
   return (
 
@@ -50,11 +46,9 @@ function stackTable(state) {
   )
 }
 
-<<<<<<< HEAD
-=======
 function egresosTable(state) {
   return (
-    <View style={styles.container} >
+    <View style={styles.table} >
       <ScrollView vertical={true}>
         <Table >
           <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
@@ -67,11 +61,10 @@ function egresosTable(state) {
     </View>
   )
 }
->>>>>>> origin_master
 
 function tarjetasTable(state) {
   return (
-    <View style={styles.container} >
+    <View style={styles.table} >
       <ScrollView vertical={true}>
         <Table >
           <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
@@ -93,13 +86,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 30,
     borderRadius: 20,
-<<<<<<< HEAD
-    marginBottom: 100,
-    marginLeft: 10,
-    height: 200
-=======
     marginBottom: 150
->>>>>>> origin_master
   },
   head: {
     height: 40,
