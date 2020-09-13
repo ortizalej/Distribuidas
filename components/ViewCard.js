@@ -6,14 +6,13 @@ import { CardView } from "react-native-credit-card-input";
 export default class ViewCard extends React.Component {
     render() {
         return (
-                <CardView
-                    name={this.props.name}
-                    number={this.props.number}
-                    expiry={this.props.expiry}
-                    cvc={this.props.cvc}
-                    brand={this.props.brand}
-                />
-
+            <CardView
+                name={this.props.name}
+                number={this.props.number}
+                expiry={this.props.expiry}
+                cvc={this.props.cvc}
+                brand={this.props.brand}
+            />
         );
     }
 }

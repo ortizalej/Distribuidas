@@ -18,7 +18,9 @@ import {
     Text,
     Picker
 } from "native-base";
+
 const{width,height} = Dimensions.get('screen');
+
 export default class Formulario extends React.Component {
     constructor(props) {
         super(props);
@@ -48,20 +50,17 @@ export default class Formulario extends React.Component {
         } else if (this.props.type === 'Egresos') {
             return renderEgresos(this);
         }
-
     }
-
 }
 
 function renderIngresos(props) {
     return (
         <Container style={styles.container}>
-            <Content>
-                <Form scrollEnabled ={false}>
+            <Content bounces={false}>
+                <Form>
                     <Item stackedLabel>
-                        <Input  style={{ color: "#697A8C" }} placeholder="Cantidad en $" placeholderTextColor="#697A8C"  />
+                        <Input  style={{ color: "#697A8C" }} placeholder="   Cantidad en $" placeholderTextColor="#697A8C"  />
                     </Item>
-
                     <Item >
                         <Picker
                             textStyle={{ color: '#697A8C' }}
@@ -69,7 +68,6 @@ function renderIngresos(props) {
                             placeholderTextColor="#697A8C"
                             selectedValue={props.state.fuente}
                             onValueChange={props.onChangeFuente.bind(props)}
-
                         >
                             <Picker.Item label='Alquiler de Propiedad' value='alquiler' color="#697A8C" />
                             <Picker.Item label='Sueldo' value='sueldo' color="#697A8C" />
@@ -104,7 +102,6 @@ function renderIngresos(props) {
                         <Text>INGRESAR</Text>
                     </Button>
                 </Form>
-
             </Content>
         </Container>
     )
@@ -113,12 +110,11 @@ function renderIngresos(props) {
 function renderEgresos(props) {
     return (
         <Container style={styles.container}>
-            <Content>
-                <Form scrollEnabled ={false}>
+            <Content bounces={false}>
+                <Form>
                     <Item stackedLabel>
-                        <Input  style={{ color: "#697A8C" }} placeholder="Cantidad en $" placeholderTextColor="#697A8C"  />
+                        <Input  style={{ color: "#697A8C" }} placeholder="   Cantidad en $" placeholderTextColor="#697A8C"  />
                     </Item>
-
                     <Item >
                         <Picker
                             textStyle={{ color: '#697A8C' }}
@@ -126,7 +122,6 @@ function renderEgresos(props) {
                             placeholderTextColor="#697A8C"
                             selectedValue={props.state.fuente}
                             onValueChange={props.onChangeFuente.bind(props)}
-
                         >
                             <Picker.Item label='Alquiler de Propiedad' value='alquiler' color="#697A8C" />
                             <Picker.Item label='Sueldo' value='sueldo' color="#697A8C" />
@@ -152,7 +147,6 @@ function renderEgresos(props) {
                         <Text>INGRESAR</Text>
                     </Button>
                 </Form>
-
             </Content>
         </Container>
     )
@@ -166,7 +160,6 @@ const styles = StyleSheet.create({
         paddingRight: 15,
         marginTop: 20,
         borderRadius: 20
-
     },
     hide: {
         display: 'none'
