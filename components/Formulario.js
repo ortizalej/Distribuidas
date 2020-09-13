@@ -32,6 +32,11 @@ export default class Formulario extends React.Component {
             tipo: value
         });
     }
+    onChangeMedio(value) {
+        this.setState({
+            medio: value
+        });
+    }
     onChangeFuente(value) {
         this.setState({
             fuente: value,
@@ -113,7 +118,7 @@ function renderIngresos(props) {
 function renderEgresos(props) {
     return (
         <Container style={styles.container}>
-            <Content>
+            <Content >
                 <Form scrollEnabled ={false}>
                     <Item stackedLabel>
                         <Input  style={{ color: "#697A8C" }} placeholder="Cantidad en $" placeholderTextColor="#697A8C"  />
@@ -122,10 +127,10 @@ function renderEgresos(props) {
                     <Item >
                         <Picker
                             textStyle={{ color: '#697A8C' }}
-                            placeholder="Fuente"
+                            placeholder="Tipo"
                             placeholderTextColor="#697A8C"
-                            selectedValue={props.state.fuente}
-                            onValueChange={props.onChangeFuente.bind(props)}
+                            selectedValue={props.state.tipo}
+                            onValueChange={props.onChangeTipo.bind(props)}
 
                         >
                             <Picker.Item label='Alquiler de Propiedad' value='alquiler' color="#697A8C" />
@@ -138,8 +143,8 @@ function renderEgresos(props) {
                             textStyle={{ color: '#697A8C' }}
                             placeholder="Medio"
                             placeholderTextColor="#697A8C"
-                            selectedValue={props.state.tipo}
-                            onValueChange={props.onChangeTipo.bind(props)}
+                            selectedValue={props.state.medio}
+                            onValueChange={props.onChangeMedio.bind(props)}
                         >
                             <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
                             <Picker.Item label='Transferencia Bancaria' value='transferencia' color="#697A8C" />
@@ -149,7 +154,7 @@ function renderEgresos(props) {
                         <Text>SUBIR ARCHIVO</Text>
                     </Button>
                     <Button style={styles.btnIngresar}>
-                        <Text>INGRESAR</Text>
+                        <Text>REGISTRAR</Text>
                     </Button>
                 </Form>
 
@@ -162,7 +167,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#0B1F35",
         width: 320,
-        height: height,
+        height: 290,
         paddingRight: 15,
         marginTop: 20,
         borderRadius: 20
@@ -175,8 +180,8 @@ const styles = StyleSheet.create({
         width: 200,
         height: 33,
         backgroundColor: '#F41F1F',
-        marginTop: 10,
-        marginBottom: 10,
+        marginTop: 15,
+        marginBottom: 5,
         borderRadius: 8,
         justifyContent: "center",
         alignSelf: 'center'

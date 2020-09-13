@@ -6,49 +6,20 @@ export default class HistoricTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableHead: ['Fecha', 'Cantidad', 'Tipo', 'Fuente'],
-      tableData: [
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-        ['1', '2', '3', '4'],
-        ['a', 'b', 'c', 'd'],
-        ['1', '2', '3', '456\n789'],
-        ['a', 'b', 'c', 'd']
-      ]
+      tableHead: props.cols,
+      tableData: props.rows
     }
   }
 
   render() {
-    if (this.props.type === 'Ingresos') {
-      return ingresosTable(this.state);
-    } else if (this.props.type === 'Egresos') {
-      return egresosTable(this.state);
-    }
+    return stackTable(this.state);
   }
 
 }
 
-function ingresosTable(state) {
+function stackTable(state) {
   return (
-    <View style={styles.container} >
+    <View style={styles.table} >
       <ScrollView vertical={true}>
 
         <Table >
@@ -65,27 +36,10 @@ function ingresosTable(state) {
   )
 }
 
-function egresosTable(state) {
-  return (
-    <View style={styles.container} >
-      <ScrollView vertical={true}>
-
-        <Table >
-          <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
-          <TableWrapper style={styles.wrapper}>
-            <Col data={state.tableTitle} style={styles.title} heightArr={[28, 28]} textStyle={styles.text} />
-            <Rows data={state.tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
-          </TableWrapper>
-        </Table>
-      </ScrollView>
-    </View>
-
-  )
-}
 
 
 const styles = StyleSheet.create({
-  container: {
+  table: {
     backgroundColor: '#0B1F35',
     width: 320,
     flex: 1,
@@ -93,7 +47,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderRadius: 20,
     marginBottom: 100,
-    marginLeft:20
+    marginLeft: 10,
+    height: 200
   },
   head: {
     height: 40,

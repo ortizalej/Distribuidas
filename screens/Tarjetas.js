@@ -15,7 +15,7 @@ export default class Tarjetas extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            type: 'card',
+            type: 'Card',
             carouselItems: [
                 {
                     name: "Item 1",
@@ -39,25 +39,51 @@ export default class Tarjetas extends React.Component {
         }
     }
     defaultDate = 'Mensual'
-    defaultBudget = '2400'
     defaultCoin = '$'
+    colTable = ['Fecha', 'Cantidad', 'Tipo', 'Operacion'];
+    rowValues = [
+        ['1', 200, '3', '4'],
+        ['a', 300, 'c', 'd'],
+        ['1', 300, '3', '456\n789'],
+        ['a', 300, 'c', 'd']
+        ['1', 300, '3', '4'],
+        ['a', 300, 'c', 'd'],
+        ['1', 300, '3', '456\n789'],
+        ['1', 200, '3', '4'],
+        ['a', 300, 'c', 'd'],
+        ['1', 300, '3', '456\n789'],
+        ['a', 300, 'c', 'd']
+        ['1', 300, '3', '4'],
+        ['a', 300, 'c', 'd'],
+        ['1', 300, '3', '456\n789']
+    ];
     render() {
+        let totalSum = 0;
+        for (let i = 0; i < this.rowValues.length; i++) {
+            if (!this.rowValues[i]) { continue; }
+            totalSum += this.rowValues[i][1];
+        }
         return (
             <Block style={styles.tarjetas}>
-                <Button
-                    style={styles.btnNuevo}
-                    onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}>
+                <ScrollView>
+
+                    <Button
+                        style={styles.btnNuevo}
+                        onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}>
 
                         <Text>Nueva tarjeta</Text>
-                </Button>
-                <CarrouselCard items={this.state.carouselItems} type={this.state.type} />
-                <Display style={styles.display}
-                    defaultBudget={this.defaultBudget}
-                    defaultCoin={this.defaultCoin}
-                    defaultDate={this.defaultDate}
-                />
-                <HistoricTable type={'Ingresos'} />
-
+                    </Button>
+                    <CarrouselCard items={this.state.carouselItems} type={this.state.type} />
+                    <Display style={styles.display}
+                        defaultBudget={totalSum}
+                        defaultCoin={this.defaultCoin}
+                        defaultDate={this.defaultDate}
+                    />
+                    <HistoricTable type={'Egresos'}
+                        cols={this.colTable}
+                        rows={this.rowValues}
+                    />
+                </ScrollView>
             </Block>
         );
     }
