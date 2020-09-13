@@ -121,7 +121,9 @@ function renderEgresos(props) {
             <Content >
                 <Form scrollEnabled ={false}>
                     <Item stackedLabel>
-                        <Input  style={{ color: "#697A8C" }} placeholder="Cantidad en $" placeholderTextColor="#697A8C"  />
+                        <Input  
+                        style={{ color: "#697A8C" }} 
+                        placeholder="Cantidad en $" placeholderTextColor="#697A8C"  />
                     </Item>
 
                     <Item >
