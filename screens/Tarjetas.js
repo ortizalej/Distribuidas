@@ -32,6 +32,8 @@ export default class Tarjetas extends React.Component {
     }
     defaultDate = 'Mensual'
     defaultCoin = '$'
+
+
     render() {
         let totalSum = 0;
         for (let i = 0; i < this.state.rowValues.length; i++) {
@@ -39,12 +41,16 @@ export default class Tarjetas extends React.Component {
             totalSum += this.state.rowValues[i][1];
         }
         return (
+
             <Block style={styles.tarjetas}>
+                <Text style={{ color: 'white' }}>
+                    data: {console.log(JSON.stringify(this.props.routes))}
+                </Text>
                 <Button
                     style={styles.btnNuevo}
                     onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}
 
-                    >
+                >
                     <Text style={{ fontWeight: "bold" }}>+</Text>
                 </Button>
                 <CarrouselCard items={this.state.cards} type={this.state.type} />

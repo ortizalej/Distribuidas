@@ -10,14 +10,20 @@ import {
     Button,
     Text
 } from "native-base";
+let data = undefined;
 export default class DisplayMount extends React.Component {
-    addtionalInputsProps = {
-        name: {
-            defaultValue: 'my name',
-            maxLength: 40,
-        }
-    };
-    _onChange = (formData) => console.log(JSON.stringify(formData));
+    constructor(props) {
+        super(props);
+        this.state = {
+            cuenta: undefined
+        };
+    }
+    onChangeCuenta(value) {
+        this.setState({
+            cuenta: value
+        });
+    }
+    _onChange = (formData) => { data = formData; };
     render() {
         const { goBack } = this.props.navigation;
         return (
@@ -37,18 +43,22 @@ export default class DisplayMount extends React.Component {
                             invalidColor={"red"}
                             placeholderColor={"gray"}
                             inputContainerStyle={styles.inputCointaer}
-                            onChange={this._onChange}
-                            additionalInputsProps={this.addtionalInputsProps} />
-                        <Picker
-                            textStyle={{ color: '#697A8C' }}
-                            placeholder="Cuenta Bancaria"
-                            placeholderTextColor="#697A8C"
+                            onChange={this._onChange} />
 
-                        >
-                            <Picker.Item label='Cuenta1' value='Cuenta1' color="#697A8C" />
-                        </Picker>
+                        <Item >
+                            <Picker
+                                textStyle={{ color: '#697A8C' }}
+                                placeholder="Cuentas Bancarias"
+                                placeholderTextColor="#697A8C"
+                                selectedValue={this.state.cuenta}
+                                onValueChange={this.onChangeCuenta.bind(this)}
+                            >
+                                <Picker.Item label='Cuenta 1' value='cuenta1' color="#697A8C" />
+                                <Picker.Item label='Cuentas 2 ' value='cuenta2' color="#697A8C" />
+                            </Picker>
+                        </Item>
                         <Button style={styles.btnIngresar}
-                            onPress={() => this.props.navigation.navigate('Tarjetas', { user })}
+                            onPress={() => navigateWithParam(data.values, this.props,this.state.cuenta)}
                         >
                             <Text>Agregar</Text>
                         </Button>
@@ -59,7 +69,14 @@ export default class DisplayMount extends React.Component {
         );
     }
 }
-
+function navigateWithParam(data, props, bankAccount) {
+    data.cuenta = bankAccount;
+    console.log(data)
+    props.navigation.navigate(
+        'Tarjetas',
+        { data },
+    )
+}
 const styles = StyleSheet.create({
 
     container: {
