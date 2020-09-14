@@ -5,13 +5,12 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import { Block, Text, theme } from "galio-framework";
 
-import ComponentsScreen from '../screens/Components';
 import HomeScreen from '../screens/Home';
 import IngresosScreen from '../screens/Ingresos';
 import EgresosScreen from '../screens/Egresos';
-import ProfileScreen from '../screens/Profile';
-import SettingsScreen from '../screens/Settings';
 import TarjetasScreen from '../screens/Tarjetas';
+import PrestamosScreen from '../screens/Prestamos';
+import CuentaScreen from '../screens/CuentaBancaria'
 import AgregarTarjetas from '../screens/AddTarjetas'
 import CustomDrawerContent from './Menu';
 import { Icon, Header } from '../components';
@@ -90,8 +89,39 @@ function TarjetasStack() {
       />
     </Stack.Navigator>
   );
-
 }
+
+function PrestamosStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Prestamos"
+        component={PrestamosScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Prestamos" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function CuentaStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Cuenta Bancaria"
+        component={CuentaScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Cuenta Bancaria" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function AgregarTarjetasStack() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
@@ -158,7 +188,7 @@ function AppStack(props) {
       />
       <Drawer.Screen
         name="Cuentas bancarias"
-        component={HomeStack}
+        component={CuentaStack}
       />
       <Drawer.Screen
         name="Inversiones"
@@ -166,7 +196,7 @@ function AppStack(props) {
       />
       <Drawer.Screen
         name="Prestamos"
-        component={HomeStack}
+        component={PrestamosStack}
       />
       <Drawer.Screen
         name="Presupuestos"

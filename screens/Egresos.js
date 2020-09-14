@@ -9,13 +9,14 @@ const { width, height } = Dimensions.get('screen');
 export default class Egresos extends React.Component {
   defaultDate = 'Mensual'
   defaultCoin = '$'
-  colTable = ['Fecha', 'Cantidad', 'Dest', 'Medio'];
+  colTable = ['Fecha', 'Cantidad', 'Tipo', 'Medio'];
   rowValues = [
 
   ];
 
   formData(data) {
-    let arrayData = [data.fecha, parseInt(data.cantidad), data.tipo, data.Operacion];
+    console.log(JSON.stringify(data))
+    let arrayData = [data.fecha, parseInt(data.cantidad), data.tipo, data.medio];
     let totalSum = 0
     this.rowValues.push(arrayData); 
     for (let i = 0; i < this.rowValues.length; i++) {
@@ -34,13 +35,13 @@ export default class Egresos extends React.Component {
     }
 
     return (
-      <Block center style={styles.egresos}>
+      <Block center style={styles.egresos}>  
         <ScrollView>
           <Display
             ref={(display) => { this.Display = display }}
             defaultDate={this.defaultDate}
             defaultBudget={totalSum}
-            defaultCoin={this.defaultCoin}
+            defaultCoin={this.defaultCoin} 
           />
           <Form
             type={'Egresos'}
