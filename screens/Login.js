@@ -6,17 +6,15 @@ import Form from '../components/Formulario';
 import HistoricTable from '../components/HistoricTable';
 const { width, height } = Dimensions.get('screen');
 
-export default class Egresos extends React.Component {
+export default class Login extends React.Component {
 
     render() {
         return (
-            <Block center style={styles.egresos}>
+            <Block center style={styles.login}>
                 <ScrollView>
                     <Form
                         type={'Login'}
-                        getFormData={this.formData.bind(this)}
                     />
-
                 </ScrollView>
             </Block>
         );
@@ -25,7 +23,7 @@ export default class Egresos extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    egresos: {
+    login: {
         width: width,
         height: height,
         backgroundColor: "#071019"

@@ -10,6 +10,7 @@ import TarjetasScreen from '../screens/Tarjetas';
 import PrestamosScreen from '../screens/Prestamos';
 import CuentaScreen from '../screens/CuentaBancaria'
 import AgregarTarjetas from '../screens/AddTarjetas'
+import LoginScreen from '../screens/Login'
 import CustomDrawerContent from './Menu';
 import { Icon, Header } from '../components';
 import { Images, materialTheme } from "../constants/";
@@ -36,6 +37,40 @@ function HomeStack() {
             <Header title="Home" scene={scene} navigation={navigation} />
           )
         }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function LoginStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Login" scene={scene} navigation={navigation} />
+          )
+        }}
+
+      />
+    </Stack.Navigator>
+  );
+}
+
+function SingInStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Sign In"
+        component={LoginScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Sing In" scene={scene} navigation={navigation} />
+          )
+        }}
+
       />
     </Stack.Navigator>
   );
@@ -137,16 +172,6 @@ function CuentaStack() {
   );
 }
 
-function LoginStack() {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Cuenta Bancaria"
-        component={CuentaScreen}
-      />
-    </Stack.Navigator>
-  );
-}
 
 
 function AgregarTarjetasStack() {
@@ -195,7 +220,7 @@ function AppStack(props) {
           fontWeight: "normal"
         }
       }}
-      initialRouteName="Tarjetas"
+      initialRouteName="Home"
     >
       <Drawer.Screen
         name="Home"
@@ -241,10 +266,7 @@ function AppStack(props) {
         name="Sign In"
         component={HomeStack}
       />
-      <Drawer.Screen
-        name="Sign Up"
-        component={HomeStack}
-      />
+
     </Drawer.Navigator>
   );
 }

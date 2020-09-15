@@ -112,8 +112,7 @@ export default class Tarjetas extends React.Component {
 
                     <Button
                         style={styles.btnNuevo}
-                        onPress={() => this.props.navigation.navigate('Agregar Tarjeta', { method: this })}
-
+                        onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}
                     >
                         <Text style={{ fontWeight: "bold" }}>+</Text>
                     </Button>

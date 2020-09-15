@@ -6,6 +6,7 @@ import {
     PieChart,
 
 } from 'react-native-chart-kit'
+import Form from '../components/Formulario'
 const { width, height } = Dimensions.get('screen');
 chartConfig = {
     backgroundColor: "#e26a00",
@@ -18,64 +19,77 @@ chartConfig = {
         borderRadius: 16
     },
     propsForDots: {
-        r: "6",
+        r: "3",
         strokeWidth: "2",
         stroke: "#ffa726"
     }
 }
-const data = [
-    {
-        name: "Seoul",
-        population: 21500000,
-        color: "rgba(131, 167, 234, 1)",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "Toronto",
-        population: 2800000,
-        color: "#F00",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "Beijing",
-        population: 527612,
-        color: "red",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "New York",
-        population: 8538000,
-        color: "#ffffff",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "Moscow",
-        population: 11920000,
-        color: "rgb(0, 0, 255)",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    }
-];
 
 export default class Presupuesto extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: [
+                {
+                    name: "Servicios",
+                    money: 2000,
+                    color: "rgba(131, 167, 234, 1)",
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 15
+                },
+                {
+                    name: "Comida",
+                    money: 3000,
+                    color: "green",
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 15
+                },
+                {
+                    name: "Ocio",
+                    money: 4000,
+                    color: "red",
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 15
+                },
+                {
+                    name: "Total",
+                    money: 25000,
+                    color: "white",
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 15
+                }
 
+            ]
+        }
+    }
+    formData(data) {
+        for (let i = 0; i < this.state.data.length; i++) {
+            if (this.state.data[i].name == 'Total') {
+                this.state.data[i].money = parseInt(data.cantidad);
+            }
+        }
+        this.forceUpdate()
+    }
     render() {
         return (
             <Block style={styles.presupuesto}>
-                <PieChart
-                    data={data}
-                    width={width}
-                    height={220}
-                    chartConfig={chartConfig}
-                    accessor="population"
-                    backgroundColor="transparent"
-                    paddingLeft="15"
-                    absolute
-                />
+                <ScrollView showsVerticalScrollIndicator={false}>
+
+                    <PieChart
+                        data={this.state.data}
+                        width={width}
+                        height={220}
+                        chartConfig={chartConfig}
+                        accessor="money"
+                        backgroundColor="transparent"
+                        paddingLeft="15"
+                        absolute
+                    />
+                    <Form
+                        type={'Presupuesto'}
+                        getFormData={this.formData.bind(this)}
+                    />
+                </ScrollView>
             </Block>
         );
     }

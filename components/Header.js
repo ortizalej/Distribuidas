@@ -29,6 +29,7 @@ class Header extends React.Component {
   }
 
   renderRight = () => {
+    
     return (
       <NotificationButton key='chat-home' navigation={this.props.navigation} isWhite={this.props.white} />
     );
@@ -46,16 +47,16 @@ class Header extends React.Component {
           title={title}
           style={styles.navbar}
           transparent={transparent}
-          right={this.renderRight()}
+          right={title != 'Login' ? this.renderRight() : null}
           rightStyle={{ alignItems: 'center' }}
           leftStyle={{ flex: 0.3, paddingTop: 2 }}
-          leftIconName={(back ? 'chevron-left' : 'navicon')}
+          leftIconName={title != 'Login' ? (back ? 'chevron-left' : 'navicon') : null}
           leftIconColor={theme.COLORS.WHITE}
           titleStyle={[
             styles.title,
             { color: theme.COLORS.WHITE },
           ]}
-          onLeftPress={this.handleLeftPress}
+          onLeftPress={title != 'Login' ? this.handleLeftPress : null}
         />
       </Block>
     );

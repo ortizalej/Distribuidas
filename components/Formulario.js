@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
-
 import {
     Container,
     Header,
@@ -38,7 +37,7 @@ export default class Formulario extends React.Component {
     onChangeTipo(value) {
         this.setState({
             tipo: value
-        });
+        }); 
     }
     onChangeMedio(value) {
         this.setState({
@@ -72,8 +71,11 @@ export default class Formulario extends React.Component {
             return renderPrestamosPrestados(this)
         } else if (this.props.type === 'Prestamos Tomados') {
             return renderPrestamosTomados(this)
-        } else if (this.props.type === 'LOGIN') {
-            return renderLogin(this)
+        } else if (this.props.type === 'Login') {
+            const { navigation } = this.props;
+            return renderLogin(navigation)
+        } else if (this.props.type === 'Presupuesto') {
+            return renderPresupuesto(this)
         }
     }
 }
@@ -324,7 +326,7 @@ function renderPrestamosTomados(props) {
         </Container>
     )
 }
-function renderLogin(props) {
+function renderPresupuesto(props) {
 
     return (
         <Container style={styles.container}>
@@ -332,15 +334,9 @@ function renderLogin(props) {
                 <Form scrollEnabled={false}>
                     <Item stackedLabel>
                         <Input
+                            keyboardType="number-pad"
                             style={{ color: "#697A8C" }}
-                            placeholder="Usuario" placeholderTextColor="#697A8C"
-                            onChangeText={props.onChangeCantidad.bind(props)}
-                        />
-                    </Item>
-                    <Item stackedLabel>
-                        <Input
-                            style={{ color: "#697A8C" }}
-                            placeholder="Contraseña" placeholderTextColor="#697A8C"
+                            placeholder="Cantidad en $" placeholderTextColor="#697A8C"
                             onChangeText={props.onChangeCantidad.bind(props)}
                         />
                     </Item>
@@ -350,22 +346,43 @@ function renderLogin(props) {
                         onPress={() => {
                             props.getFormData(
                                 {
-                                    cantidad: props.state.cantidad,
-                                    destino: props.state.destino,
-                                    medio: props.state.medio
+                                    cantidad: props.state.cantidad
                                 })
                         }}>
+                        <Text>REGISTRAR</Text>
+                    </Button>
+                </Form>
+            </Content>
+        </Container>
+    )
+}
+function renderLogin(navigation) {
+    return (
+        <Container style={styles.container}>
+            <Content >
+                <Form >
+                    <Item stackedLabel>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Usuario" placeholderTextColor="#697A8C"
+                        />
+                    </Item>
+                    <Item stackedLabel>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Contraseña" placeholderTextColor="#697A8C"
+                        />
+                    </Item>
+
+                    <Button
+                        style={styles.btnIngresar}
+                        onPress={() => navigation.navigate("Home")}>
                         <Text>INGRESAR</Text>
                     </Button>
                     <Button
                         style={styles.btnIngresar}
                         onPress={() => {
-                            props.getFormData(
-                                {
-                                    cantidad: props.state.cantidad,
-                                    destino: props.state.destino,
-                                    medio: props.state.medio
-                                })
+                            prop.navigation.navigate('Sing In')
                         }}>
                         <Text>REGISTRARSE</Text>
                     </Button>
