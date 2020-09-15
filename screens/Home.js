@@ -1,14 +1,78 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { Button, Block, Text, Input, theme } from 'galio-framework';
+import { Button, Block, Text, Input, theme, View } from 'galio-framework';
+import {
+  BarChart,
+  PieChart,
+  LineChart
+} from 'react-native-chart-kit'
+const { width, height } = Dimensions.get('screen');
+const chartConfig = {
+  backgroundColor: '#071019',
+  backgroundGradientFrom: '#071019',
+  backgroundGradientTo: '#071019',
+  fillShadowGradient: 'white',
+  fillShadowGradientOpacity: 20,
+  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+};
+const graphStyle = {
+  marginVertical: 8,
+  borderRadius: 16,
+}
+const dataMedioPago = {
+  labels: ['MP', 'Tarjeta', 'Transf.'],
+  datasets: [{
+    data: [50, 20, 2]
+  }]
+}
 
-const { width } = Dimensions.get('screen');
+const dataSaldos = {
+  labels: ['Cuenta1', 'Cuenta2', 'Cuenta3'],
+  datasets: [{
+    data: [50, 20, 2]
+  }]
+}
 
+const dataPresupuesto = {
+  labels: ['Cuenta1', 'Cuenta2', 'Cuenta3'],
+  datasets: [{
+    data: [50, 20, 2]
+  }]
+}
+const data = {
+  labels: ["January", "February", "March", "April", "May", "June"],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 99, 43],
+      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+      strokeWidth: 2 // optional
+    }
+  ],
+  legend: ["Rainy Days"] // optional
+};
 export default class Home extends React.Component {
 
   render() {
     return (
-      <Block flex center style={styles.home}>
+      <Block style={styles.home}>
+        <ScrollView style={styles.scrollView}>
+
+          <BarChart
+            style={graphStyle}
+            data={dataMedioPago}
+            width={width}
+            height={310}
+            yAxisLabel="$"
+            chartConfig={chartConfig}
+          />
+          <LineChart
+            data={data}
+            width={width}
+            height={220}
+            chartConfig={chartConfig}
+          />
+        </ScrollView>
       </Block>
     );
   }
@@ -17,7 +81,7 @@ export default class Home extends React.Component {
 const styles = StyleSheet.create({
   home: {
     width: width,
-    backgroundColor: "#071019"  
+    backgroundColor: "#071019"
   },
   search: {
     height: 48,
@@ -32,35 +96,8 @@ const styles = StyleSheet.create({
     shadowOffset: {
       width: 0,
       height: 2
-    },
-    shadowRadius: 8,
-    shadowOpacity: 0.2,
-    elevation: 4,
-    zIndex: 2,
+    }
   },
-  tabs: {
-    marginBottom: 24,
-    marginTop: 10,
-    elevation: 4,
-  },
-  tab: {
-    backgroundColor: theme.COLORS.TRANSPARENT,
-    width: width * 0.50,
-    borderRadius: 0,
-    borderWidth: 0,
-    height: 24,
-    elevation: 0,
-  },
-  tabTitle: {
-    lineHeight: 19,
-    fontWeight: '300'
-  },
-  divider: {
-    borderRightWidth: 0.3,
-    borderRightColor: theme.COLORS.MUTED,
-  },
-  products: {
-    width: width - theme.SIZES.BASE * 2,
-    paddingVertical: theme.SIZES.BASE * 2,
-  },
+
 });
+

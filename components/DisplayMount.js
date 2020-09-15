@@ -2,44 +2,65 @@ import React, { useState } from 'react';
 import { StyleSheet, Dimensions, View, Modal, TouchableHighlight } from 'react-native';
 import { Block } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import {
-  Container,
-  Header,
-  Title,
-  Content,
   Item,
   Label,
-  Input,
-  Body,
-  Left,
-  Right,
-  Icon,
-  Form,
-  Button,
   Text,
   Picker
 } from "native-base";
-const { width } = Dimensions.get('screen');
 
 export default class DisplayMount extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      defaultDate: 'Mensual',
+      defaultCoin: props.defaultCoin,
+      defaultBudget: props.defaultBudget,
+      disabled: props.disabled
+    }
+  }
+  updateState(value) {
+    this.setState(
+      {
+        defaultBudget: value
+      }
+    )
+  }
+
+
+  getDate(value) {
+    
+    this.setState({
+      defaultDate: value
+    });
+    this.props.getDate(value);
+  }
 
   render() {
     return (
       <Block center >
         <View style={styles.buttonStyle}>
-          <TouchableHighlight onPress={() => this.visible = true} disabled={this.props.disabled}>
-            <LinearGradient colors={['#FF004E', '#FF9040']} style={styles.linearGradient} start={{ x: 0.0, y: 0.0 }} end={{ x: 1, y: 1 }} >
-              <Text
-                style={styles.dateText}>
-                {this.props.defaultDate}
-              </Text>
-              <Text
-                style={styles.budgetText}>
-                {this.props.defaultCoin} {this.props.defaultBudget}
-              </Text>
-            </LinearGradient>
-          </TouchableHighlight>
+          <LinearGradient colors={['#FF004E', '#FF9040']} style={styles.linearGradient} start={{ x: 0.0, y: 0.0 }} end={{ x: 1, y: 1 }} >
+            <Text
+              style={styles.dateText}>
+              {this.state.defaultDate}
+            </Text>
+            <Label
+              style={styles.budgetText}>
+              {this.state.defaultCoin} {this.state.defaultBudget}
+            </Label>
+          </LinearGradient>
+          <Item >
+            <Picker
+              textStyle={{ color: '#697A8C' }}
+              selectedValue={this.state.defaultDate}
+              onValueChange={this.getDate.bind(this)}
+            >
+              <Picker.Item label='Mensual' value='Mensual' color="#697A8C" />
+              <Picker.Item label='Semestral' value='Semestral' color="#697A8C" />
+              <Picker.Item label='Anual' value='Anual' color="#697A8C" />
+            </Picker>
+          </Item>
         </View>
       </Block>
 
@@ -56,7 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 69,
     width: 270,
-    marginTop: 50
+    marginTop: 30
   },
   dateText: {
     backgroundColor: 'transparent',
@@ -68,5 +89,4 @@ const styles = StyleSheet.create({
     fontSize: 34,
     color: '#fff',
   }
-
 });

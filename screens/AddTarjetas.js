@@ -10,22 +10,34 @@ import {
     Button,
     Text
 } from "native-base";
+let data = undefined;
 export default class DisplayMount extends React.Component {
-    addtionalInputsProps = {
-        name: {
-            defaultValue: 'my name',
-            maxLength: 40,
-        }
-    };
-    _onChange = (formData) => console.log(JSON.stringify(formData));
+    constructor(props) {
+        super(props);
+        this.state = {
+            cuenta: undefined
+        };
+    }
+    onChangeCuenta(value) {
+        this.setState({
+            cuenta: value
+        });
+    }
+
+    _onChange = (formData) => { data = formData; };
     render() {
+        const { goBack } = this.props.navigation;
         return (
             <Container style={styles.container}>
                 <Content>
                     <Form >
+                        <Button style={styles.btnGoBack} onPress={() => goBack()}>
+                            <Text style={{ fontWeight: "bold" }}>{'<'}Tarjetas</Text>
+                        </Button>
                         <CreditCardInput
                             requiresName
-                            requiresCVC
+                            label={{ number: "CARD", expiry: "EXPIRY", cvc: "CVC/CCV" }}
+                            requiresCVC={false}
                             allowScroll={true}
                             labelStyle={styles.label}
                             inputStyle={styles.input}
@@ -34,16 +46,23 @@ export default class DisplayMount extends React.Component {
                             placeholderColor={"gray"}
                             inputContainerStyle={styles.inputCointaer}
                             onChange={this._onChange}
-                            additionalInputsProps={this.addtionalInputsProps} />
-                        <Picker
-                            textStyle={{ color: '#697A8C' }}
-                            placeholder="Cuenta Bancaria"
-                            placeholderTextColor="#697A8C"
+                        />
 
+                        <Item >
+                            <Picker
+                                textStyle={{ color: '#697A8C' }}
+                                placeholder="Cuentas Bancarias"
+                                placeholderTextColor="#697A8C"
+                                selectedValue={this.state.cuenta}
+                                onValueChange={this.onChangeCuenta.bind(this)}
+                            >
+                                <Picker.Item label='Cuenta 1' value='cuenta1' color="#697A8C" />
+                                <Picker.Item label='Cuentas 2 ' value='cuenta2' color="#697A8C" />
+                            </Picker>
+                        </Item>
+                        <Button style={styles.btnIngresar}
+                            onPress={() => navigateWithParam(data.values, this.props, this.state.cuenta)}
                         >
-                            <Picker.Item label='Cuenta1' value='Cuenta1' color="#697A8C" />
-                        </Picker>
-                        <Button style={styles.btnIngresar}>
                             <Text>Agregar</Text>
                         </Button>
                     </Form>
@@ -53,7 +72,16 @@ export default class DisplayMount extends React.Component {
         );
     }
 }
-
+function navigateWithParam(data, props, bankAccount) {
+    data.cuenta = bankAccount;
+    console.log(data)
+    let tarjetaProps = props.navigation.getParam('method',{});
+    tarjetaProps.getCardData();
+    props.navigation.navigate(
+        'Tarjetas',
+        { data : data },
+    )
+}
 const styles = StyleSheet.create({
 
     container: {
@@ -81,5 +109,18 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         justifyContent: "center",
         alignSelf: 'center'
+    },
+    btnGoBack: {
+        width: 110,
+        height: 33,
+        backgroundColor: 'transparent',
+        marginTop: 10,
+        marginBottom: 10,
+        borderRadius: 8,
+        marginEnd: 46,
+        justifyContent: 'flex-start',
+        alignSelf: 'flex-start',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });

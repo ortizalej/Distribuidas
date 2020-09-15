@@ -27,10 +27,10 @@ function CustomDrawerContent({
     "Presupuestos"
   ];
   return (
-    <Block
-      style={styles.container}
+    <Block 
+      style={styles.container} 
       forceInset={{ top: "always", horizontal: "never" }}
-    >
+      >
       <Block flex={0.25} style={styles.header}>
           <Block style={styles.profile}>
             <Image source={{ uri: profile.avatar }} style={styles.avatar} />
@@ -72,7 +72,6 @@ function CustomDrawerContent({
     </Block>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
