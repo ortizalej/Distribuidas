@@ -1,22 +1,24 @@
 import React from 'react';
 import { StyleSheet, Dimensions, View, ScrollView } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+const { width, height } = Dimensions.get('screen');
 
 export default class HistoricTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableHead: props.cols
+      tableHead: props.cols,
+      tableData: props.rows
     }
   }
   updateState(value) {
-    console.log(value)
     this.setState(
       {
         tableData: value
       }
     )
   }
+
   render() {
     if (this.props.type === 'Ingresos') {
       return ingresosTable(this.state);
@@ -102,10 +104,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#0B1F35',
     width: 340,
     flex: 1,
-    padding: 15,
+    padding: 10,
     marginTop: 30,
     borderRadius: 20,
-    marginBottom: 150
+    marginBottom: 150,
+    alignSelf: 'center'
   },
   head: {
     height: 40,
@@ -123,7 +126,8 @@ const styles = StyleSheet.create({
   row: {
     height: 28,
     borderBottomColor: 'black',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    width: 310
   },
   text: {
     textAlign: 'center',

@@ -2,10 +2,8 @@ import React from 'react';
 import { Easing, Animated, Dimensions } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-
-import { Block, Text, theme } from "galio-framework";
-
 import HomeScreen from '../screens/Home';
+import PresupuestoScreen from '../screens/Presupuesto'
 import IngresosScreen from '../screens/Ingresos';
 import EgresosScreen from '../screens/Egresos';
 import TarjetasScreen from '../screens/Tarjetas';
@@ -41,8 +39,25 @@ function HomeStack() {
       />
     </Stack.Navigator>
   );
+}
+
+function PresupuestoStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Presupuesto"
+        component={PresupuestoScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Presupuesto" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
 
 }
+
 function IngresosStack() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
@@ -122,6 +137,18 @@ function CuentaStack() {
   );
 }
 
+function LoginStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Cuenta Bancaria"
+        component={CuentaScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+
+
 function AgregarTarjetasStack() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
@@ -195,17 +222,21 @@ function AppStack(props) {
         component={HomeStack}
       />
       <Drawer.Screen
+        name="Login"
+        component={LoginStack}
+      />
+      <Drawer.Screen
         name="Prestamos"
         component={PrestamosStack}
       />
       <Drawer.Screen
         name="Presupuestos"
-        component={HomeStack}
+        component={PresupuestoStack}
       />
       <Drawer.Screen
         name="Agregar Tarjeta"
         component={AgregarTarjetasStack}
-      />      
+      />
       <Drawer.Screen
         name="Sign In"
         component={HomeStack}

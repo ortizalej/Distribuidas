@@ -72,6 +72,8 @@ export default class Formulario extends React.Component {
             return renderPrestamosPrestados(this)
         } else if (this.props.type === 'Prestamos Tomados') {
             return renderPrestamosTomados(this)
+        } else if (this.props.type === 'LOGIN') {
+            return renderLogin(this)
         }
     }
 }
@@ -115,10 +117,10 @@ function renderIngresos(props) {
                             onValueChange={props.onChangeTipo.bind(props)}
                         >
                             <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
-                            <Picker.Item label='Transferencia Bancaria' value='transferencia' color="#697A8C" />
+                            <Picker.Item label='Transferencia Bancaria' value='transf.' color="#697A8C" />
                         </Picker>
                     </Item>
-                    <Item style={props.state.tipo === 'transferencia' ? { display: 'flex' } : { display: 'none' }} >
+                    <Item style={props.state.tipo === 'transf.' ? { display: 'flex' } : { display: 'none' }} >
                         <Picker
                             textStyle={{ color: '#697A8C' }}
                             placeholder="Cuenta"
@@ -135,7 +137,6 @@ function renderIngresos(props) {
                         onPress={() => {
                             props.getFormData(
                                 {
-                                    fecha: '12/12/12',
                                     cantidad: props.state.cantidad,
                                     tipo: props.state.tipo,
                                     fuente: props.state.fuente
@@ -186,7 +187,7 @@ function renderEgresos(props) {
                             onValueChange={props.onChangeMedio.bind(props)}
                         >
                             <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
-                            <Picker.Item label='Transferencia Bancaria' value='transferencia' color="#697A8C" />
+                            <Picker.Item label='Transferencia Bancaria' value='transf.' color="#697A8C" />
                         </Picker>
                     </Item>
                     <Button style={styles.btnIngresar}>
@@ -197,7 +198,6 @@ function renderEgresos(props) {
                         onPress={() => {
                             props.getFormData(
                                 {
-                                    fecha: '12/12/12',
                                     cantidad: props.state.cantidad,
                                     tipo: props.state.tipo,
                                     medio: props.state.medio
@@ -247,7 +247,7 @@ function renderPrestamosPrestados(props) {
                             onValueChange={props.onChangeMedio.bind(props)}
                         >
                             <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
-                            <Picker.Item label='Transferencia Bancaria' value='transferencia' color="#697A8C" />
+                            <Picker.Item label='Transferencia Bancaria' value='transf.' color="#697A8C" />
                         </Picker>
                     </Item>
                     <Button
@@ -255,7 +255,6 @@ function renderPrestamosPrestados(props) {
                         onPress={() => {
                             props.getFormData(
                                 {
-                                    fecha: '12/12/12',
                                     cantidad: props.state.cantidad,
                                     destino: props.state.destino,
                                     medio: props.state.medio
@@ -305,7 +304,7 @@ function renderPrestamosTomados(props) {
                             onValueChange={props.onChangeMedio.bind(props)}
                         >
                             <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
-                            <Picker.Item label='Transferencia Bancaria' value='transferencia' color="#697A8C" />
+                            <Picker.Item label='Transferencia Bancaria' value='transf.' color="#697A8C" />
                         </Picker>
                     </Item>
                     <Button
@@ -313,7 +312,6 @@ function renderPrestamosTomados(props) {
                         onPress={() => {
                             props.getFormData(
                                 {
-                                    fecha: '12/12/12',
                                     cantidad: props.state.cantidad,
                                     destino: props.state.destino,
                                     medio: props.state.medio
@@ -326,15 +324,66 @@ function renderPrestamosTomados(props) {
         </Container>
     )
 }
+function renderLogin(props) {
 
+    return (
+        <Container style={styles.container}>
+            <Content bounces={false}>
+                <Form scrollEnabled={false}>
+                    <Item stackedLabel>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Usuario" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeCantidad.bind(props)}
+                        />
+                    </Item>
+                    <Item stackedLabel>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Contraseña" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeCantidad.bind(props)}
+                        />
+                    </Item>
+
+                    <Button
+                        style={styles.btnIngresar}
+                        onPress={() => {
+                            props.getFormData(
+                                {
+                                    cantidad: props.state.cantidad,
+                                    destino: props.state.destino,
+                                    medio: props.state.medio
+                                })
+                        }}>
+                        <Text>INGRESAR</Text>
+                    </Button>
+                    <Button
+                        style={styles.btnIngresar}
+                        onPress={() => {
+                            props.getFormData(
+                                {
+                                    cantidad: props.state.cantidad,
+                                    destino: props.state.destino,
+                                    medio: props.state.medio
+                                })
+                        }}>
+                        <Text>REGISTRARSE</Text>
+                    </Button>
+                </Form>
+            </Content>
+        </Container>
+    )
+}
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#0B1F35",
-        width: 320,
-        height: 290,
+        width: 340,
+        height: 'auto',
         paddingRight: 15,
+        paddingBottom: 20,
         marginTop: 20,
-        borderRadius: 20
+        borderRadius: 20,
+        alignSelf: 'center'
     },
     hide: {
         display: 'none'

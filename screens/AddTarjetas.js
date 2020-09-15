@@ -23,6 +23,7 @@ export default class DisplayMount extends React.Component {
             cuenta: value
         });
     }
+
     _onChange = (formData) => { data = formData; };
     render() {
         const { goBack } = this.props.navigation;
@@ -35,7 +36,8 @@ export default class DisplayMount extends React.Component {
                         </Button>
                         <CreditCardInput
                             requiresName
-                            requiresCVC
+                            label={{ number: "CARD", expiry: "EXPIRY", cvc: "CVC/CCV" }}
+                            requiresCVC={false}
                             allowScroll={true}
                             labelStyle={styles.label}
                             inputStyle={styles.input}
@@ -43,7 +45,8 @@ export default class DisplayMount extends React.Component {
                             invalidColor={"red"}
                             placeholderColor={"gray"}
                             inputContainerStyle={styles.inputCointaer}
-                            onChange={this._onChange} />
+                            onChange={this._onChange}
+                        />
 
                         <Item >
                             <Picker
@@ -58,7 +61,7 @@ export default class DisplayMount extends React.Component {
                             </Picker>
                         </Item>
                         <Button style={styles.btnIngresar}
-                            onPress={() => navigateWithParam(data.values, this.props,this.state.cuenta)}
+                            onPress={() => navigateWithParam(data.values, this.props, this.state.cuenta)}
                         >
                             <Text>Agregar</Text>
                         </Button>
@@ -72,9 +75,11 @@ export default class DisplayMount extends React.Component {
 function navigateWithParam(data, props, bankAccount) {
     data.cuenta = bankAccount;
     console.log(data)
+    let tarjetaProps = props.navigation.getParam('method',{});
+    tarjetaProps.getCardData();
     props.navigation.navigate(
         'Tarjetas',
-        { data },
+        { data : data },
     )
 }
 const styles = StyleSheet.create({
