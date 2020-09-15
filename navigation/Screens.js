@@ -2,16 +2,13 @@ import React from 'react';
 import { Easing, Animated, Dimensions } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-
-import { Block, Text, theme } from "galio-framework";
-
-import ComponentsScreen from '../screens/Components';
 import HomeScreen from '../screens/Home';
+import PresupuestoScreen from '../screens/Presupuesto'
 import IngresosScreen from '../screens/Ingresos';
 import EgresosScreen from '../screens/Egresos';
-import ProfileScreen from '../screens/Profile';
-import SettingsScreen from '../screens/Settings';
 import TarjetasScreen from '../screens/Tarjetas';
+import PrestamosScreen from '../screens/Prestamos';
+import CuentaScreen from '../screens/CuentaBancaria'
 import AgregarTarjetas from '../screens/AddTarjetas'
 import CustomDrawerContent from './Menu';
 import { Icon, Header } from '../components';
@@ -42,8 +39,25 @@ function HomeStack() {
       />
     </Stack.Navigator>
   );
+}
+
+function PresupuestoStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Presupuesto"
+        component={PresupuestoScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Presupuesto" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
 
 }
+
 function IngresosStack() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
@@ -90,8 +104,51 @@ function TarjetasStack() {
       />
     </Stack.Navigator>
   );
-
 }
+
+function PrestamosStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Prestamos"
+        component={PrestamosScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Prestamos" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function CuentaStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Cuenta Bancaria"
+        component={CuentaScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Cuenta Bancaria" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function LoginStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Cuenta Bancaria"
+        component={CuentaScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+
+
 function AgregarTarjetasStack() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
@@ -158,24 +215,28 @@ function AppStack(props) {
       />
       <Drawer.Screen
         name="Cuentas bancarias"
-        component={HomeStack}
+        component={CuentaStack}
       />
       <Drawer.Screen
         name="Inversiones"
         component={HomeStack}
       />
       <Drawer.Screen
+        name="Login"
+        component={LoginStack}
+      />
+      <Drawer.Screen
         name="Prestamos"
-        component={HomeStack}
+        component={PrestamosStack}
       />
       <Drawer.Screen
         name="Presupuestos"
-        component={HomeStack}
+        component={PresupuestoStack}
       />
       <Drawer.Screen
         name="Agregar Tarjeta"
         component={AgregarTarjetasStack}
-      />      
+      />
       <Drawer.Screen
         name="Sign In"
         component={HomeStack}

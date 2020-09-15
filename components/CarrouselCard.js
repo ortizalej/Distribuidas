@@ -22,7 +22,7 @@ export default class CarrouselCard extends React.Component {
                 <ViewCard
                     name={item.name}
                     number={item.number}
-                    cvc={item.cvc}
+                    expiry={item.expiry}
                     brand={item.brand}
                 />
             </View>
@@ -59,6 +59,6 @@ export default class CarrouselCard extends React.Component {
 const styles = StyleSheet.create({
     container: {
         marginTop: 5,
-        marginLeft: 30
+        marginLeft: 36
     }
 });

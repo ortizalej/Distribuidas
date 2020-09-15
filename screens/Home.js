@@ -4,21 +4,24 @@ import { Button, Block, Text, Input, theme, View } from 'galio-framework';
 import {
   BarChart,
   PieChart,
-
+  LineChart
 } from 'react-native-chart-kit'
 const { width, height } = Dimensions.get('screen');
 const chartConfig = {
   backgroundColor: '#071019',
-  backgroundGradientFrom: '#ffffff',
-  backgroundGradientTo: '#ffffff',
-  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
+  backgroundGradientFrom: '#071019',
+  backgroundGradientTo: '#071019',
+  fillShadowGradient: 'white',
+  fillShadowGradientOpacity: 20,
+  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
 };
 const graphStyle = {
   marginVertical: 8,
-  borderRadius: 16
+  borderRadius: 16,
 }
 const dataMedioPago = {
-  labels: ['Mercado Pago', 'Tarjeta', 'Transferencia'],
+  labels: ['MP', 'Tarjeta', 'Transf.'],
   datasets: [{
     data: [50, 20, 2]
   }]
@@ -37,7 +40,17 @@ const dataPresupuesto = {
     data: [50, 20, 2]
   }]
 }
-
+const data = {
+  labels: ["January", "February", "March", "April", "May", "June"],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 99, 43],
+      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+      strokeWidth: 2 // optional
+    }
+  ],
+  legend: ["Rainy Days"] // optional
+};
 export default class Home extends React.Component {
 
   render() {
@@ -52,25 +65,12 @@ export default class Home extends React.Component {
             height={310}
             yAxisLabel="$"
             chartConfig={chartConfig}
-            verticalLabelRotation={30}
           />
-          <BarChart
-            style={graphStyle}
-            data={dataSaldos}
+          <LineChart
+            data={data}
             width={width}
-            height={300}
-            yAxisLabel="$"
+            height={220}
             chartConfig={chartConfig}
-            verticalLabelRotation={30}
-          />
-          <BarChart
-            style={graphStyle}
-            data={dataPresupuesto}
-            width={width}
-            height={300}
-            yAxisLabel="$"
-            chartConfig={chartConfig}
-            verticalLabelRotation={30}
           />
         </ScrollView>
       </Block>

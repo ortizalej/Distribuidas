@@ -1,29 +1,33 @@
 import React from 'react';
 import { StyleSheet, Dimensions, View, ScrollView } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+const { width, height } = Dimensions.get('screen');
 
 export default class HistoricTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableHead: props.cols
+      tableHead: props.cols,
+      tableData: props.rows
     }
   }
   updateState(value) {
-    console.log(value)
     this.setState(
       {
-        tableData : value 
+        tableData: value
       }
     )
   }
+
   render() {
     if (this.props.type === 'Ingresos') {
       return ingresosTable(this.state);
     } else if (this.props.type === 'Egresos') {
       return egresosTable(this.state);
-    } else if (this.props.type === 'Tarjetas'){
+    } else if (this.props.type === 'Tarjetas') {
       return tarjetasTable(this.state);
+    } else {
+      return renderTable(this.state)
     }
   }
 }
@@ -78,15 +82,33 @@ function tarjetasTable(state) {
   )
 }
 
+function renderTable(state) {
+  return (
+    <View style={styles.table} >
+      <ScrollView vertical={true}>
+        <Table >
+          <Row data={state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.headText} />
+          <TableWrapper style={styles.wrapper}>
+            <Col data={state.tableTitle} style={styles.title} heightArr={[28, 28]} textStyle={styles.text} />
+            <Rows data={state.tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
+          </TableWrapper>
+        </Table>
+      </ScrollView>
+    </View>
+  )
+}  
+
+
 const styles = StyleSheet.create({
   table: {
     backgroundColor: '#0B1F35',
-    width: 320,
+    width: 340,
     flex: 1,
-    padding: 15,
+    padding: 10,
     marginTop: 30,
     borderRadius: 20,
-    marginBottom: 150
+    marginBottom: 150,
+    alignSelf: 'center'
   },
   head: {
     height: 40,
@@ -104,7 +126,8 @@ const styles = StyleSheet.create({
   row: {
     height: 28,
     borderBottomColor: 'black',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    width: 310
   },
   text: {
     textAlign: 'center',
