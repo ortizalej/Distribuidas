@@ -11,7 +11,10 @@ import PrestamosScreen from '../screens/Prestamos';
 import CuentaScreen from '../screens/CuentaBancaria'
 import AgregarTarjetas from '../screens/AddTarjetas'
 import LoginScreen from '../screens/Login'
+import SignInScreen from '../screens/SingIn'
+import InversionesScreen from '../screens/Inversiones'
 import CustomDrawerContent from './Menu';
+
 import { Icon, Header } from '../components';
 import { Images, materialTheme } from "../constants/";
 
@@ -59,22 +62,6 @@ function LoginStack() {
   );
 }
 
-function SingInStack() {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Sign In"
-        component={LoginScreen}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="Sing In" scene={scene} navigation={navigation} />
-          )
-        }}
-
-      />
-    </Stack.Navigator>
-  );
-}
 
 function PresupuestoStack() {
   return (
@@ -178,11 +165,43 @@ function AgregarTarjetasStack() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
-        name="AgregarTarjeta"
+        name="Agregar Tarjetas"
         component={AgregarTarjetas}
         options={{
           header: ({ navigation, scene }) => (
-            <Header title="AgregarTarjeta" scene={scene} navigation={navigation} />
+            <Header title="Agregar Tarjetas" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function InversionesStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Inversiones"
+        component={InversionesScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Inversiones" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function SingInStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Sing In"
+        component={SignInScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Sign In" scene={scene} navigation={navigation} />
           )
         }}
       />
@@ -190,6 +209,7 @@ function AgregarTarjetasStack() {
   );
 
 }
+
 function AppStack(props) {
   return (
     <Drawer.Navigator
@@ -220,7 +240,7 @@ function AppStack(props) {
           fontWeight: "normal"
         }
       }}
-      initialRouteName="Home"
+      initialRouteName="Sign In"
     >
       <Drawer.Screen
         name="Home"
@@ -244,7 +264,7 @@ function AppStack(props) {
       />
       <Drawer.Screen
         name="Inversiones"
-        component={HomeStack}
+        component={InversionesStack}
       />
       <Drawer.Screen
         name="Login"
@@ -264,7 +284,7 @@ function AppStack(props) {
       />
       <Drawer.Screen
         name="Sign In"
-        component={HomeStack}
+        component={SingInStack}
       />
 
     </Drawer.Navigator>

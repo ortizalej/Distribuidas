@@ -33,7 +33,7 @@ function CustomDrawerContent({
       >
       <Block flex={0.25} style={styles.header}>
           <Block style={styles.profile}>
-            <Image source={{ uri: profile.avatar }} style={styles.avatar} />
+            <Image source={require('../assets/images/userImage.png')} style={styles.avatar} />
             <Text h5 color={"white"}>
               {profile.name}
             </Text>
@@ -62,13 +62,7 @@ function CustomDrawerContent({
           })}
         </ScrollView>
       </Block>
-      <Block flex={0.3} style={{ paddingLeft: 7, paddingRight: 14 }}>
-        <DrawerCustomItem
-          title="Cerrar Sesion"
-          navigation={navigation}
-          focused={state.index === 8 ? true : false}
-        />
-      </Block>
+
     </Block>
   );
 }

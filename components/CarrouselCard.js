@@ -1,12 +1,28 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Switch, SafeAreaView } from "react-native";
+import { StyleSheet, View, Switch, SafeAreaView, Dimensions } from "react-native";
 import {
     Container,
     Content,
     Form,
 } from "native-base";
+import {
+    LineChart,
+} from "react-native-chart-kit";
 import Carousel from 'react-native-snap-carousel';
 import ViewCard from '../components/ViewCard';
+import BankCard from '../components/BankAccountCard'
+import { ScrollView } from "react-native";
+
+const { width, height } = Dimensions.get('screen');
+const chartConfig = {
+    backgroundColor: '#071019',
+    backgroundGradientFrom: '#071019',
+    backgroundGradientTo: '#071019',
+    fillShadowGradient: 'white',
+    fillShadowGradientOpacity: 20,
+    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`
+};
 export default class CarrouselCard extends React.Component {
     constructor(props) {
         super(props);
@@ -31,23 +47,42 @@ export default class CarrouselCard extends React.Component {
     _renderItemBank({ item, index }) {
         return (
             <View>
-                <ViewCard
-                    name={item.name}
-                    number={item.number}
-                    cvc={item.cvc}
-                    brand={item.brand}
+                <BankCard
+                    bankName={item.bankName}
+                    titularName={item.titularName}
+                    tipo={item.tipo}
+                    CBU={item.CBU}
                 />
             </View>
         )
-    }    
+    }
+    _renderItemInver({ item, index }) {
+        return (
+            <View>
+                <LineChart
+                    data={item}
+                    width={300}
+                    height={290}
+                    chartConfig={chartConfig}
+                    verticalLabelRotation={30}
+                />
+            </View>
+        )
+    }
 
     render() {
+        console.log(this.state.carouselItems)
+
         return (
             <View center style={styles.container}>
                 <Carousel
                     ref={(c) => { this._carousel = c; }}
                     data={this.state.carouselItems}
-                    renderItem={this.state.type === 'Card' ? this._renderItemCard : this._renderItemBank}
+                    renderItem={
+                        this.state.type === 'Card' ?
+                            this._renderItemCard : this.state.type === 'Bank' ?
+                                this._renderItemBank : this._renderItemInver
+                    }
                     sliderWidth={300}
                     itemWidth={300}
                 />

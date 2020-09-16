@@ -2,16 +2,10 @@ import React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import {
     Container,
-    Header,
-    Title,
     Content,
     Item,
-    Label,
     Input,
-    Body,
-    Left,
-    Right,
-    Icon,
+
     Form,
     Button,
     Text,
@@ -37,7 +31,7 @@ export default class Formulario extends React.Component {
     onChangeTipo(value) {
         this.setState({
             tipo: value
-        }); 
+        });
     }
     onChangeMedio(value) {
         this.setState({
@@ -62,7 +56,9 @@ export default class Formulario extends React.Component {
     getFormData(data) {
         this.props.getFormData(data);
     }
+
     render() {
+        console.log(this.props.type)
         if (this.props.type === 'Ingresos') {
             return renderIngresos(this);
         } else if (this.props.type === 'Egresos') {
@@ -76,6 +72,10 @@ export default class Formulario extends React.Component {
             return renderLogin(navigation)
         } else if (this.props.type === 'Presupuesto') {
             return renderPresupuesto(this)
+        } else if (this.props.type === 'SingIn') {
+            return renderSingIn(this)
+        } else if (this.props.type === 'Inversiones') {
+            return renderInversiones(this)
         }
     }
 }
@@ -259,7 +259,8 @@ function renderPrestamosPrestados(props) {
                                 {
                                     cantidad: props.state.cantidad,
                                     destino: props.state.destino,
-                                    medio: props.state.medio
+                                    medio: props.state.medio,
+                                    type: 'Prestado'
                                 })
                         }}>
                         <Text>REGISTRAR</Text>
@@ -316,7 +317,8 @@ function renderPrestamosTomados(props) {
                                 {
                                     cantidad: props.state.cantidad,
                                     destino: props.state.destino,
-                                    medio: props.state.medio
+                                    medio: props.state.medio,
+                                    type: 'Tomado'
                                 })
                         }}>
                         <Text>REGISTRAR</Text>
@@ -340,7 +342,75 @@ function renderPresupuesto(props) {
                             onChangeText={props.onChangeCantidad.bind(props)}
                         />
                     </Item>
+                    <Item >
+                        <Picker
+                            textStyle={{ color: '#697A8C' }}
+                            placeholder="Tipo"
+                            placeholderTextColor="#697A8C"
+                            selectedValue={props.state.tipo}
+                            onValueChange={props.onChangeTipo.bind(props)}
+                        >
+                            <Picker.Item label='Ocio' value='Ocio' color="#697A8C" />
+                            <Picker.Item label='Servicios' value='Servicios' color="#697A8C" />
+                            <Picker.Item label='Comida' value='Comida' color="#697A8C" />
 
+                        </Picker>
+                    </Item>
+
+                    <Button
+                        style={styles.btnIngresar}
+                        onPress={() => {
+                            props.getFormData(
+                                {
+                                    cantidad: props.state.cantidad,
+                                    tipo: props.state.tipo
+                                })
+                        }}>
+                        <Text>REGISTRAR</Text>
+                    </Button>
+                </Form>
+            </Content>
+        </Container>
+    )
+}
+
+function renderInversiones(props) {
+    const tipoDeInversion = [
+        'Plazo Fijo',
+        'Compra de Titulos'
+    ]
+    return (
+        <Container style={styles.container}>
+            <Content bounces={false}>
+                <Form scrollEnabled={false}>
+                    <Item stackedLabel>
+                        <Input
+                            keyboardType="number-pad"
+                            style={{ color: "#697A8C" }}
+                            placeholder="Cantidad Invertida" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeCantidad.bind(props)}
+                        />
+                    </Item>
+                    <Item >
+                        <Picker
+                            textStyle={{ color: '#697A8C' }}
+                            placeholder="Tipo"
+                            placeholderTextColor="#697A8C"
+                            selectedValue={props.state.medio}
+                            onValueChange={props.onChangeMedio.bind(props)}
+                        >
+
+                            <Picker.Item label='Plazo Flijo' value='Plazo Fijo' color="#697A8C" />
+                            <Picker.Item label='Compra de titulos' value='Compra de titulos' color="#697A8C" />
+                            <Picker.Item label='Acciones' value='Acciones' color="#697A8C" />
+                            <Picker.Item label='Bienes Raices' value='Bienes Raices' color="#697A8C" />
+                            <Picker.Item label='Energias Renovables' value='Energias Renovables' color="#697A8C" />
+                            <Picker.Item label='Divisas' value='Divisas' color="#697A8C" />
+                            <Picker.Item label='Bono' value='Bono' color="#697A8C" />
+                            <Picker.Item label='Comodities' value='Comodities' color="#697A8C" />
+                            <Picker.Item label='Futuros' value='Futuros' color="#697A8C" />
+                        </Picker>
+                    </Item>
                     <Button
                         style={styles.btnIngresar}
                         onPress={() => {
@@ -385,6 +455,42 @@ function renderLogin(navigation) {
                             prop.navigation.navigate('Sing In')
                         }}>
                         <Text>REGISTRARSE</Text>
+                    </Button>
+                </Form>
+            </Content>
+        </Container>
+    )
+}
+
+function renderSingIn(navigation) {
+    return (
+        <Container style={styles.container}>
+            <Content >
+                <Form >
+                    <Item stackedLabel>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Email" placeholderTextColor="#697A8C"
+                        />
+                    </Item>
+                    <Item stackedLabel>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Contraseña" placeholderTextColor="#697A8C"
+                        />
+                    </Item>
+
+                    <Button
+                        style={styles.btnIngresar}
+                        onPress={() => navigation.navigate("Home")}>
+                        <Text>REGISTRARSE</Text>
+                    </Button>
+                    <Button
+                        style={styles.btnIngresar}
+                        onPress={() => {
+                            prop.navigation.navigate('Sing In')
+                        }}>
+                        <Text>Volver</Text>
                     </Button>
                 </Form>
             </Content>

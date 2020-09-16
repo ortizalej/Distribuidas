@@ -4,7 +4,8 @@ import { Button, Block, Text, Input, theme, View } from 'galio-framework';
 import {
   BarChart,
   PieChart,
-  LineChart
+  LineChart,
+  StackedBarChart
 } from 'react-native-chart-kit'
 const { width, height } = Dimensions.get('screen');
 const chartConfig = {
@@ -19,6 +20,7 @@ const chartConfig = {
 const graphStyle = {
   marginVertical: 8,
   borderRadius: 16,
+  marginLeft: 10
 }
 const dataMedioPago = {
   labels: ['MP', 'Tarjeta', 'Transf.'],
@@ -27,36 +29,44 @@ const dataMedioPago = {
   }]
 }
 
-const dataSaldos = {
+const dataCuenta = {
   labels: ['Cuenta1', 'Cuenta2', 'Cuenta3'],
   datasets: [{
     data: [50, 20, 2]
   }]
 }
 
-const dataPresupuesto = {
-  labels: ['Cuenta1', 'Cuenta2', 'Cuenta3'],
-  datasets: [{
-    data: [50, 20, 2]
-  }]
-}
-const data = {
-  labels: ["January", "February", "March", "April", "May", "June"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43],
-      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-      strokeWidth: 2 // optional
-    }
+const dataVencimientoSemanal = {
+  legend: ["Egresos", "Inversiones", "Prestamos"],
+  labels: ["Semana1", "Semana2", "Semana3"],
+  data: [
+    [60, 60, 60],
+    [30, 30, 60],
+    [30, 30, 60]
+
   ],
-  legend: ["Rainy Days"] // optional
+  barColors: ["#e57373", "#e53935", "#b71c1c"]
 };
+
+const dataRealvsPres = {
+  legend: ["Egresos", "Inversiones", "Prestamos"],
+  labels: ["Real", "Presupuesto"],
+  data: [
+    [60, 60, 60],
+    [20]
+
+  ],
+  barColors: ["#e57373", "#e53935", "#b71c1c"]
+};
+
+
 export default class Home extends React.Component {
 
   render() {
     return (
       <Block style={styles.home}>
         <ScrollView style={styles.scrollView}>
+          <Text style={styles.titleGraph}>Monto Gastado Por Mes</Text>
 
           <BarChart
             style={graphStyle}
@@ -66,8 +76,30 @@ export default class Home extends React.Component {
             yAxisLabel="$"
             chartConfig={chartConfig}
           />
-          <LineChart
-            data={data}
+          <Text style={styles.titleGraph}>Saldos de Cuentas Bancarias</Text>
+
+          <BarChart
+            style={graphStyle}
+            data={dataCuenta}
+            width={width}
+            height={310}
+            yAxisLabel="$"
+            chartConfig={chartConfig}
+          />
+          <Text style={styles.titleGraph}>Vencimiento Semanal</Text>
+
+          <StackedBarChart
+            style={graphStyle}
+            data={dataVencimientoSemanal}
+            width={width}
+            height={220}
+            chartConfig={chartConfig}
+          />
+          <Text style={styles.titleGraph}>Desvio Presupuestal</Text>
+
+          <StackedBarChart
+            style={graphStyle}
+            data={dataRealvsPres}
             width={width}
             height={220}
             chartConfig={chartConfig}
@@ -98,6 +130,11 @@ const styles = StyleSheet.create({
       height: 2
     }
   },
-
+  titleGraph: {
+    backgroundColor: 'transparent',
+    fontSize: 20,
+    color: '#fff',
+    marginLeft: 10
+  }
 });
 

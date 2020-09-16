@@ -13,9 +13,9 @@ const iPhoneX = () => Platform.OS === 'ios' && (height === 812 || width === 812 
 const NotificationButton = ({ isWhite, style}) => (
   <TouchableOpacity style={[styles.button, style]}>
     <Icon
-      family="GalioExtra"
+      family="entypo"
       size={16}
-      name="basket-simple"
+      name="bell"
       color= 'white'
     />
     <Block middle style={styles.notify} />

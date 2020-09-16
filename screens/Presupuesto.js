@@ -2,72 +2,52 @@ import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Button, Block, Text, Input, theme, View } from 'galio-framework';
 import {
-    BarChart,
-    PieChart,
+    StackedBarChart
 
 } from 'react-native-chart-kit'
 import Form from '../components/Formulario'
 const { width, height } = Dimensions.get('screen');
-chartConfig = {
-    backgroundColor: "#e26a00",
-    backgroundGradientFrom: "#fb8c00",
-    backgroundGradientTo: "#ffa726",
-    decimalPlaces: 2, // optional, defaults to 2dp
+const chartConfig = {
+    backgroundColor: '#071019',
+    backgroundGradientFrom: '#071019',
+    backgroundGradientTo: '#071019',
+    fillShadowGradient: 'white',
+    fillShadowGradientOpacity: 20,
     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    style: {
-        borderRadius: 16
-    },
-    propsForDots: {
-        r: "3",
-        strokeWidth: "2",
-        stroke: "#ffa726"
-    }
+};
+const graphStyle = {
+    marginVertical: 8,
+    borderRadius: 16,
+    marginLeft: 10
 }
 
 export default class Presupuesto extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [
-                {
-                    name: "Servicios",
-                    money: 2000,
-                    color: "rgba(131, 167, 234, 1)",
-                    legendFontColor: "#7F7F7F",
-                    legendFontSize: 15
-                },
-                {
-                    name: "Comida",
-                    money: 3000,
-                    color: "green",
-                    legendFontColor: "#7F7F7F",
-                    legendFontSize: 15
-                },
-                {
-                    name: "Ocio",
-                    money: 4000,
-                    color: "red",
-                    legendFontColor: "#7F7F7F",
-                    legendFontSize: 15
-                },
-                {
-                    name: "Total",
-                    money: 25000,
-                    color: "white",
-                    legendFontColor: "#7F7F7F",
-                    legendFontSize: 15
-                }
+            data: {
+                legend: ["Ocio", "Comida", "Servicios"],
+                labels: ["Real", "Presupuesto"],
+                data: [
+                    [300, 400, 500],
+                    [200, 300, 600]
 
-            ]
+                ],
+                barColors: ["#e57373", "#e53935", "#b71c1c"]
+            }
         }
     }
     formData(data) {
-        for (let i = 0; i < this.state.data.length; i++) {
-            if (this.state.data[i].name == 'Total') {
-                this.state.data[i].money = parseInt(data.cantidad);
-            }
-        }
+        console.log(data.tipo);
+        console.log(data.cantidad);
+        if(data.tipo === 'Ocio') {
+            this.state.data.data[0][0] = parseInt(data.cantidad);
+        } else if(data.tipo === 'Comida') {
+            this.state.data.data[0][1] = parseInt(data.cantidad);
+        } else if(data.tipo === 'Servicios' ){
+            this.state.data.data[0][2] = parseInt(data.cantidad);
+        } 
         this.forceUpdate()
     }
     render() {
@@ -75,19 +55,17 @@ export default class Presupuesto extends React.Component {
             <Block style={styles.presupuesto}>
                 <ScrollView showsVerticalScrollIndicator={false}>
 
-                    <PieChart
+
+                    <Form
+                        type={'Presupuesto'}
+                        getFormData={this.formData.bind(this)}
+                    />
+                    <StackedBarChart
+                        style={graphStyle}
                         data={this.state.data}
                         width={width}
                         height={220}
                         chartConfig={chartConfig}
-                        accessor="money"
-                        backgroundColor="transparent"
-                        paddingLeft="15"
-                        absolute
-                    />
-                    <Form
-                        type={'Presupuesto'}
-                        getFormData={this.formData.bind(this)}
                     />
                 </ScrollView>
             </Block>

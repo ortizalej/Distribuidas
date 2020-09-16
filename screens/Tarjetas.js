@@ -53,13 +53,19 @@ export default class Tarjetas extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            type: 'card',
+            type: 'Card',
             cards: [
                 {
                     name: "Alejandro Ortiz",
                     number: 'XXXXXXXX2 123',
                     expiry: '22/11',
                     brand: "visa",
+                },
+                {
+                    name: "Alejandro Ortiz",
+                    number: 'XXXXXXXX2 452',
+                    expiry: '12/04',
+                    brand: "master-card",
                 }
             ],
             rowValues: [
