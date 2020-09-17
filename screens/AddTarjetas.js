@@ -47,7 +47,18 @@ export default class DisplayMount extends React.Component {
                             inputContainerStyle={styles.inputCointaer}
                             onChange={this._onChange}
                         />
-
+                        <Item >
+                            <Picker
+                                textStyle={{ color: '#697A8C' }}
+                                placeholder="Tipo"
+                                placeholderTextColor="#697A8C"
+                                selectedValue={this.state.tipo}
+                                onValueChange={this.onChangeTipo.bind(this)}
+                            >
+                                <Picker.Item label='Credito' value='Credito' color="#697A8C" />
+                                <Picker.Item label='Debito' value='Debito' color="#697A8C" />
+                            </Picker>
+                        </Item>
                         <Item >
                             <Picker
                                 textStyle={{ color: '#697A8C' }}
@@ -60,6 +71,20 @@ export default class DisplayMount extends React.Component {
                                 <Picker.Item label='Cuentas 2 ' value='cuenta2' color="#697A8C" />
                             </Picker>
                         </Item>
+                        <Item stackedLabel>
+                            <Input
+                                style={{ color: "#697A8C" }}
+                                placeholder="Fecha cierre resumen (DD-MM-YYYY)" placeholderTextColor="#697A8C"
+                                onChangeText={props.onChangeCantidad.bind(props)}
+                            />
+                        </Item>
+                        <Item stackedLabel>
+                            <Input
+                                style={{ color: "#697A8C" }}
+                                placeholder="Fecha vencimiento resumen (DD-MM-YYYY)" placeholderTextColor="#697A8C"
+                                onChangeText={props.onChangeCantidad.bind(props)}
+                            />
+                        </Item>                        
                         <Button style={styles.btnIngresar}
                             onPress={() => navigateWithParam(data.values, this.props, this.state.cuenta)}
                         >
@@ -75,11 +100,11 @@ export default class DisplayMount extends React.Component {
 function navigateWithParam(data, props, bankAccount) {
     data.cuenta = bankAccount;
     console.log(data)
-    let tarjetaProps = props.navigation.getParam('method',{});
+    let tarjetaProps = props.navigation.getParam('method', {});
     tarjetaProps.getCardData();
     props.navigation.navigate(
         'Tarjetas',
-        { data : data },
+        { data: data },
     )
 }
 const styles = StyleSheet.create({

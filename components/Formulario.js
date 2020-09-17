@@ -20,39 +20,91 @@ export default class Formulario extends React.Component {
             fuente: undefined,
             cantidad: undefined,
             medio: undefined,
-            destino: undefined
+            destino: undefined,
+            moneda: undefined,
+            cuotas: undefined,
+            interes: undefined,
+            vencimiento: undefined,
+            propietario: undefined,
+            otros: undefined,
+            tipoServicio: undefined
         };
     }
+    
     onChangeCantidad(value) {
         this.setState({
             cantidad: value
         });
     }
+    onChangePropietario(value) {
+        this.setState({
+            propietario: value
+        });
+    }
+    onChangeOtros(value) {
+        this.setState({
+            otros: value
+        });
+    }    
+
+    onChangeVencimientos(value) {
+        this.setState({
+            vencimiento: value
+        });
+    }
+    onChangeCuotas(value) {
+        this.setState({
+            cuotas: value
+        });
+    }
+    
+    onChangeInteres(value) {
+        this.setState({
+            interes: value
+        });
+    }    
+    onChangeTipoServicio
+    onChangeTipoServicio(value) {
+        this.setState({
+            tipoServicio: value
+        });
+    }       
     onChangeTipo(value) {
         this.setState({
             tipo: value
         });
     }
+    
     onChangeMedio(value) {
         this.setState({
             medio: value
         });
     }
+    
     onChangeDestino(value) {
         this.setState({
             destino: value
         });
     }
+    
     onChangeFuente(value) {
         this.setState({
             fuente: value,
         });
     }
+    
     onChangeCuenta(value) {
         this.setState({
             cuenta: value
         });
     }
+    
+    onChangeMoneda(value) {
+        this.setState({
+            moneda: value
+        });
+    }
+
     getFormData(data) {
         this.props.getFormData(data);
     }
@@ -68,8 +120,7 @@ export default class Formulario extends React.Component {
         } else if (this.props.type === 'Prestamos Tomados') {
             return renderPrestamosTomados(this)
         } else if (this.props.type === 'Login') {
-            const { navigation } = this.props;
-            return renderLogin(navigation)
+            return renderLogin(this)
         } else if (this.props.type === 'Presupuesto') {
             return renderPresupuesto(this)
         } else if (this.props.type === 'SingIn') {
@@ -91,11 +142,25 @@ function renderIngresos(props) {
                         <Input
                             keyboardType="number-pad"
                             style={{ color: "#697A8C" }}
-                            placeholder="Cantidad en $"
+                            placeholder="Monto"
                             placeholderTextColor="#697A8C"
                             onChangeText={props.onChangeCantidad.bind(props)}
 
                         />
+                    </Item>
+                    <Item >
+                        <Picker
+                            textStyle={{ color: '#697A8C' }}
+                            placeholder="Moneda"
+                            placeholderTextColor="#697A8C"
+                            selectedValue={props.state.moneda}
+                            onValueChange={props.onChangeMoneda.bind(props)}
+                        >
+
+                            <Picker.Item label="Moneda" value="" color="#697A8C" />
+                            <Picker.Item label='Pesos' value='Pesos' color="#697A8C" />
+                            <Picker.Item label='Dolares' value='Dolares' color="#697A8C" />
+                        </Picker>
                     </Item>
                     <Item >
                         <Picker
@@ -105,31 +170,36 @@ function renderIngresos(props) {
                             selectedValue={props.state.fuente}
                             onValueChange={props.onChangeFuente.bind(props)}
                         >
-                            <Picker.Item label='Alquiler de Propiedad' value='alquiler' color="#697A8C" />
-                            <Picker.Item label='Sueldo' value='sueldo' color="#697A8C" />
-                            <Picker.Item label='Facturacion' value='facturacion' color="#697A8C" />
+                            <Picker.Item label="Fuente" value="" color="#697A8C" />
+                            <Picker.Item label='Alquiler' value='Alquiler' color="#697A8C" />
+                            <Picker.Item label='Sueldo' value='Sueldo' color="#697A8C" />
+                            <Picker.Item label='Facturacion' value='Facturacion' color="#697A8C" />
+                            <Picker.Item label='Extraordinario' value='Extraordinario' color="#697A8C" />
                         </Picker>
                     </Item>
                     <Item >
                         <Picker
                             textStyle={{ color: '#697A8C' }}
-                            placeholder="Tipo"
+                            placeholder="Medio"
                             placeholderTextColor="#697A8C"
-                            selectedValue={props.state.tipo}
-                            onValueChange={props.onChangeTipo.bind(props)}
+                            selectedValue={props.state.medio}
+                            onValueChange={props.onChangeMedio.bind(props)}
                         >
-                            <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
-                            <Picker.Item label='Transferencia Bancaria' value='transf.' color="#697A8C" />
+
+                            <Picker.Item label="Medio" value="" color="#697A8C" />
+                            <Picker.Item label='Efectivo' value='Efectivo' color="#697A8C" />
+                            <Picker.Item label='Transferencia Bancaria' value='Transf.' color="#697A8C" />
                         </Picker>
                     </Item>
-                    <Item style={props.state.tipo === 'transf.' ? { display: 'flex' } : { display: 'none' }} >
+                    <Item style={props.state.medio === 'Transf.' ? { display: 'flex' } : { display: 'none' }} >
                         <Picker
                             textStyle={{ color: '#697A8C' }}
-                            placeholder="Cuenta"
+                            placeholder="Cuentas vinculadas"
                             placeholderTextColor="#697A8C"
                             selectedValue={props.state.cuenta}
                             onValueChange={props.onChangeCuenta.bind(props)}
                         >
+                            <Picker.Item label="Cuentas vinculadas" value="" color="#697A8C" />
                             <Picker.Item label='Cuenta1' value='Cuenta1' color="#697A8C" />
                             <Picker.Item label='Cuenta2' value='Cuenta2' color="#697A8C" />
                         </Picker>
@@ -140,8 +210,11 @@ function renderIngresos(props) {
                             props.getFormData(
                                 {
                                     cantidad: props.state.cantidad,
-                                    tipo: props.state.tipo,
-                                    fuente: props.state.fuente
+                                    medio: props.state.medio,
+                                    fuente: props.state.fuente,
+                                    cuenta: props.state.cuenta,
+                                    moneda: props.state.moneda,
+                                    tipo: props.state.tipo
                                 })
                         }}
                     >
@@ -163,9 +236,22 @@ function renderEgresos(props) {
                         <Input
                             keyboardType="number-pad"
                             style={{ color: "#697A8C" }}
-                            placeholder="Cantidad en $" placeholderTextColor="#697A8C"
+                            placeholder="Monto" placeholderTextColor="#697A8C"
                             onChangeText={props.onChangeCantidad.bind(props)}
                         />
+                    </Item>
+                    <Item >
+                        <Picker
+                            textStyle={{ color: '#697A8C' }}
+                            placeholder="Moneda"
+                            placeholderTextColor="#697A8C"
+                            selectedValue={props.state.moneda}
+                            onValueChange={props.onChangeMoneda.bind(props)}
+                        >
+                            <Picker.Item label="Moneda" value="" color="#697A8C" />
+                            <Picker.Item label='Pesos' value='Pesos' color="#697A8C" />
+                            <Picker.Item label='Dolares' value='Dolares' color="#697A8C" />
+                        </Picker>
                     </Item>
                     <Item >
                         <Picker
@@ -175,10 +261,42 @@ function renderEgresos(props) {
                             selectedValue={props.state.tipo}
                             onValueChange={props.onChangeTipo.bind(props)}
                         >
-                            <Picker.Item label='Alquiler de Propiedad' value='alquiler' color="#697A8C" />
-                            <Picker.Item label='Sueldo' value='sueldo' color="#697A8C" />
-                            <Picker.Item label='Facturacion' value='facturacion' color="#697A8C" />
+                            <Picker.Item label="Tipo" value="" color="#697A8C" />
+                            <Picker.Item label='Servicio' value='Servicio' color="#697A8C" />
+                            <Picker.Item label='Impuestos Nacionales' value='Impuestos Nacionales' color="#697A8C" />
+                            <Picker.Item label='Impuestos Provinciales' value='Impuestos Provinciales' color="#697A8C" />
+                            <Picker.Item label='Impuestos Municipales' value='Impuestos Municipales' color="#697A8C" />
+                            <Picker.Item label='Educacion' value='Educacion' color="#697A8C" />
+                            <Picker.Item label='Salud' value='Salud' color="#697A8C" />
+                            <Picker.Item label='Gastos Varios' value='Gastos Varios' color="#697A8C" />
+                            <Picker.Item label='Comida' value='Comida' color="#697A8C" />
+                            <Picker.Item label='Entretenimiento' value='Entretenimiento' color="#697A8C" />
+                            <Picker.Item label='Viaticos' value='Viaticos' color="#697A8C" />
+                            <Picker.Item label='Otros' value='Otros' color="#697A8C" />
+
+
                         </Picker>
+                    </Item>
+                    <Item style={props.state.tipo === 'Servicio' ? { display: 'flex' } : { display: 'none' }} >
+                        <Picker
+                            textStyle={{ color: '#697A8C' }}
+                            placeholder="Tipo de Servicio"
+                            placeholderTextColor="#697A8C"
+                            selectedValue={props.state.tipoServicio}
+                            onValueChange={props.onChangeTipoServicio.bind(props)}
+                        >
+                            <Picker.Item label="Tipo de Servicio" value="" color="#697A8C" />                            
+                            <Picker.Item label='Luz' value='Luz' color="#697A8C" />
+                            <Picker.Item label='Gas' value='Gas' color="#697A8C" />
+                            <Picker.Item label='Agua' value='Agua' color="#697A8C" />
+                        </Picker>
+                    </Item>
+                    <Item stackedLabel style={props.state.tipo === 'Otros' ? { display: 'flex' } : { display: 'none' }}>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Otros" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeOtros.bind(props)}
+                        />
                     </Item>
                     <Item >
                         <Picker
@@ -188,9 +306,35 @@ function renderEgresos(props) {
                             selectedValue={props.state.medio}
                             onValueChange={props.onChangeMedio.bind(props)}
                         >
-                            <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
-                            <Picker.Item label='Transferencia Bancaria' value='transf.' color="#697A8C" />
+                            <Picker.Item label="Medio" value="" color="#697A8C" />                            
+                            <Picker.Item label='Efectivo' value='Efectivo' color="#697A8C" />
+                            <Picker.Item label='Transferencia Bancaria' value='Transf.' color="#697A8C" />
+                            <Picker.Item label='Tarjeta de Credito' value='Tarjeta de Credito' color="#697A8C" />
+                            <Picker.Item label='Tarjeta de Debito' value='Tarjeta de Debito' color="#697A8C" />
                         </Picker>
+                    </Item>
+                    <Item style={props.state.medio === 'Tarjeta de Credito' ? { display: 'flex' } : { display: 'none' }} >
+                        <Picker
+                            textStyle={{ color: '#697A8C' }}
+                            placeholder="Cuotas"
+                            placeholderTextColor="#697A8C"
+                            selectedValue={props.state.cuotas}
+                            onValueChange={props.onChangeCuotas.bind(props)}
+                        >
+                            <Picker.Item label="Cuotas" value="" color="#697A8C" />                            
+                            <Picker.Item label='3' value='3' color="#697A8C" />
+                            <Picker.Item label='6' value='6' color="#697A8C" />
+                            <Picker.Item label='12' value='12' color="#697A8C" />
+
+                        </Picker>
+                    </Item>
+                    <Item stackedLabel style={props.state.medio === 'Tarjeta de Credito' ? { display: 'flex' } : { display: 'none' }}>
+                        <Input
+                            keyboardType="number-pad"
+                            style={{ color: "#697A8C" }}
+                            placeholder="Interes" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeInteres.bind(props)}
+                        />
                     </Item>
                     <Button style={styles.btnIngresar}>
                         <Text>SUBIR ARCHIVO</Text>
@@ -202,7 +346,13 @@ function renderEgresos(props) {
                                 {
                                     cantidad: props.state.cantidad,
                                     tipo: props.state.tipo,
-                                    medio: props.state.medio
+                                    medio: props.state.medio,
+                                    moneda: props.state.moneda,
+                                    interes: props.state.interes,
+                                    cuotas: props.state.cuotas,
+                                    otros: props.state.otros,
+                                    tipoServicio: props.state.tipoServicio
+
                                 })
                         }}>
                         <Text>REGISTRAR</Text>
@@ -223,21 +373,28 @@ function renderPrestamosPrestados(props) {
                         <Input
                             keyboardType="number-pad"
                             style={{ color: "#697A8C" }}
-                            placeholder="Cantidad en $" placeholderTextColor="#697A8C"
+                            placeholder="Monto" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeCantidad.bind(props)}
+                        />
+                    </Item>
+                    <Item stackedLabel>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Destinatario" placeholderTextColor="#697A8C"
                             onChangeText={props.onChangeCantidad.bind(props)}
                         />
                     </Item>
                     <Item >
                         <Picker
                             textStyle={{ color: '#697A8C' }}
-                            placeholder="Destinatario"
+                            placeholder="Moneda"
                             placeholderTextColor="#697A8C"
-                            selectedValue={props.state.destino}
-                            onValueChange={props.onChangeDestino.bind(props)}
+                            selectedValue={props.state.moneda}
+                            onValueChange={props.onChangeMoneda.bind(props)}
                         >
-                            <Picker.Item label='Alquiler de Propiedad' value='alquiler' color="#697A8C" />
-                            <Picker.Item label='Sueldo' value='sueldo' color="#697A8C" />
-                            <Picker.Item label='Facturacion' value='facturacion' color="#697A8C" />
+                            <Picker.Item label="Moneda" value="" color="#697A8C" />                            
+                            <Picker.Item label='Pesos' value='Pesos' color="#697A8C" />
+                            <Picker.Item label='Dolares' value='Dolares' color="#697A8C" />
                         </Picker>
                     </Item>
                     <Item >
@@ -248,8 +405,22 @@ function renderPrestamosPrestados(props) {
                             selectedValue={props.state.medio}
                             onValueChange={props.onChangeMedio.bind(props)}
                         >
-                            <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
-                            <Picker.Item label='Transferencia Bancaria' value='transf.' color="#697A8C" />
+                            <Picker.Item label="Medio" value="" color="#697A8C" />                            
+                            <Picker.Item label='Efectivo' value='Efectivo' color="#697A8C" />
+                            <Picker.Item label='Transferencia Bancaria' value='Transf.' color="#697A8C" />
+                        </Picker>
+                    </Item>
+                    <Item style={props.state.medio === 'Transf.' ? { display: 'flex' } : { display: 'none' }} >
+                        <Picker
+                            textStyle={{ color: '#697A8C' }}
+                            placeholder="Cuentas vinculadas"
+                            placeholderTextColor="#697A8C"
+                            selectedValue={props.state.cuenta}
+                            onValueChange={props.onChangeCuenta.bind(props)}
+                        >
+                            <Picker.Item label="Cuentas vinculadas" value="" color="#697A8C" />                                                        
+                            <Picker.Item label='Cuenta1' value='Cuenta1' color="#697A8C" />
+                            <Picker.Item label='Cuenta2' value='Cuenta2' color="#697A8C" />
                         </Picker>
                     </Item>
                     <Button
@@ -281,21 +452,28 @@ function renderPrestamosTomados(props) {
                         <Input
                             keyboardType="number-pad"
                             style={{ color: "#697A8C" }}
-                            placeholder="Cantidad en $" placeholderTextColor="#697A8C"
+                            placeholder="Monto" placeholderTextColor="#697A8C"
                             onChangeText={props.onChangeCantidad.bind(props)}
+                        />
+                    </Item>
+                    <Item stackedLabel>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Propietario" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangePropietario.bind(props)}
                         />
                     </Item>
                     <Item >
                         <Picker
                             textStyle={{ color: '#697A8C' }}
-                            placeholder="Destinatario"
+                            placeholder="Moneda"
                             placeholderTextColor="#697A8C"
-                            selectedValue={props.state.destino}
-                            onValueChange={props.onChangeDestino.bind(props)}
+                            selectedValue={props.state.moneda}
+                            onValueChange={props.onChangeMoneda.bind(props)}
                         >
-                            <Picker.Item label='Alquiler de Propiedad' value='alquiler' color="#697A8C" />
-                            <Picker.Item label='Sueldo' value='sueldo' color="#697A8C" />
-                            <Picker.Item label='Facturacion' value='facturacion' color="#697A8C" />
+                            <Picker.Item label="Moneda" value="" color="#697A8C" />                                                        
+                            <Picker.Item label='Pesos' value='Pesos' color="#697A8C" />
+                            <Picker.Item label='Dolares' value='Dolares' color="#697A8C" />
                         </Picker>
                     </Item>
                     <Item >
@@ -306,9 +484,47 @@ function renderPrestamosTomados(props) {
                             selectedValue={props.state.medio}
                             onValueChange={props.onChangeMedio.bind(props)}
                         >
-                            <Picker.Item label='Efectivo' value='efectivo' color="#697A8C" />
-                            <Picker.Item label='Transferencia Bancaria' value='transf.' color="#697A8C" />
+                            <Picker.Item label="Medio" value="" color="#697A8C" />                                                        
+
+                            <Picker.Item label='Efectivo' value='Efectivo' color="#697A8C" />
+                            <Picker.Item label='Transferencia Bancaria' value='Transf.' color="#697A8C" />
                         </Picker>
+                    </Item>
+                    <Item style={props.state.medio === 'Transf.' ? { display: 'flex' } : { display: 'none' }} >
+                        <Picker
+                            textStyle={{ color: '#697A8C' }}
+                            placeholder="Cuentas vinculadas"
+                            placeholderTextColor="#697A8C"
+                            selectedValue={props.state.cuenta}
+                            onValueChange={props.onChangeCuenta.bind(props)}
+                        >
+                            <Picker.Item label="Cuentas vinculadas" value="" color="#697A8C" />                                                        
+                            <Picker.Item label='Cuenta1' value='Cuenta1' color="#697A8C" />
+                            <Picker.Item label='Cuenta2' value='Cuenta2' color="#697A8C" />
+                        </Picker>
+                    </Item>
+                    <Item>
+                        <Input
+                            keyboardType="number-pad"
+                            style={{ color: "#697A8C" }}
+                            placeholder="Cuotas" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeCuotas.bind(props)}
+                        />
+                    </Item>
+                    <Item>
+                        <Input
+                            keyboardType="number-pad"
+                            style={{ color: "#697A8C" }}
+                            placeholder="Interes Mensual (%)" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeInteres.bind(props)}
+                        />
+                    </Item>
+                    <Item>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Fecha primera cuota (DD-MM-YYYY)" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeVencimientos.bind(props)}
+                        />
                     </Item>
                     <Button
                         style={styles.btnIngresar}
@@ -338,7 +554,7 @@ function renderPresupuesto(props) {
                         <Input
                             keyboardType="number-pad"
                             style={{ color: "#697A8C" }}
-                            placeholder="Cantidad en $" placeholderTextColor="#697A8C"
+                            placeholder="Monto" placeholderTextColor="#697A8C"
                             onChangeText={props.onChangeCantidad.bind(props)}
                         />
                     </Item>
@@ -350,9 +566,19 @@ function renderPresupuesto(props) {
                             selectedValue={props.state.tipo}
                             onValueChange={props.onChangeTipo.bind(props)}
                         >
-                            <Picker.Item label='Ocio' value='Ocio' color="#697A8C" />
-                            <Picker.Item label='Servicios' value='Servicios' color="#697A8C" />
+                            <Picker.Item label="Tipo" value="" color="#697A8C" />                                                        
+                            <Picker.Item label='Servicio' value='Servicio' color="#697A8C" />
+                            <Picker.Item label='Impuestos Nacionales' value='Impuestos Nacionales' color="#697A8C" />
+                            <Picker.Item label='Impuestos Provinciales' value='Impuestos Provinciales' color="#697A8C" />
+                            <Picker.Item label='Impuestos Municipales' value='Impuestos Municipales' color="#697A8C" />
+                            <Picker.Item label='Educacion' value='Educacion' color="#697A8C" />
+                            <Picker.Item label='Salud' value='Salud' color="#697A8C" />
+                            <Picker.Item label='Gastos Varios' value='Gastos Varios' color="#697A8C" />
                             <Picker.Item label='Comida' value='Comida' color="#697A8C" />
+                            <Picker.Item label='Entretenimiento' value='Entretenimiento' color="#697A8C" />
+                            <Picker.Item label='Viaticos' value='Viaticos' color="#697A8C" />
+                            <Picker.Item label='Otros' value='Otros' color="#697A8C" />
+
 
                         </Picker>
                     </Item>
@@ -375,10 +601,7 @@ function renderPresupuesto(props) {
 }
 
 function renderInversiones(props) {
-    const tipoDeInversion = [
-        'Plazo Fijo',
-        'Compra de Titulos'
-    ]
+
     return (
         <Container style={styles.container}>
             <Content bounces={false}>
@@ -396,11 +619,11 @@ function renderInversiones(props) {
                             textStyle={{ color: '#697A8C' }}
                             placeholder="Tipo"
                             placeholderTextColor="#697A8C"
-                            selectedValue={props.state.medio}
-                            onValueChange={props.onChangeMedio.bind(props)}
+                            selectedValue={props.state.tipo}
+                            onValueChange={props.onChangeTipo.bind(props)}
                         >
-
-                            <Picker.Item label='Plazo Flijo' value='Plazo Fijo' color="#697A8C" />
+                            <Picker.Item label="Tipo" value="" color="#697A8C" />                                                        
+                            <Picker.Item label='Plazo Fijo' value='Plazo Fijo' color="#697A8C" />
                             <Picker.Item label='Compra de titulos' value='Compra de titulos' color="#697A8C" />
                             <Picker.Item label='Acciones' value='Acciones' color="#697A8C" />
                             <Picker.Item label='Bienes Raices' value='Bienes Raices' color="#697A8C" />
@@ -411,6 +634,21 @@ function renderInversiones(props) {
                             <Picker.Item label='Futuros' value='Futuros' color="#697A8C" />
                         </Picker>
                     </Item>
+                    <Item stackedLabel style={props.state.tipo === 'Plazo Fijo' ? { display: 'flex' } : { display: 'none' }}>
+                        <Input
+                            keyboardType="number-pad"
+                            style={{ color: "#697A8C" }}
+                            placeholder="Interes (%)" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeCantidad.bind(props)}
+                        />
+                    </Item>
+                    <Item stackedLabel style={props.state.tipo === 'Acciones' ? { display: 'flex' } : { display: 'none' }}>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Empresas" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeCantidad.bind(props)}
+                        />
+                    </Item>                    
                     <Button
                         style={styles.btnIngresar}
                         onPress={() => {
@@ -426,7 +664,7 @@ function renderInversiones(props) {
         </Container>
     )
 }
-function renderLogin(navigation) {
+function renderLogin(prop) {
     return (
         <Container style={styles.container}>
             <Content >
@@ -446,13 +684,13 @@ function renderLogin(navigation) {
 
                     <Button
                         style={styles.btnIngresar}
-                        onPress={() => navigation.navigate("Home")}>
+                        onPress={() => prop.props.navigation.navigate("Home")}>
                         <Text>INGRESAR</Text>
                     </Button>
                     <Button
                         style={styles.btnIngresar}
                         onPress={() => {
-                            prop.navigation.navigate('Sing In')
+                            prop.props.navigation.navigate('Sign In')
                         }}>
                         <Text>REGISTRARSE</Text>
                     </Button>
@@ -462,7 +700,7 @@ function renderLogin(navigation) {
     )
 }
 
-function renderSingIn(navigation) {
+function renderSingIn(prop) {
     return (
         <Container style={styles.container}>
             <Content >
@@ -482,13 +720,13 @@ function renderSingIn(navigation) {
 
                     <Button
                         style={styles.btnIngresar}
-                        onPress={() => navigation.navigate("Home")}>
+                        onPress={() => prop.props.navigation.navigate("Home")}>
                         <Text>REGISTRARSE</Text>
                     </Button>
                     <Button
                         style={styles.btnIngresar}
                         onPress={() => {
-                            prop.navigation.navigate('Sing In')
+                            prop.props.navigation.navigate('Login')
                         }}>
                         <Text>Volver</Text>
                     </Button>

@@ -12,6 +12,8 @@ export default class SignIn extends React.Component {
                 <ScrollView>
                     <Form
                         type={'SingIn'}
+                        navigation ={this.props.navigation}
+
                     />
                 </ScrollView>
             </Block>

@@ -39,14 +39,12 @@ export default class Presupuesto extends React.Component {
         }
     }
     formData(data) {
-        console.log(data.tipo);
-        console.log(data.cantidad);
         if(data.tipo === 'Ocio') {
-            this.state.data.data[0][0] = parseInt(data.cantidad);
+            this.state.data.data[1][0] = parseInt(data.cantidad);
         } else if(data.tipo === 'Comida') {
-            this.state.data.data[0][1] = parseInt(data.cantidad);
+            this.state.data.data[1][1] = parseInt(data.cantidad);
         } else if(data.tipo === 'Servicios' ){
-            this.state.data.data[0][2] = parseInt(data.cantidad);
+            this.state.data.data[1][2] = parseInt(data.cantidad);
         } 
         this.forceUpdate()
     }
@@ -54,8 +52,6 @@ export default class Presupuesto extends React.Component {
         return (
             <Block style={styles.presupuesto}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-
-
                     <Form
                         type={'Presupuesto'}
                         getFormData={this.formData.bind(this)}

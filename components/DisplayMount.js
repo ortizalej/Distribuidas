@@ -13,23 +13,24 @@ export default class DisplayMount extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      defaultDate: 'Mensual',
+      defaultDate: 'Anual',
       defaultCoin: props.defaultCoin,
-      defaultBudget: props.defaultBudget,
-      disabled: props.disabled
+      defaultPesos: props.defaultPesos,
+      defaultDolares: props.defaultDolares,
     }
   }
-  updateState(value) {
+  updateState(valuePesos, valueDolares) {
     this.setState(
       {
-        defaultBudget: value
+        defaultPesos: valuePesos,
+        defaultDolares: valueDolares
       }
     )
   }
 
 
   getDate(value) {
-    
+
     this.setState({
       defaultDate: value
     });
@@ -47,8 +48,14 @@ export default class DisplayMount extends React.Component {
             </Text>
             <Label
               style={styles.budgetText}>
-              {this.state.defaultCoin} {this.state.defaultBudget}
+              ARS {this.state.defaultPesos}
             </Label>
+
+            <Label
+              style={styles.budgetTextDollar}>
+              USD {this.state.defaultDolares}
+            </Label>
+
           </LinearGradient>
           <Item >
             <Picker
@@ -75,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
-    height: 69,
+    height: 80,
     width: 270,
     marginTop: 30
   },
@@ -86,7 +93,14 @@ const styles = StyleSheet.create({
   },
   budgetText: {
     backgroundColor: 'transparent',
-    fontSize: 34,
+    fontSize: 25,
     color: '#fff',
+  },
+  budgetTextDollar: {
+    backgroundColor: 'transparent',
+    fontSize: 25,
+    color: '#fff',
+    borderTopColor: 'black',
+    borderTopWidth: 1
   }
 });

@@ -13,7 +13,8 @@ export default class Login extends React.Component {
             <Block center style={styles.login}>
                 <ScrollView>
                     <Form
-                        type={'Login'}
+                        type={'Login'} 
+                        navigation ={this.props.navigation}
                     />
                 </ScrollView>
             </Block>
