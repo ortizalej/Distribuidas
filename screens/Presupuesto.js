@@ -23,29 +23,58 @@ const graphStyle = {
 }
 
 export default class Presupuesto extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
             data: {
-                legend: ["Ocio", "Comida", "Servicios"],
+                legend: [
+                    "Servicio",
+                    "Impuesto Nacionales",
+                    "Impuesto Municipales",
+                    "Impuesto Provinciales",
+                    "Educacion",
+                    "Salud",
+                    "Gastos Varios",
+                    "Comida",
+                    "Entretenimiento",
+                    "Viaticos",
+                    "Otros"
+                ],
                 labels: ["Real", "Presupuesto"],
                 data: [
-                    [300, 400, 500],
-                    [200, 300, 600]
+                    [20, 40, 50],
+                    [30, 20, 50, 20, 40, 50, 20, 30, 50, 20, 30]
 
                 ],
-                barColors: ["#e57373", "#e53935", "#b71c1c"]
+                barColors: ["#e57373", "#e53935", "#b71c1c", "#e57373", "#e53935", "#b71c1c", "#e57373", "#e53935", "#b71c1c", "#e57373", "#e53935"]
             }
         }
     }
     formData(data) {
-        if(data.tipo === 'Ocio') {
+        if (data.tipo === 'Servicio') {
             this.state.data.data[1][0] = parseInt(data.cantidad);
-        } else if(data.tipo === 'Comida') {
+        } else if (data.tipo === 'Impuesto Nacionales') {
             this.state.data.data[1][1] = parseInt(data.cantidad);
-        } else if(data.tipo === 'Servicios' ){
+        } else if (data.tipo === 'Impuesto Municipales') {
             this.state.data.data[1][2] = parseInt(data.cantidad);
-        } 
+        } else if (data.tipo === 'Impuesto Provinciales') {
+            this.state.data.data[1][3] = parseInt(data.cantidad);
+        } else if (data.tipo === 'Educacion') {
+            this.state.data.data[1][4] = parseInt(data.cantidad);
+        } else if (data.tipo === 'Salud') {
+            this.state.data.data[1][5] = parseInt(data.cantidad);
+        } else if (data.tipo === 'Gastos Varios') {
+            this.state.data.data[1][6] = parseInt(data.cantidad);
+        } else if (data.tipo === 'Comida') {
+            this.state.data.data[1][7] = parseInt(data.cantidad);
+        } else if (data.tipo === 'Entretenimiento') {
+            this.state.data.data[1][8] = parseInt(data.cantidad);
+        } else if (data.tipo === 'Viaticos') {
+            this.state.data.data[1][9] = parseInt(data.cantidad);
+        } else if (data.tipo === 'Otros') {
+            this.state.data.data[1][10] = parseInt(data.cantidad);
+        }
         this.forceUpdate()
     }
     render() {
@@ -56,13 +85,13 @@ export default class Presupuesto extends React.Component {
                         type={'Presupuesto'}
                         getFormData={this.formData.bind(this)}
                     />
-                    <StackedBarChart
-                        style={graphStyle}
-                        data={this.state.data}
-                        width={width}
-                        height={220}
-                        chartConfig={chartConfig}
-                    />
+                        <StackedBarChart
+                            style={graphStyle}
+                            data={this.state.data}
+                            width={width}
+                            height={800}
+                            chartConfig={chartConfig}
+                        />
                 </ScrollView>
             </Block>
         );

@@ -71,7 +71,6 @@ export default class Ingresos extends React.Component {
   ]
 
   formData(data) {
-    console.log(data)
     var now = moment().format('DD-MM-YYYY');
     let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
     let arrayData = [now, parseInt(data.cantidad), data.moneda, data.medio, data.fuente, data.cuenta]
@@ -82,7 +81,9 @@ export default class Ingresos extends React.Component {
     this.HistoricTable.updateState(this.rowToShow);
     this.Display.updateState(totalSumPesos,totalSumDolares);
   } 
+
   getDisplayFilter(date) {
+
     if (this.rowtoDetail.length > 0) {  
       let filterDataToShow = getMatchedData(date, this.rowToShow);
       let filterData = getMatchedData(date, this.rowtoDetail);
@@ -91,17 +92,22 @@ export default class Ingresos extends React.Component {
       this.HistoricTable.updateState(filterDataToShow);
       this.Display.updateState(filterSumPesos, filterSumDolares);
     }
+
   }
+
   deleteRow(index){
+
     this.rowtoDetail.splice(index,1);
     this.rowToShow.splice(index,1);
     let totalSumPesos = sumValues(this.rowtoDetail)[0]
     let totalSumDolares = sumValues(this.rowtoDetail)[1]
     this.HistoricTable.updateState(this.rowToShow);
     this.Display.updateState(totalSumPesos,totalSumDolares);
+
   }
 
   render() {
+
     let totalSumPesos = 0;
     let totalSumaDolares = 0;
     for (let i = 0; i < this.rowtoDetail.length; i++) {
@@ -112,6 +118,7 @@ export default class Ingresos extends React.Component {
         totalSumaDolares += this.rowtoDetail[i][1]
       }
     }
+
     return (
       <Block center style={styles.ingresos}>
         <ScrollView showsVerticalScrollIndicator={false}>

@@ -20,8 +20,8 @@ export default class HistoricTable extends React.Component {
       }
     )
   }
-  deleteRow(index) {
-    this.props.deleteRow(index)
+  deleteRow(index, type) {
+    this.props.deleteRow(index, type)
   }
   renderText(data, type) {
 
@@ -47,6 +47,54 @@ export default class HistoricTable extends React.Component {
         Cuota: ${data[7] ?? '-'}
         Otros: ${data[8] ?? '-'}
         `
+      case 'Inversiones':
+        return `
+          Fecha: ${data[0] ?? '-'}
+          Monto: ${data[1] ?? '-'}
+          Tipo: ${data[2] ?? '-'}
+          Interes: ${data[3] ?? '-'}
+          Empresa: ${data[4] ?? '-'}
+          `
+      case 'Prestados':
+        return `
+              Fecha: ${data[0] ?? '-'}
+              Monto: ${data[1] ?? '-'}
+              Tipo: ${data[2] ?? '-'}
+              Interes: ${data[3] ?? '-'}
+              Empresa: ${data[4] ?? '-'}
+              `
+      case 'Tomados':
+        return `
+          Fecha: ${data[0] ?? '-'}
+          Monto: ${data[1] ?? '-'}
+          Moneda: ${data[2] ?? '-'}
+          Medio: ${data[3] ?? '-'}
+          Propietario: ${data[4] ?? '-'}
+          Cuenta: ${data[5] ?? '-'}
+          Interes: ${data[6] ?? '-'}
+          Cuota: ${data[7] ?? '-'}
+          Vencimiento: ${data[8] ?? '-'}
+          `
+      case 'Cuenta':
+        return `
+              Fecha: ${data[0] ?? '-'}
+              Monto: ${data[1] ?? '-'}
+              Moneda: ${data[2] ?? '-'}
+              Banco: ${data[3] ?? '-'}
+              Titular: ${data[4] ?? '-'}
+              Tipo: ${data[5] ?? '-'}
+
+              `
+      case 'Tarjetas':
+        return `
+          Fecha: ${data[0] ?? '-'}
+          Monto: ${data[1] ?? '-'}
+          Moneda: ${data[2] ?? '-'}
+          Titular: ${data[3] ?? '-'}
+          Numero de Tarjeta: ${data[4] ?? '-'}
+          Marca: ${data[5] ?? '-'}
+    
+                  `
       default:
         break;
     }
@@ -56,7 +104,7 @@ export default class HistoricTable extends React.Component {
     let message = this.renderText(data[index], type)
     const buttons = [
       { text: 'Cancel', type: 'cancel' },
-      { text: 'Borrar', onPress: () => this.deleteRow(index) }
+      { text: 'Borrar', onPress: () => this.deleteRow(index, type) }
     ];
     Alert.alert(title, message, buttons);
   }

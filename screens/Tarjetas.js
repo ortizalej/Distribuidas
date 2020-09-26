@@ -10,7 +10,16 @@ import {
     Picker
 } from "native-base";
 import moment from 'moment';
-
+import CountDown from 'react-native-countdown-component';
+import { diff } from 'react-native-reanimated';
+import NotificationPopup from 'react-native-push-notification-popup';
+const renderCustomPopup = ({ appIconSource, appTitle, timeText, title, body }) => (
+    <View>
+        <Text>{title}</Text>
+        <Text>{body}</Text>
+        <Button title='My button' onPress={() => console.log('Popup button onPress!')} />
+    </View>
+);
 const { width, height } = Dimensions.get('screen');
 function getMatchedData(dateFilter, rowValues) {
     let filterDataRows = [];
@@ -41,15 +50,27 @@ function compareDates(filterDate, filterDataRows, rowValues) {
 }
 
 function sumValues(rowValues) {
-    let totalSum = 0;
+    let totalSumPesos = 0;
+    let totalSumaDolares = 0;
+    let sumas = []
     for (let i = 0; i < rowValues.length; i++) {
         if (!rowValues[i]) { continue; }
-        totalSum += rowValues[i][1];
+        if (rowValues[i][2] === 'Pesos') {
+            totalSumPesos += rowValues[i][1];
+        } else if (rowValues[i][2] === 'Dolares') {
+            totalSumaDolares += rowValues[i][1]
+        }
     }
-    return totalSum;
+    sumas.push(totalSumPesos);
+    sumas.push(totalSumaDolares)
+    return sumas;
 }
+var startDate = moment("25-12-2015", "DD-MM-YYYY")
+var endDate = moment("25-12-2100", "DD-MM-YYYY");
+var differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
 
 export default class Tarjetas extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -67,55 +88,74 @@ export default class Tarjetas extends React.Component {
                     expiry: '12/04',
                     brand: "master-card",
                 }
-            ],
-            rowValues: [
-                ['02-09-2020', 1000, 'Tipo', 'Medio'],
-                ['02-07-2020', 1000, 'Tipo', 'Medio'],
-                ['02-09-2020', 1000, 'Tipo', 'Medio'],
-                ['02-07-2020', 1000, 'Tipo', 'Medio'],
-                ['02-09-2020', 1000, 'Tipo', 'Medio'],
-                ['02-07-2020', 1000, 'Tipo', 'Medio'],
-                ['02-09-2020', 1000, 'Tipo', 'Medio'],
-                ['02-07-2020', 1000, 'Tipo', 'Medio'],
-                ['02-09-2020', 1000, 'Tipo', 'Medio'],
-                ['02-07-2020', 1000, 'Tipo', 'Medio'],
-                ['02-09-2020', 1000, 'Tipo', 'Medio'],
-                ['02-07-2020', 1000, 'Tipo', 'Medio'],
-                ['02-09-2020', 1000, 'Tipo', 'Medio'],
-                ['02-07-2020', 1000, 'Tipo', 'Medio'],
-                ['02-09-2020', 1000, 'Tipo', 'Medio'],
-                ['02-07-2020', 1000, 'Tipo', 'Medio'],
-                ['02-09-2020', 1000, 'Tipo', 'Medio'],
-                ['02-07-2020', 1000, 'Tipo', 'Medio'],
-                ['02-09-2020', 1000, 'Tipo', 'Medio'],
-                ['02-07-2020', 1000, 'Tipo', 'Medio'],
-                ['13-01-2020', 1000, 'Tipo', 'Medio']
-                // INIT QUERY
-            ],
-            colTable: ['Fecha', 'Cantidad', 'Tipo', 'Operacion']
+            ]
         }
     }
-    defaultDate = 'Mensual'
-    defaultCoin = '$'
+    defaultDate = 'Anual'
+    colTable = ['Fecha', 'Cantidad', 'Moneda', ''];
+    rowToShow = [
+        ['02-09-2020', 1000, 'Pesos', ''],
+        ['02-07-2020', 1000, 'Dolares', ''],
+        ['13-01-2020', 1000, 'Pesos', '']
+        // INIT QUERY
+    ];
+
+    rowtoDetail = [
+        ['02-09-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta'],
+        ['02-07-2020', 1000, 'Dolares', 'Medio', 'Fuente', 'Cuenta'],
+        ['13-01-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta']
+        // INIT QUERY
+    ]
+    formData(data) {
+        console.log(data)
+        var now = moment().format('DD-MM-YYYY');
+        let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
+        let arrayData = [now, parseInt(data.cantidad), data.moneda, data.medio, data.fuente, data.cuenta]
+        this.rowtoDetail.push(arrayData);
+        this.rowToShow.push(arrayDataToShow);
+        let totalSumPesos = sumValues(this.rowtoDetail)[0]
+        let totalSumDolares = sumValues(this.rowtoDetail)[1]
+        this.HistoricTable.updateState(this.rowToShow);
+        this.Display.updateState(totalSumPesos, totalSumDolares);
+    }
     getDisplayFilter(date) {
-        if (this.state.rowValues.length > 0) {
-            let filterData = getMatchedData(date, this.state.rowValues);
-            let filterSum = sumValues(filterData)
-            this.HistoricTable.updateState(filterData);
-            this.Display.updateState(filterSum);
+        if (this.rowtoDetail.length > 0) {
+            let filterDataToShow = getMatchedData(date, this.rowToShow);
+            let filterData = getMatchedData(date, this.rowtoDetail);
+            let filterSumPesos = sumValues(filterData)[0]
+            let filterSumDolares = sumValues(filterData)[1]
+            this.HistoricTable.updateState(filterDataToShow);
+            this.Display.updateState(filterSumPesos, filterSumDolares);
         }
+    }
+    deleteRow(index) {
+        this.rowtoDetail.splice(index, 1);
+        this.rowToShow.splice(index, 1);
+        let totalSumPesos = sumValues(this.rowtoDetail)[0]
+        let totalSumDolares = sumValues(this.rowtoDetail)[1]
+        this.HistoricTable.updateState(this.rowToShow);
+        this.Display.updateState(totalSumPesos, totalSumDolares);
     }
 
     render() {
-        let totalSum = 0;
-        for (let i = 0; i < this.state.rowValues.length; i++) {
-            if (!this.state.rowValues[i]) { continue; }
-            totalSum += this.state.rowValues[i][1];
-        }
-        return (
+        let totalSumPesos = 0;
+        let totalSumaDolares = 0;
+        for (let i = 0; i < this.rowtoDetail.length; i++) {
+            if (!this.rowtoDetail[i]) { continue; }
+            if (this.rowtoDetail[i][2] === 'Pesos') {
+                totalSumPesos += this.rowtoDetail[i][1];
+            } else if (this.rowtoDetail[i][2] === 'Dolares') {
+                totalSumaDolares += this.rowtoDetail[i][1]
+            }
+        } return (
             <Block style={styles.tarjetas}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-
+                    <NotificationPopup
+                        ref={ref => this.popup = ref}
+                        renderPopupContent={renderCustomPopup}
+                        shouldChildHandleResponderStart={true}
+                        shouldChildHandleResponderMove={true} 
+                        />
                     <Button
                         style={styles.btnNuevo}
                         onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}
@@ -125,16 +165,25 @@ export default class Tarjetas extends React.Component {
                     <CarrouselCard items={this.state.cards} type={this.state.type} />
                     <Display style={styles.display}
                         ref={(display) => { this.Display = display }}
-
-                        defaultBudget={totalSum}
-                        defaultCoin={this.defaultCoin}
                         defaultDate={this.defaultDate}
+                        defaultPesos={totalSumPesos}
+                        defaultDolares={totalSumaDolares}
                         getDate={this.getDisplayFilter.bind(this)}
+                    />
+                    <CountDown
+                        style={{ marginTop: 50 }}
+                        until={differenceDate}
+                        digitTxtStyle={{ fontSize: 12, color: 'black' }}
+                        timeToShow={['D', 'H', 'M', 'S']}
+                        onFinish={() => alert('finished')}
+                        size={20}
                     />
                     <HistoricTable type={'Tarjetas'}
                         ref={(table) => { this.HistoricTable = table }}
-                        cols={this.state.colTable}
-                        rows={this.state.rowValues}
+                        cols={this.colTable}
+                        rows={this.rowToShow}
+                        detailRows={this.rowtoDetail}
+                        deleteRow={this.deleteRow.bind(this)}
                     />
                 </ScrollView>
             </Block>

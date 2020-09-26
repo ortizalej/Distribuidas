@@ -8,19 +8,41 @@ import {
     Content,
     Form,
     Button,
-    Text
+    Text,
+    Input
 } from "native-base";
+import DatePicker from 'react-native-datepicker';
+import { color } from "react-native-reanimated";
+
 let data = undefined;
 export default class DisplayMount extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cuenta: undefined
+            cuenta: undefined,
+            cierre: undefined,
+            tipo: undefined,
+            vencimiento: undefined
         };
     }
     onChangeCuenta(value) {
         this.setState({
             cuenta: value
+        });
+    }
+    onChangeCierre(value) {
+        this.setState({
+            cierre: value
+        });
+    }
+    onChangeVencimiento(value) {
+        this.setState({
+            vencimiento: value
+        });
+    }
+    onChangeTipo(value) {
+        this.setState({
+            tipo: value
         });
     }
 
@@ -72,22 +94,78 @@ export default class DisplayMount extends React.Component {
                             </Picker>
                         </Item>
                         <Item stackedLabel>
-                            <Input
-                                style={{ color: "#697A8C" }}
-                                placeholder="Fecha cierre resumen (DD-MM-YYYY)" placeholderTextColor="#697A8C"
-                                onChangeText={props.onChangeCantidad.bind(props)}
+                            <DatePicker
+                                style={{ width: 200 }}
+                                date={this.state.date} //initial date from state
+                                mode="date" //The enum of date, datetime and time
+                                placeholder="Fecha de Cierre"
+                                format="DD-MM-YYYY"
+                                minDate="01-01-2016"
+                                maxDate="01-01-2025"
+                                confirmBtnText="Confirm"
+                                cancelBtnText="Cancel"
+                                customStyles={{
+                                    dateIcon: {
+                                        position: 'absolute',
+                                        left: 0,
+                                        top: 4,
+                                        marginLeft: 0
+                                    },
+                                    dateInput: {
+                                        marginLeft: 36,
+                                        marginTop: 20
+                                    },
+                                    placeholderText: {
+                                        fontSize: 14,
+                                        color: "white"
+                                    },
+                                    dateText: {
+                                        textAlign: 'left',
+                                        fontSize: 14,
+                                        color: 'white'
+                                    }
+                                }}
+                                onDateChange={this.onChangeCierre.bind(this)}
                             />
                         </Item>
                         <Item stackedLabel>
-                            <Input
-                                style={{ color: "#697A8C" }}
-                                placeholder="Fecha vencimiento resumen (DD-MM-YYYY)" placeholderTextColor="#697A8C"
-                                onChangeText={props.onChangeCantidad.bind(props)}
+                            <DatePicker
+                                style={{ width: 200 }}
+                                date={this.state.vencimiento} //initial date from state
+                                mode="date" //The enum of date, datetime and time
+                                placeholder="Fecha de Vencimiento"
+                                format="DD-MM-YYYY"
+                                minDate="01-01-2016"
+                                maxDate="01-01-2025"
+                                confirmBtnText="Confirm"
+                                cancelBtnText="Cancel"
+                                customStyles={{
+                                    dateIcon: {
+                                        position: 'absolute',
+                                        left: 0,
+                                        top: 4,
+                                        marginLeft: 0
+                                    },
+                                    dateInput: {
+                                        marginLeft: 36,
+                                        marginTop: 20
+
+                                    },
+                                    placeholderText: {
+                                        fontSize: 14,
+                                        color: "white"
+                                    },
+                                    dateText: {
+                                        textAlign: 'left',
+                                        fontSize: 14,
+                                        color: 'white'
+                                    }
+                                }}
+                                onDateChange={this.onChangeVencimiento.bind(this)}
                             />
-                        </Item>                        
+                        </Item>
                         <Button style={styles.btnIngresar}
-                            onPress={() => navigateWithParam(data.values, this.props, this.state.cuenta)}
-                        >
+                            onPress={() => navigateWithParam(data.values, this.props, this.state.cuenta)}>
                             <Text>Agregar</Text>
                         </Button>
                     </Form>
@@ -97,11 +175,7 @@ export default class DisplayMount extends React.Component {
         );
     }
 }
-function navigateWithParam(data, props, bankAccount) {
-    data.cuenta = bankAccount;
-    console.log(data)
-    let tarjetaProps = props.navigation.getParam('method', {});
-    tarjetaProps.getCardData();
+function navigateWithParam(data, props) {
     props.navigation.navigate(
         'Tarjetas',
         { data: data },
