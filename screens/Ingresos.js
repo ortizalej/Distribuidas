@@ -1,12 +1,11 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
 import { Button, Block } from 'galio-framework';
 import Display from '../components/DisplayMount';
 import Form from '../components/Formulario';
 import HistoricTable from '../components/HistoricTable';
 import moment from 'moment';
 const { width, height } = Dimensions.get('screen');
-
 function getMatchedData(dateFilter, rowValues) {
   let filterDataRows = [];
   switch (dateFilter) {
@@ -69,7 +68,12 @@ export default class Ingresos extends React.Component {
     ['13-01-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta']
     // INIT QUERY
   ]
+  getIngresoData(data) {
 
+    AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
+      console.log(value)
+    })
+  }
   formData(data) {
     var now = moment().format('DD-MM-YYYY');
     let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
@@ -107,6 +111,8 @@ export default class Ingresos extends React.Component {
   }
 
   render() {
+    let userData = this.props.route.params
+    this.getIngresoData(userData)
 
     let totalSumPesos = 0;
     let totalSumaDolares = 0;

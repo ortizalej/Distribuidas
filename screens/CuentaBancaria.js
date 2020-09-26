@@ -90,7 +90,6 @@ export default class Tarjetas extends React.Component {
 
     colTable = ['Fecha', 'Cantidad', 'Tipo', 'Operacion']
     formData(data) {
-        console.log(data)
         var now = moment().format('DD-MM-YYYY');
         let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
         let arrayData = [now, parseInt(data.cantidad), data.moneda, data.medio, data.fuente, data.cuenta]

@@ -71,7 +71,6 @@ export default class Egresos extends React.Component {
   ]
 
   formData(data) {
-    console.log(data)
     var now = moment().format('DD-MM-YYYY');
     let arrayDataToShow = [
       now,

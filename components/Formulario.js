@@ -123,7 +123,6 @@ export default class Formulario extends React.Component {
     }
 
     render() {
-        console.log(this.props.type)
         if (this.props.type === 'Ingresos') {
             return renderIngresos(this);
         } else if (this.props.type === 'Egresos') {
@@ -761,7 +760,7 @@ function renderSingIn(prop) {
 
                     <Button
                         style={styles.btnIngresar}
-                        onPress={() => prop.props.navigation.navigate("Home")}>
+                        onPress={() => actionButton('sign in', prop)}>
                         <Text>REGISTRARSE</Text>
                     </Button>
                     <Button

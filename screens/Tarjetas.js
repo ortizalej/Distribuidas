@@ -66,7 +66,7 @@ function sumValues(rowValues) {
     return sumas;
 }
 var startDate = moment("25-12-2015", "DD-MM-YYYY")
-var endDate = moment("25-12-2100", "DD-MM-YYYY");
+var endDate = moment("25-12-2016", "DD-MM-YYYY");
 var differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
 
 export default class Tarjetas extends React.Component {
@@ -107,7 +107,6 @@ export default class Tarjetas extends React.Component {
         // INIT QUERY
     ]
     formData(data) {
-        console.log(data)
         var now = moment().format('DD-MM-YYYY');
         let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
         let arrayData = [now, parseInt(data.cantidad), data.moneda, data.medio, data.fuente, data.cuenta]

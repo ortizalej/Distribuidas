@@ -13,6 +13,7 @@ function CustomDrawerContent({
   profile,
   focused,
   state,
+  user,
   ...rest
 }) {
   const insets = useSafeArea();
@@ -24,20 +25,21 @@ function CustomDrawerContent({
     "Cuentas bancarias",
     "Inversiones",
     "Prestamos",
-    "Presupuestos"
+    "Presupuestos",
+    "Cerrar Sesion"
   ];
   return (
-    <Block 
-      style={styles.container} 
+    <Block
+      style={styles.container}
       forceInset={{ top: "always", horizontal: "never" }}
-      >
+    >
       <Block flex={0.25} style={styles.header}>
-          <Block style={styles.profile}>
-            <Image source={require('../assets/images/userImage.png')} style={styles.avatar} />
-            <Text h5 color={"white"}>
-              {profile.name}
-            </Text>
-          </Block>
+        <Block style={styles.profile}>
+          <Image source={require('../assets/images/userImage.png')} style={styles.avatar} />
+          <Text h5 color={"white"}>
+            {profile.name}
+          </Text>
+        </Block>
       </Block>
       <Block flex style={{ paddingLeft: 7, paddingRight: 14 }}>
         <ScrollView
@@ -55,11 +57,13 @@ function CustomDrawerContent({
               <DrawerCustomItem
                 title={item}
                 key={index}
+                user = {user}
                 navigation={navigation}
                 focused={state.index === index ? true : false}
               />
             );
           })}
+
         </ScrollView>
       </Block>
 
@@ -85,7 +89,7 @@ const styles = StyleSheet.create({
   },
   profile: {
     marginBottom: theme.SIZES.BASE / 2,
-    marginLeft : 50
+    marginLeft: 50
   },
   avatar: {
     marginLeft: 20,

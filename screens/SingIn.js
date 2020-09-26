@@ -1,22 +1,37 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView,AsyncStorage } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
 import { Button, Block } from 'galio-framework';
 import Form from '../components/Formulario';
 const { width, height } = Dimensions.get('screen');
 
 export default class SignIn extends React.Component {
-    
+
     actionButton(userName, password) {
         let insertUser = {
-
+            seguridad: {
+                userName: userName,
+                password: password
+            },
+            ingresos: [],
+            egresos: [],
+            tarjetas: [],
+            cuentasBancarias: [],
+            inversiones: [],
+            prestamos: {
+                prestado: [],
+                tomado: [],
+                presupuestos: []
+            }
         }
-        console.log(userName)
-        console.log(password)
-        // AsyncStorage.setItem('UID123', JSON.stringify(UID123_object), () => {
-        //     console.log(value)
-        // }).then(res => {
-        //     console.log('RES', res)
-        // });
+
+
+        AsyncStorage.setItem(userName + "-"  + password, JSON.stringify(insertUser))
+            .then(() => {
+                console.log("‘It was saved successfully’")
+            })
+            .catch(() => {
+                console.log("‘There was an error saving the product’")
+            })
     }
     render() {
         return (
@@ -26,8 +41,6 @@ export default class SignIn extends React.Component {
                         type={'SingIn'}
                         navigation={this.props.navigation}
                         actionButton={this.actionButton.bind(this)}
-
-
                     />
                 </ScrollView>
             </Block>

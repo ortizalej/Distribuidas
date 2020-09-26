@@ -45,7 +45,27 @@ function HomeStack() {
   );
 }
 
-function LoginStack() {
+function LoginStack(props) {
+  return (
+
+    <Drawer.Navigator>
+      <Drawer.Screen
+        name="Login"
+        component={LoginRedirect}
+      />
+      <Drawer.Screen
+        name="Home"
+        component={AppStack}
+      />
+      <Drawer.Screen
+        name="Sign In"
+        component={SingInStack}
+      />
+    </Drawer.Navigator>
+  );
+}
+
+function LoginRedirect() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
@@ -56,12 +76,10 @@ function LoginStack() {
             <Header title="Login" scene={scene} navigation={navigation} />
           )
         }}
-
       />
     </Stack.Navigator>
-  );
+  )
 }
-
 
 function PresupuestoStack() {
   return (
@@ -80,12 +98,14 @@ function PresupuestoStack() {
 
 }
 
-function IngresosStack() {
+function IngresosStack(user) {
+  console.log('USER ',user)
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Ingresos"
         component={IngresosScreen}
+        initialParams={user.route.params}
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Ingresos" scene={scene} navigation={navigation} />
@@ -149,6 +169,7 @@ function CuentaStack() {
       <Stack.Screen
         name="Cuenta Bancaria"
         component={CuentaScreen}
+
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Cuenta Bancaria" scene={scene} navigation={navigation} />
@@ -211,11 +232,12 @@ function SingInStack() {
 }
 
 function AppStack(props) {
+  let user = props.route.params.seguridad
   return (
     <Drawer.Navigator
       style={{ flex: 1 }}
       drawerContent={props => (
-        <CustomDrawerContent {...props} profile={profile} />
+        <CustomDrawerContent {...props} profile={profile} user={user} />
       )}
       drawerStyle={{
         backgroundColor: "white",
@@ -240,15 +262,18 @@ function AppStack(props) {
           fontWeight: "normal"
         }
       }}
-      initialRouteName="Login"
+      initialRouteName="Home"
     >
       <Drawer.Screen
         name="Home"
         component={HomeStack}
+        initialParams={user}
       />
       <Drawer.Screen
         name="Ingresos"
         component={IngresosStack}
+        initialParams={user}
+
       />
       <Drawer.Screen
         name="Egresos"
@@ -267,10 +292,6 @@ function AppStack(props) {
         component={InversionesStack}
       />
       <Drawer.Screen
-        name="Login"
-        component={LoginStack}
-      />
-      <Drawer.Screen
         name="Prestamos"
         component={PrestamosStack}
       />
@@ -286,6 +307,10 @@ function AppStack(props) {
         name="Sign In"
         component={SingInStack}
       />
+      <Drawer.Screen
+        name="Cerrar Sesion"
+        component={LoginStack}
+      />      
 
     </Drawer.Navigator>
   );
@@ -294,7 +319,7 @@ function AppStack(props) {
 export default function init(props) {
   return (
     <Stack.Navigator mode="card" headerMode="none">
-      <Stack.Screen name="App" component={AppStack} />
+      <Stack.Screen name="App" component={LoginStack} />
     </Stack.Navigator>
   );
 }

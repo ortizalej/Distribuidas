@@ -71,7 +71,6 @@ export default class CarrouselCard extends React.Component {
     }
 
     render() {
-        console.log(this.state.carouselItems)
 
         return (
             <View center style={styles.container}>

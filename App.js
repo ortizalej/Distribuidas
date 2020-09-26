@@ -25,6 +25,7 @@ import Screens from './navigation/Screens';
 // Before rendering any navigation stack
 import { enableScreens } from 'react-native-screens';
 
+import Login from './screens/Login'
 
 enableScreens();
 
