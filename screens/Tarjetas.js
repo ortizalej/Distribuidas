@@ -82,40 +82,41 @@ export default class Tarjetas extends React.Component {
                     expiry: '12/04',
                     brand: "master-card",
                 }
+            ],
+            rowToShow: [
+                ['02-09-2020', 1000, 'Pesos', ''],
+                ['02-07-2020', 1000, 'Dolares', ''],
+                ['13-01-2020', 1000, 'Pesos', '']
+                // INIT QUERY
+            ],
+
+            rowtoDetail: [
+                ['02-09-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta'],
+                ['02-07-2020', 1000, 'Dolares', 'Medio', 'Fuente', 'Cuenta'],
+                ['13-01-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta']
+                // INIT QUERY
             ]
         }
     }
     defaultDate = 'Anual'
     colTable = ['Fecha', 'Cantidad', 'Moneda', ''];
-    rowToShow = [
-        ['02-09-2020', 1000, 'Pesos', ''],
-        ['02-07-2020', 1000, 'Dolares', ''],
-        ['13-01-2020', 1000, 'Pesos', '']
-        // INIT QUERY
-    ];
 
-    rowtoDetail = [
-        ['02-09-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta'],
-        ['02-07-2020', 1000, 'Dolares', 'Medio', 'Fuente', 'Cuenta'],
-        ['13-01-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta']
-        // INIT QUERY
-    ]
 
     formData(data) {
         var now = moment().format('DD-MM-YYYY');
         let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
         let arrayData = [now, parseInt(data.cantidad), data.moneda, data.medio, data.fuente, data.cuenta]
-        this.rowtoDetail.push(arrayData);
-        this.rowToShow.push(arrayDataToShow);
-        let totalSumPesos = sumValues(this.rowtoDetail)[0]
-        let totalSumDolares = sumValues(this.rowtoDetail)[1]
-        this.HistoricTable.updateState(this.rowToShow);
+        this.state.rowtoDetail.push(arrayData);
+        this.state.rowtoshow.push(arrayDataToShow);
+        let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
+        let totalSumDolares = sumValues(this.state.rowtoDetail)[1]
+        this.HistoricTable.updateState(this.state.rowtoshow);
         this.Display.updateState(totalSumPesos, totalSumDolares);
     }
     getDisplayFilter(date) {
-        if (this.rowtoDetail.length > 0) {
-            let filterDataToShow = getMatchedData(date, this.rowToShow);
-            let filterData = getMatchedData(date, this.rowtoDetail);
+        if (this.state.rowtoDetail.length > 0) {
+            let filterDataToShow = getMatchedData(date, this.state.rowtoshow);
+            let filterData = getMatchedData(date, this.state.rowtoDetail);
             let filterSumPesos = sumValues(filterData)[0]
             let filterSumDolares = sumValues(filterData)[1]
             this.HistoricTable.updateState(filterDataToShow);
@@ -123,26 +124,26 @@ export default class Tarjetas extends React.Component {
         }
     }
     deleteRow(index) {
-        this.rowtoDetail.splice(index, 1);
-        this.rowToShow.splice(index, 1);
-        let totalSumPesos = sumValues(this.rowtoDetail)[0]
-        let totalSumDolares = sumValues(this.rowtoDetail)[1]
-        this.HistoricTable.updateState(this.rowToShow);
+        this.state.rowtoDetail.splice(index, 1);
+        this.state.rowtoshow.splice(index, 1);
+        let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
+        let totalSumDolares = sumValues(this.state.rowtoDetail)[1]
+        this.HistoricTable.updateState(this.state.rowtoshow);
         this.Display.updateState(totalSumPesos, totalSumDolares);
     }
 
     render() {
-
         let totalSumPesos = 0;
         let totalSumaDolares = 0;
-        for (let i = 0; i < this.rowtoDetail.length; i++) {
-            if (!this.rowtoDetail[i]) { continue; }
-            if (this.rowtoDetail[i][2] === 'Pesos') {
-                totalSumPesos += this.rowtoDetail[i][1];
-            } else if (this.rowtoDetail[i][2] === 'Dolares') {
-                totalSumaDolares += this.rowtoDetail[i][1]
+        for (let i = 0; i < this.state.rowtoDetail.length; i++) {
+            if (!this.state.rowtoDetail[i]) { continue; }
+            if (this.state.rowtoDetail[i][2] === 'Pesos') {
+                totalSumPesos += this.state.rowtoDetail[i][1];
+            } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+                totalSumaDolares += this.state.rowtoDetail[i][1]
             }
-        } return (
+        }
+        return (
 
             <Block style={styles.tarjetas}>
 
@@ -162,21 +163,58 @@ export default class Tarjetas extends React.Component {
                         defaultDolares={totalSumaDolares}
                         getDate={this.getDisplayFilter.bind(this)}
                     />
-                    <CountDown
-                        style={{ marginTop: 50 }}
-                        until={differenceDate}
-                        digitTxtStyle={{ fontSize: 12, color: 'black' }}
-                        timeToShow={['D', 'H', 'M', 'S']}
-                        onFinish={() => alert('finished')}
-                        size={20}
-                        onFinish={componentWillMount}
-                        onPress={componentWillMount}
-                    /> 
+                    {differenceDate > 0 ?
+                        <CountDown
+                            style={{ marginTop: 50 }}
+                            until={differenceDate}
+                            digitTxtStyle={{ fontSize: 12, color: 'black' }}
+                            timeToShow={['D', 'H', 'M', 'S']}
+                            onFinish={() => alert('finished')}
+                            size={20}
+                            onFinish={componentWillMount}
+                            onPress={componentWillMount}
+                        />
+                        :
+                        <DatePicker
+                            style={{ width: 200 }}
+                            date={this.state.vencimiento} //initial date from state
+                            mode="date" //The enum of date, datetime and time
+                            placeholder="Fecha de Vencimiento"
+                            format="DD-MM-YYYY"
+                            minDate="01-01-2016"
+                            maxDate="01-01-2025"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                                dateIcon: {
+                                    position: 'absolute',
+                                    left: 0,
+                                    top: 4,
+                                    marginLeft: 0
+                                },
+                                dateInput: {
+                                    marginLeft: 36,
+                                    marginTop: 20
+
+                                },
+                                placeholderText: {
+                                    fontSize: 14,
+                                    color: "white"
+                                },
+                                dateText: {
+                                    textAlign: 'left',
+                                    fontSize: 14,
+                                    color: 'white'
+                                }
+                            }}
+                            onDateChange={this.onChangeVencimiento.bind(this)}
+                        />
+                    }
                     <HistoricTable type={'Tarjetas'}
                         ref={(table) => { this.HistoricTable = table }}
                         cols={this.colTable}
-                        rows={this.rowToShow}
-                        detailRows={this.rowtoDetail}
+                        rows={this.state.rowtoshow}
+                        detailRows={this.state.rowtoDetail}
                         deleteRow={this.deleteRow.bind(this)}
                     />
                 </ScrollView>
