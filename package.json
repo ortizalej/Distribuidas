@@ -25,6 +25,7 @@
     "expo-asset": "~8.1.5",
     "expo-font": "~8.1.0",
     "expo-linear-gradient": "~8.1.0",
+    "expo-permissions": "^9.3.0",
     "galio-framework": "^0.6.3",
     "moment": "^2.28.0",
     "native-base": "^2.13.14",

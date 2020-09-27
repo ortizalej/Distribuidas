@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, Platform } from 'react-native';
 import { Block } from 'galio-framework';
 import CarrouselCard from '../components/CarrouselCard';
 import Display from '../components/DisplayMount'
@@ -11,15 +11,9 @@ import {
 } from "native-base";
 import moment from 'moment';
 import CountDown from 'react-native-countdown-component';
-import { diff } from 'react-native-reanimated';
-import NotificationPopup from 'react-native-push-notification-popup';
-const renderCustomPopup = ({ appIconSource, appTitle, timeText, title, body }) => (
-    <View>
-        <Text>{title}</Text>
-        <Text>{body}</Text>
-        <Button title='My button' onPress={() => console.log('Popup button onPress!')} />
-    </View>
-);
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
+
 const { width, height } = Dimensions.get('screen');
 function getMatchedData(dateFilter, rowValues) {
     let filterDataRows = [];
@@ -106,6 +100,7 @@ export default class Tarjetas extends React.Component {
         ['13-01-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta']
         // INIT QUERY
     ]
+
     formData(data) {
         var now = moment().format('DD-MM-YYYY');
         let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
@@ -137,6 +132,7 @@ export default class Tarjetas extends React.Component {
     }
 
     render() {
+
         let totalSumPesos = 0;
         let totalSumaDolares = 0;
         for (let i = 0; i < this.rowtoDetail.length; i++) {
@@ -147,14 +143,11 @@ export default class Tarjetas extends React.Component {
                 totalSumaDolares += this.rowtoDetail[i][1]
             }
         } return (
+
             <Block style={styles.tarjetas}>
+
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <NotificationPopup
-                        ref={ref => this.popup = ref}
-                        renderPopupContent={renderCustomPopup}
-                        shouldChildHandleResponderStart={true}
-                        shouldChildHandleResponderMove={true} 
-                        />
+
                     <Button
                         style={styles.btnNuevo}
                         onPress={() => this.props.navigation.navigate('Agregar Tarjeta')}
@@ -176,7 +169,9 @@ export default class Tarjetas extends React.Component {
                         timeToShow={['D', 'H', 'M', 'S']}
                         onFinish={() => alert('finished')}
                         size={20}
-                    />
+                        onFinish={componentWillMount}
+                        onPress={componentWillMount}
+                    /> 
                     <HistoricTable type={'Tarjetas'}
                         ref={(table) => { this.HistoricTable = table }}
                         cols={this.colTable}
@@ -189,6 +184,32 @@ export default class Tarjetas extends React.Component {
         );
     }
 }
+
+async function componentWillMount(title, message) {
+    // get expo push token
+    const token = await Notifications.getExpoPushTokenAsync()
+    console.log(token)
+    let body = JSON.stringify({
+        to: token,
+        title: 'New Notification',
+        body: 'The notification worked!',
+    })
+    console.log(body)
+    fetch('https://exp.host/--/api/v2/push/send', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'accept-encoding': 'gzip, deflate',
+        },
+        body: body,
+    }).then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+        })
+        .catch((error) => { console.log(error) });
+}
+
 const styles = StyleSheet.create({
     tarjetas: {
         height: height,

@@ -12,7 +12,7 @@
 */
 
 import React from 'react';
-import { Platform, StatusBar, Image, AppRegistry,AsyncStorage} from 'react-native';
+import { Platform, StatusBar, Image, AppRegistry, AsyncStorage } from 'react-native';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import { Block, GalioProvider } from 'galio-framework';
@@ -38,7 +38,6 @@ const assetImages = [
 ];
 
 // cache product images
-products.map(product => assetImages.push(product.image));
 
 function cacheImages(images) {
   return images.map(image => {

@@ -6,6 +6,7 @@ import Form from '../components/Formulario';
 import HistoricTable from '../components/HistoricTable';
 import moment from 'moment';
 const { width, height } = Dimensions.get('screen');
+
 function getMatchedData(dateFilter, rowValues) {
   let filterDataRows = [];
   switch (dateFilter) {
@@ -56,22 +57,29 @@ export default class Ingresos extends React.Component {
   defaultDate = 'Anual' 
   colTable = ['Fecha', 'Cantidad', 'Moneda', ''];
   rowToShow = [ 
-    ['02-09-2020', 1000, 'Pesos', ''],
-    ['02-07-2020', 1000, 'Dolares', ''],
-    ['13-01-2020', 1000, 'Pesos', '']
+    // ['02-09-2020', 1000, 'Pesos', ''],
+    // ['02-07-2020', 1000, 'Dolares', ''],
+    // ['13-01-2020', 1000, 'Pesos', '']
     // INIT QUERY
   ];
 
   rowtoDetail = [
-    ['02-09-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta'],
-    ['02-07-2020', 1000, 'Dolares', 'Medio', 'Fuente', 'Cuenta'],
-    ['13-01-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta']
+    // ['02-09-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta'],
+    // ['02-07-2020', 1000, 'Dolares', 'Medio', 'Fuente', 'Cuenta'],
+    // ['13-01-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta']
     // INIT QUERY
   ]
   getIngresoData(data) {
 
     AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
       console.log(value)
+
+      if(value.ingresos) {
+        for(let i = 0; i < value.ingresos.length; i++ ) {
+          this.rowToShow.push(['02-09-2020', 1000, 'Pesos', '']);
+          this.rowtoDetail.push([]);
+        }
+      }
     })
   }
   formData(data) {
