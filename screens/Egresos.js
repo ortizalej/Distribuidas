@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage} from 'react-native';
 import { Button, Block } from 'galio-framework';
 import Display from '../components/DisplayMount';
 import Form from '../components/Formulario';
@@ -54,22 +54,80 @@ function sumValues(rowValues) {
 }
 
 export default class Egresos extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      rowToShow: [
+      ],
+
+      rowtoDetail: [
+      ],
+      data: undefined
+    }
+  }
   defaultDate = 'Anual'
   colTable = ['Fecha', 'Cantidad', 'Moneda', ''];
-  rowToShow = [
-    ['02-09-2020', 1000, 'Pesos', ''],
-    ['02-07-2020', 1000, 'Dolares', ''],
-    ['13-01-2020', 1000, 'Pesos', '']
-    // INIT QUERY
-  ];
+  totalSumPesos = 0;
+  totalSumaDolares = 0;
+  getIngresoData(data) {
 
-  rowtoDetail = [
-    ['02-09-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta', 'Medio', 'Fuente', 'Cuenta'],
-    ['02-07-2020', 1000, 'Dolares', 'Medio', 'Fuente', 'Cuenta', 'Medio', 'Fuente', 'Cuenta'],
-    ['13-01-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta', 'Medio', 'Fuente', 'Cuenta']
-    // INIT QUERY
-  ]
-
+    AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
+      let userData = JSON.parse(value)
+      this.state.data = userData
+      console.log(userData)
+      if (userData.egresos.length > 0) {
+        let arrayDataDetail = [];
+        let showData = [];
+        for (let i = 0; i < userData.egresos.length; i++) {
+          arrayDataDetail.push(
+            [
+              userData.egresos[i][0],
+              userData.egresos[i][1],
+              userData.egresos[i][2],
+              userData.egresos[i][3],
+              userData.egresos[i][4],
+              userData.egresos[i][5],
+              userData.egresos[i][6],
+              userData.egresos[i][7],
+              userData.egresos[i][8]
+            ]);
+          showData.push(
+            [
+              userData.egresos[i][0],
+              userData.egresos[i][1],
+              userData.egresos[i][2],
+              ''
+            ]);
+        }
+        this.setState({
+          rowToShow: showData,
+          rowtoDetail: arrayDataDetail
+        })
+        for (let i = 0; i < this.state.rowtoDetail.length; i++) {
+          if (!this.state.rowtoDetail[i]) { continue; }
+          if (this.state.rowtoDetail[i][2] === 'Pesos') {
+            this.totalSumPesos += this.state.rowtoDetail[i][1];
+          } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+            this.totalSumaDolares += this.state.rowtoDetail[i][1]
+          }
+        }
+        console.log(this.totalSumDolares)
+        console.log(this.totalSumPesos)
+        this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
+        this.HistoricTable.updateState(this.state.rowToShow);
+      }
+    })
+  }
+  insertData(arrayData) {
+    this.state.data.egresos.push(arrayData)
+    AsyncStorage.mergeItem(
+      this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
+      JSON.stringify(this.state.data),
+      (value) => {
+        console.log(value)
+      })
+  }
   formData(data) {
     var now = moment().format('DD-MM-YYYY');
     let arrayDataToShow = [
@@ -77,7 +135,7 @@ export default class Egresos extends React.Component {
       parseInt((parseInt(data.cantidad) * (1 + (data.interes ? parseInt(data.interes) : 0) / 100)) / (data.cuotas ? parseInt(data.cuotas) : 1)),
       data.moneda,
       ''
-    ]; 
+    ];
     let arrayData = [
       now,
       parseInt((parseInt(data.cantidad) * (1 + (data.interes ? parseInt(data.interes) : 0) / 100)) / (data.cuotas ? parseInt(data.cuotas) : 1)),
@@ -89,18 +147,20 @@ export default class Egresos extends React.Component {
       data.cuotas,
       data.otros
     ]
-    this.rowtoDetail.push(arrayData);
-    this.rowToShow.push(arrayDataToShow);
-    let totalSumPesos = sumValues(this.rowtoDetail)[0]
-    let totalSumDolares = sumValues(this.rowtoDetail)[1]
-    this.HistoricTable.updateState(this.rowToShow);
+    this.insertData(arrayData)
+
+    this.state.rowtoDetail.push(arrayData);
+    this.state.rowToShow.push(arrayDataToShow);
+    let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
+    let totalSumDolares = sumValues(this.state.rowtoDetail)[1]
+    this.HistoricTable.updateState(this.state.rowToShow);
     this.Display.updateState(totalSumPesos, totalSumDolares);
   }
 
   getDisplayFilter(date) {
-    if (this.rowtoDetail.length > 0) {
-      let filterDataToShow = getMatchedData(date, this.rowToShow);
-      let filterData = getMatchedData(date, this.rowtoDetail);
+    if (this.state.rowtoDetail.length > 0) {
+      let filterDataToShow = getMatchedData(date, this.state.rowToShow);
+      let filterData = getMatchedData(date, this.state.rowtoDetail);
       let filterSumPesos = sumValues(filterData)[0]
       let filterSumDolares = sumValues(filterData)[1]
       this.HistoricTable.updateState(filterDataToShow);
@@ -108,24 +168,18 @@ export default class Egresos extends React.Component {
     }
   }
   deleteRow(index) {
-    this.rowtoDetail.splice(index, 1);
-    this.rowToShow.splice(index, 1);
-    let totalSumPesos = sumValues(this.rowtoDetail)[0]
-    let totalSumDolares = sumValues(this.rowtoDetail)[1]
-    this.HistoricTable.updateState(this.rowToShow);
+    this.state.rowtoDetail.splice(index, 1);
+    this.state.rowToShow.splice(index, 1);
+    let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
+    let totalSumDolares = sumValues(this.state.rowtoDetail)[1]
+    this.HistoricTable.updateState(this.state.rowToShow);
     this.Display.updateState(totalSumPesos, totalSumDolares);
   }
 
   render() {
-    let totalSumPesos = 0;
-    let totalSumaDolares = 0;
-    for (let i = 0; i < this.rowtoDetail.length; i++) {
-      if (!this.rowtoDetail[i]) { continue; }
-      if (this.rowtoDetail[i][2] === 'Pesos') {
-        totalSumPesos += this.rowtoDetail[i][1];
-      } else if (this.rowtoDetail[i][2] === 'Dolares') {
-        totalSumaDolares += this.rowtoDetail[i][1]
-      }
+    let userData = this.props.route.params 
+    if (!this.state.data) {
+      this.getIngresoData(userData)
     }
 
     return (
@@ -134,8 +188,8 @@ export default class Egresos extends React.Component {
           <Display
             ref={(display) => { this.Display = display }}
             defaultDate={this.defaultDate}
-            defaultPesos={totalSumPesos}
-            defaultDolares={totalSumaDolares}
+            defaultPesos={this.totalSumPesos}
+            defaultDolares={this.totalSumaDolares}
             getDate={this.getDisplayFilter.bind(this)}
           />
           <Form
@@ -145,8 +199,8 @@ export default class Egresos extends React.Component {
           <HistoricTable type={'Egresos'}
             ref={(table) => { this.HistoricTable = table }}
             cols={this.colTable}
-            rows={this.rowToShow}
-            detailRows={this.rowtoDetail}
+            rows={this.state.rowToShow}
+            detailRows={this.state.rowtoDetail}
             deleteRow={this.deleteRow.bind(this)}
           />
         </ScrollView>

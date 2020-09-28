@@ -54,85 +54,114 @@ function sumValues(rowValues) {
 }
 
 export default class Ingresos extends React.Component {
-  defaultDate = 'Anual' 
-  colTable = ['Fecha', 'Cantidad', 'Moneda', ''];
-  rowToShow = [ 
-    // ['02-09-2020', 1000, 'Pesos', ''],
-    // ['02-07-2020', 1000, 'Dolares', ''],
-    // ['13-01-2020', 1000, 'Pesos', '']
-    // INIT QUERY
-  ];
+  constructor(props) {
+    super(props);
+    this.state = {
+      rowToShow: [
+      ],
 
-  rowtoDetail = [
-    // ['02-09-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta'],
-    // ['02-07-2020', 1000, 'Dolares', 'Medio', 'Fuente', 'Cuenta'],
-    // ['13-01-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta']
-    // INIT QUERY
-  ]
+      rowtoDetail: [
+      ],
+      data: undefined
+    }
+  }
+  defaultDate = 'Anual'
+  colTable = ['Fecha', 'Cantidad', 'Moneda', ''];
+  totalSumPesos = 0;
+  totalSumaDolares = 0;
   getIngresoData(data) {
 
     AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
-      console.log(value)
-
-      if(value.ingresos) {
-        for(let i = 0; i < value.ingresos.length; i++ ) {
-          this.rowToShow.push(['02-09-2020', 1000, 'Pesos', '']);
-          this.rowtoDetail.push([]);
+      let userData = JSON.parse(value)
+      this.state.data = userData
+      console.log(userData)
+      if (userData.ingresos.length > 0) {
+        let arrayDataDetail = [];
+        let showData = [];
+        for (let i = 0; i < userData.ingresos.length; i++) {
+          arrayDataDetail.push(
+            [
+              userData.ingresos[i][0],
+              userData.ingresos[i][1],
+              userData.ingresos[i][2], 
+              userData.ingresos[i][3], 
+              userData.ingresos[i][4], 
+              userData.ingresos[i][5]
+            ]);
+          showData.push(
+            [
+              userData.ingresos[i][0], 
+              userData.ingresos[i][1], 
+              userData.ingresos[i][2], 
+              ''
+            ]);
         }
+        this.setState({
+          rowToShow: showData,
+          rowtoDetail: arrayDataDetail
+        })
+        console.log('ROW DETAIL', this.state.rowtoDetail)
+        for (let i = 0; i < this.state.rowtoDetail.length; i++) {
+          if (!this.state.rowtoDetail[i]) { continue; }
+          if (this.state.rowtoDetail[i][2] === 'Pesos') {
+            this.totalSumPesos += this.state.rowtoDetail[i][1];
+          } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+            this.totalSumaDolares += this.state.rowtoDetail[i][1]
+          }
+        }
+        this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
+        this.HistoricTable.updateState(this.state.rowToShow);
       }
     })
+  }
+  insertData(arrayData) {
+    this.state.data.ingresos.push(arrayData)
+    AsyncStorage.mergeItem(
+      this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
+      JSON.stringify(this.state.data),
+      (value) => {
+        console.log(value)
+      })
   }
   formData(data) {
     var now = moment().format('DD-MM-YYYY');
     let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
     let arrayData = [now, parseInt(data.cantidad), data.moneda, data.medio, data.fuente, data.cuenta]
-    this.rowtoDetail.push(arrayData);
-    this.rowToShow.push(arrayDataToShow);
-    let totalSumPesos = sumValues(this.rowtoDetail)[0]
-    let totalSumDolares = sumValues(this.rowtoDetail)[1]
-    this.HistoricTable.updateState(this.rowToShow);
-    this.Display.updateState(totalSumPesos,totalSumDolares);
-  } 
+    this.insertData(arrayData)
+    this.state.rowtoDetail.push(arrayData);
+    this.state.rowToShow.push(arrayDataToShow);
+    let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
+    let totalSumDolares = sumValues(this.state.rowtoDetail)[1]
+    this.HistoricTable.updateState(this.state.rowToShow);
+    this.Display.updateState(totalSumPesos, totalSumDolares);
+  }
 
   getDisplayFilter(date) {
 
-    if (this.rowtoDetail.length > 0) {  
-      let filterDataToShow = getMatchedData(date, this.rowToShow);
-      let filterData = getMatchedData(date, this.rowtoDetail);
+    if (this.state.rowtoDetail.length > 0) {
+      let filterDataToShow = getMatchedData(date, this.state.rowToShow);
+      let filterData = getMatchedData(date, this.state.rowtoDetail);
       let filterSumPesos = sumValues(filterData)[0]
       let filterSumDolares = sumValues(filterData)[1]
       this.HistoricTable.updateState(filterDataToShow);
       this.Display.updateState(filterSumPesos, filterSumDolares);
     }
-
   }
 
-  deleteRow(index){
-
-    this.rowtoDetail.splice(index,1);
-    this.rowToShow.splice(index,1);
-    let totalSumPesos = sumValues(this.rowtoDetail)[0]
-    let totalSumDolares = sumValues(this.rowtoDetail)[1]
-    this.HistoricTable.updateState(this.rowToShow);
-    this.Display.updateState(totalSumPesos,totalSumDolares);
-
-  }
+  deleteRow(index) {
+    this.state.rowtoDetail.splice(index, 1);
+    this.state.rowToShow.splice(index, 1);
+    let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
+    let totalSumDolares = sumValues(this.state.rowtoDetail)[1]
+    this.HistoricTable.updateState(this.state.rowToShow);
+    this.Display.updateState(totalSumPesos, totalSumDolares);
+  } 
 
   render() {
     let userData = this.props.route.params
-    this.getIngresoData(userData)
-
-    let totalSumPesos = 0;
-    let totalSumaDolares = 0;
-    for (let i = 0; i < this.rowtoDetail.length; i++) {
-      if (!this.rowtoDetail[i]) { continue; }
-      if (this.rowtoDetail[i][2] === 'Pesos') {
-        totalSumPesos += this.rowtoDetail[i][1];
-      } else if (this.rowtoDetail[i][2] === 'Dolares') {
-        totalSumaDolares += this.rowtoDetail[i][1]
-      }
+    if (!this.state.data) {
+      this.getIngresoData(userData)
     }
-
     return (
       <Block center style={styles.ingresos}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -140,8 +169,8 @@ export default class Ingresos extends React.Component {
           <Display
             ref={(display) => { this.Display = display }}
             defaultDate={this.defaultDate}
-            defaultPesos={totalSumPesos}
-            defaultDolares={totalSumaDolares}
+            defaultPesos={this.totalSumPesos}
+            defaultDolares={this.totalSumaDolares}
             getDate={this.getDisplayFilter.bind(this)}
 
           />
@@ -151,8 +180,8 @@ export default class Ingresos extends React.Component {
           <HistoricTable type={'Ingresos'}
             ref={(table) => { this.HistoricTable = table }}
             cols={this.colTable}
-            rows={this.rowToShow}
-            detailRows={this.rowtoDetail}
+            rows={this.state.rowToShow}
+            detailRows={this.state.rowtoDetail}
             deleteRow={this.deleteRow.bind(this)}
           />
         </ScrollView>

@@ -9,9 +9,6 @@ export default class Login extends React.Component {
     actionButton(userName, password) {
 
         AsyncStorage.getItem(userName + "-" + password).then((value) => {
-            // this.props.navigation.navigate("Home", JSON.parse(value))
-            this.props.navigation.navigate("Home", JSON.parse(value))
-
             if (value) {
                 this.props.navigation.navigate("Home", JSON.parse(value))
             } else {

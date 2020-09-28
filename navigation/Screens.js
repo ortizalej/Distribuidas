@@ -99,7 +99,6 @@ function PresupuestoStack() {
 }
 
 function IngresosStack(user) {
-  console.log('USER ',user)
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
@@ -116,12 +115,14 @@ function IngresosStack(user) {
   );
 }
 
-function EgresosStack() {
+function EgresosStack(user) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Egresos"
         component={EgresosScreen}
+        initialParams={user.route.params}
+
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Egresos" scene={scene} navigation={navigation} />
@@ -278,30 +279,44 @@ function AppStack(props) {
       <Drawer.Screen
         name="Egresos"
         component={EgresosStack}
+        initialParams={user}
+
       />
       <Drawer.Screen
         name="Tarjetas"
         component={TarjetasStack}
+        initialParams={user}
+
       />
       <Drawer.Screen
         name="Cuentas bancarias"
         component={CuentaStack}
+        initialParams={user}
+
       />
       <Drawer.Screen
         name="Inversiones"
         component={InversionesStack}
+        initialParams={user}
+
       />
       <Drawer.Screen
         name="Prestamos"
         component={PrestamosStack}
+        initialParams={user}
+
       />
       <Drawer.Screen
         name="Presupuestos"
         component={PresupuestoStack}
+        initialParams={user}
+
       />
       <Drawer.Screen
         name="Agregar Tarjeta"
         component={AgregarTarjetasStack}
+        initialParams={user}
+
       />
       <Drawer.Screen
         name="Sign In"
@@ -310,7 +325,7 @@ function AppStack(props) {
       <Drawer.Screen
         name="Cerrar Sesion"
         component={LoginStack}
-      />      
+      />
 
     </Drawer.Navigator>
   );
