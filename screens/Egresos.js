@@ -24,7 +24,6 @@ function getMatchedData(dateFilter, rowValues) {
       break;
   }
   return filterDataRows;
-
 }
 
 function compareDates(filterDate, filterDataRows, rowValues) {
@@ -58,11 +57,8 @@ export default class Egresos extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rowToShow: [
-      ],
-
-      rowtoDetail: [
-      ],
+      rowToShow: [],
+      rowtoDetail: [],
       data: undefined
     }
   }
@@ -70,7 +66,8 @@ export default class Egresos extends React.Component {
   colTable = ['Fecha', 'Cantidad', 'Moneda', ''];
   totalSumPesos = 0;
   totalSumaDolares = 0;
-  getIngresoData(data) {
+
+  getEgresoData(data) {
 
     AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
       let userData = JSON.parse(value)
@@ -119,6 +116,31 @@ export default class Egresos extends React.Component {
       }
     })
   }
+
+  deleteEgresoData() {
+    let itemToDelete = this.state.rowtoDetail[0];
+    let items = this.state.data.egresos
+
+    for (let i = 0; i < items.length; i++) {
+      let egresoItem = items[i];
+
+      if(egresoItem[0] === itemToDelete[0] &&
+        egresoItem[1] === itemToDelete[1] &&
+        egresoItem[2] === itemToDelete[2] &&
+        egresoItem[3] === itemToDelete[3] &&
+        egresoItem[4] === itemToDelete[4] &&
+        egresoItem[5] === itemToDelete[5] &&
+        egresoItem[6] === itemToDelete[6] &&
+        egresoItem[7] === itemToDelete[7] &&
+        egresoItem[8] === itemToDelete[8])
+     {
+        items.splice(i, 1);
+     }
+    }
+
+    this.deleteData(items);
+  }
+
   insertData(arrayData) {
     this.state.data.egresos.push(arrayData)
     AsyncStorage.mergeItem(
@@ -128,6 +150,17 @@ export default class Egresos extends React.Component {
         console.log(value)
       })
   }
+
+  deleteData(egresosItems) {
+    this.state.data.egresos = egresosItems
+    AsyncStorage.mergeItem(
+      this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
+      JSON.stringify(this.state.data),
+      (value) => {
+        console.log(value)
+      })
+  }
+
   formData(data) {
     var now = moment().format('DD-MM-YYYY');
     let arrayDataToShow = [
@@ -147,8 +180,8 @@ export default class Egresos extends React.Component {
       data.cuotas,
       data.otros
     ]
-    this.insertData(arrayData)
 
+    this.insertData(arrayData)
     this.state.rowtoDetail.push(arrayData);
     this.state.rowToShow.push(arrayDataToShow);
     let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
@@ -167,7 +200,9 @@ export default class Egresos extends React.Component {
       this.Display.updateState(filterSumPesos, filterSumDolares);
     }
   }
+
   deleteRow(index) {
+    this.deleteEgresoData();
     this.state.rowtoDetail.splice(index, 1);
     this.state.rowToShow.splice(index, 1);
     let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
@@ -179,7 +214,7 @@ export default class Egresos extends React.Component {
   render() {
     let userData = this.props.route.params 
     if (!this.state.data) {
-      this.getIngresoData(userData)
+      this.getEgresoData(userData)
     }
 
     return (
@@ -207,10 +242,7 @@ export default class Egresos extends React.Component {
       </Block>
     );
   }
-
 }
-
-
 
 const styles = StyleSheet.create({
   egresos: {
@@ -219,4 +251,3 @@ const styles = StyleSheet.create({
     backgroundColor: "#071019"
   }
 });
-

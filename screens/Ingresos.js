@@ -24,7 +24,6 @@ function getMatchedData(dateFilter, rowValues) {
       break;
   }
   return filterDataRows;
-
 }
 
 function compareDates(filterDate, filterDataRows, rowValues) {
@@ -57,11 +56,8 @@ export default class Ingresos extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rowToShow: [
-      ],
-
-      rowtoDetail: [
-      ],
+      rowToShow: [],
+      rowtoDetail: [],
       data: undefined
     }
   }
@@ -75,9 +71,11 @@ export default class Ingresos extends React.Component {
       let userData = JSON.parse(value)
       this.state.data = userData
       console.log(userData)
+
       if (userData.ingresos.length > 0) {
         let arrayDataDetail = [];
         let showData = [];
+
         for (let i = 0; i < userData.ingresos.length; i++) {
           arrayDataDetail.push(
             [
@@ -96,11 +94,14 @@ export default class Ingresos extends React.Component {
               ''
             ]);
         }
+
         this.setState({
           rowToShow: showData,
           rowtoDetail: arrayDataDetail
         })
+
         console.log('ROW DETAIL', this.state.rowtoDetail)
+
         for (let i = 0; i < this.state.rowtoDetail.length; i++) {
           if (!this.state.rowtoDetail[i]) { continue; }
           if (this.state.rowtoDetail[i][2] === 'Pesos') {
@@ -109,11 +110,34 @@ export default class Ingresos extends React.Component {
             this.totalSumaDolares += this.state.rowtoDetail[i][1]
           }
         }
+
         this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
         this.HistoricTable.updateState(this.state.rowToShow);
       }
     })
   }
+
+  deleteIngresoData() {
+    let itemToDelete = this.state.rowtoDetail[0];
+    let items = this.state.data.ingresos
+
+    for (let i = 0; i < items.length; i++) {
+      let ingresoItem = items[i];
+
+      if(ingresoItem[0] === itemToDelete[0] &&
+        ingresoItem[1] === itemToDelete[1] &&
+        ingresoItem[2] === itemToDelete[2] &&
+        ingresoItem[3] === itemToDelete[3] &&
+        ingresoItem[4] === itemToDelete[4] &&
+        ingresoItem[5] === itemToDelete[5])
+     {
+        items.splice(i, 1);
+     }
+    }
+
+    this.deleteData(items);
+  }
+
   insertData(arrayData) {
     this.state.data.ingresos.push(arrayData)
     AsyncStorage.mergeItem(
@@ -123,6 +147,17 @@ export default class Ingresos extends React.Component {
         console.log(value)
       })
   }
+
+  deleteData(ingresosItems) {
+    this.state.data.ingresos = ingresosItems
+    AsyncStorage.mergeItem(
+      this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
+      JSON.stringify(this.state.data),
+      (value) => {
+        console.log(value)
+      })
+  }
+
   formData(data) {
     var now = moment().format('DD-MM-YYYY');
     let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
@@ -137,7 +172,6 @@ export default class Ingresos extends React.Component {
   }
 
   getDisplayFilter(date) {
-
     if (this.state.rowtoDetail.length > 0) {
       let filterDataToShow = getMatchedData(date, this.state.rowToShow);
       let filterData = getMatchedData(date, this.state.rowtoDetail);
@@ -149,6 +183,7 @@ export default class Ingresos extends React.Component {
   }
 
   deleteRow(index) {
+    this.deleteIngresoData()
     this.state.rowtoDetail.splice(index, 1);
     this.state.rowToShow.splice(index, 1);
     let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
@@ -196,4 +231,3 @@ const styles = StyleSheet.create({
     backgroundColor: "#071019"
   }
 });
-
