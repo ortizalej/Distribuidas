@@ -181,8 +181,6 @@ function CuentaStack() {
   );
 }
 
-
-
 function AgregarTarjetasStack() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
@@ -199,12 +197,14 @@ function AgregarTarjetasStack() {
   );
 }
 
-function InversionesStack() {
+function InversionesStack(user) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Inversiones"
         component={InversionesScreen}
+        initialParams={user.route.params}
+
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Inversiones" scene={scene} navigation={navigation} />

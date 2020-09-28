@@ -5,6 +5,7 @@ import Display from '../components/DisplayMount';
 import Form from '../components/Formulario';
 import HistoricTable from '../components/HistoricTable';
 import moment from 'moment';
+
 const { width, height } = Dimensions.get('screen');
 
 function getMatchedData(dateFilter, rowValues) {
@@ -81,16 +82,16 @@ export default class Ingresos extends React.Component {
             [
               userData.ingresos[i][0],
               userData.ingresos[i][1],
-              userData.ingresos[i][2], 
-              userData.ingresos[i][3], 
-              userData.ingresos[i][4], 
+              userData.ingresos[i][2],
+              userData.ingresos[i][3],
+              userData.ingresos[i][4],
               userData.ingresos[i][5]
             ]);
           showData.push(
             [
-              userData.ingresos[i][0], 
-              userData.ingresos[i][1], 
-              userData.ingresos[i][2], 
+              userData.ingresos[i][0],
+              userData.ingresos[i][1],
+              userData.ingresos[i][2],
               ''
             ]);
         }
@@ -124,15 +125,14 @@ export default class Ingresos extends React.Component {
     for (let i = 0; i < items.length; i++) {
       let ingresoItem = items[i];
 
-      if(ingresoItem[0] === itemToDelete[0] &&
+      if (ingresoItem[0] === itemToDelete[0] &&
         ingresoItem[1] === itemToDelete[1] &&
         ingresoItem[2] === itemToDelete[2] &&
         ingresoItem[3] === itemToDelete[3] &&
         ingresoItem[4] === itemToDelete[4] &&
-        ingresoItem[5] === itemToDelete[5])
-     {
+        ingresoItem[5] === itemToDelete[5]) {
         items.splice(i, 1);
-     }
+      }
     }
 
     this.deleteData(items);
@@ -162,7 +162,7 @@ export default class Ingresos extends React.Component {
     var now = moment().format('DD-MM-YYYY');
     let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
     let arrayData = [now, parseInt(data.cantidad), data.moneda, data.medio, data.fuente, data.cuenta]
-    this.insertData(arrayData)
+    this.insertData(arrayData);
     this.state.rowtoDetail.push(arrayData);
     this.state.rowToShow.push(arrayDataToShow);
     let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
@@ -190,7 +190,7 @@ export default class Ingresos extends React.Component {
     let totalSumDolares = sumValues(this.state.rowtoDetail)[1]
     this.HistoricTable.updateState(this.state.rowToShow);
     this.Display.updateState(totalSumPesos, totalSumDolares);
-  } 
+  }
 
   render() {
     let userData = this.props.route.params

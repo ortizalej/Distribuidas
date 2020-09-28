@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
 import { Button, Block, Text, Input, theme, View } from 'galio-framework';
 import Form from '../components/Formulario'
 import Carrousel from '../components/CarrouselCard'
@@ -12,45 +12,109 @@ export default class Inversiones extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: [{
-                labels: ["January", "February", "March", "April", "May", "June"],
-                datasets: [
-                    {
-                        data: [20, 45, 28, 80, 99, 43],
-                        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-                        strokeWidth: 2 // optional
-                    }
-                ],
-                legend: ["Plazo Fijo"] // optional
-            },
-            {
-                labels: ["January", "February", "March", "April", "May", "June"],
-                datasets: [
-                    {
-                        data: [20, 45, 28, 80, 99, 43],
-                        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-                        strokeWidth: 2 // optional
-                    }
-                ],
-                legend: ["Acciones"] // optional
-            }]
+            rowToShow: [],
+            rowtoDetail: [],
+            data: undefined
         }
     }
     defaultDate = 'Anual'
     colTable = ['Fecha', 'Cantidad', 'Tipo', ''];
-    rowToShow = [
-        ['02-09-2020', 1000, 'Tipo', ''],
-        ['02-07-2020', 1000, 'Tipo', ''],
-        ['13-01-2020', 1000, 'Tipo', '']
-        // INIT QUERY
-    ];
+    totalSumPesos = 0;
+    totalSumaDolares = 0;
 
-    rowtoDetail = [
-        ['02-09-2020', 1000, 'Tipo', 'Interes', 'Empresa'],
-        ['02-07-2020', 1000, 'Tipo', 'Interes', 'Empresa'],
-        ['13-01-2020', 1000, 'Tipo', 'Interes', 'Empresa']
-        // INIT QUERY
-    ]
+    getInversionesData(data) {
+        AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
+            let userData = JSON.parse(value)
+            this.state.data = userData
+            console.log(userData)
+
+            if (userData.inversiones.length > 0) {
+                let arrayDataDetail = [];
+                let showData = [];
+
+                for (let i = 0; i < userData.inversiones.length; i++) {
+                    arrayDataDetail.push(
+                        [
+                            userData.inversiones[i][0],
+                            userData.inversiones[i][1],
+                            userData.inversiones[i][2],
+                            userData.inversiones[i][3],
+                            userData.inversiones[i][4],
+                            userData.inversiones[i][5],
+                            userData.inversiones[i][6]
+                        ]);
+                    showData.push(
+                        [
+                            userData.inversiones[i][0],
+                            userData.inversiones[i][1],
+                            userData.inversiones[i][2],
+                            ''
+                        ]);
+                }
+
+                this.setState({
+                    rowToShow: showData,
+                    rowtoDetail: arrayDataDetail
+                })
+
+                console.log('ROW DETAIL', this.state.rowtoDetail)
+
+                for (let i = 0; i < this.state.rowtoDetail.length; i++) {
+                    if (!this.state.rowtoDetail[i]) { continue; }
+                    if (this.state.rowtoDetail[i][2] === 'Pesos') {
+                        totalSumPesos += this.state.rowtoDetail[i][1];
+                    } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+                        totalSumaDolares += this.state.rowtoDetail[i][1]
+                    }
+                }
+
+                this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
+                this.HistoricTable.updateState(this.state.rowToShow);
+            }
+        })
+    }
+
+    deleteInversionData() {
+        let itemToDelete = this.state.rowtoDetail[0];
+        let items = this.state.data.inversiones
+
+        for (let i = 0; i < items.length; i++) {
+            let inversionesItem = items[i];
+
+            if (inversionesItem[0] === itemToDelete[0] &&
+                inversionesItem[1] === itemToDelete[1] &&
+                inversionesItem[2] === itemToDelete[2] &&
+                inversionesItem[3] === itemToDelete[3] &&
+                inversionesItem[4] === itemToDelete[4] &&
+                inversionesItem[5] === itemToDelete[5] &&
+                inversionesItem[6] === itemToDelete[6]) {
+                items.splice(i, 1);
+            }
+        }
+
+        this.deleteData(items);
+    }
+
+    insertData(arrayData) {
+        this.state.data.inversiones.push(arrayData)
+        
+        AsyncStorage.mergeItem(
+            this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
+            JSON.stringify(this.state.data),
+            () => {
+                console.log("Inversion Guardada");
+            })
+    }
+
+    deleteData(inversionesItems) {
+        this.state.data.inversiones = inversionesItems
+        AsyncStorage.mergeItem(
+            this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
+            JSON.stringify(this.state.data),
+            () => {
+                console.log("Inversion Eliminada");
+            })
+    }
 
     formData(data) {
         console.log(data)
@@ -67,42 +131,37 @@ export default class Inversiones extends React.Component {
             data.tipo,
             data.interes,
             data.destino,
-
         ]
-        this.rowtoDetail.push(arrayData);
-        this.rowToShow.push(arrayDataToShow);
-        this.HistoricTable.updateState(this.rowToShow);
+        this.insertData(arrayData);
+        this.state.rowtoDetail.push(arrayData);
+        this.state.rowToShow.push(arrayDataToShow);
+        this.HistoricTable.updateState(this.state.rowToShow);
     }
 
     getDisplayFilter(date) {
-        if (this.rowtoDetail.length > 0) {
-            let filterDataToShow = getMatchedData(date, this.rowToShow);
+        if (this.state.rowtoDetail.length > 0) {
+            let filterDataToShow = getMatchedData(date, this.state.rowToShow);
             this.HistoricTable.updateState(filterDataToShow);
         }
     }
-    deleteRow(index) {
-        this.rowtoDetail.splice(index, 1);
-        this.rowToShow.splice(index, 1);
 
-        this.HistoricTable.updateState(this.rowToShow);
+    deleteRow(index) {
+        this.deleteInversionData();
+        this.state.rowtoDetail.splice(index, 1);
+        this.state.rowToShow.splice(index, 1);
+        this.HistoricTable.updateState(this.state.rowToShow);
     }
 
     render() {
-        let totalSumPesos = 0;
-        let totalSumaDolares = 0;
-        for (let i = 0; i < this.rowtoDetail.length; i++) {
-            if (!this.rowtoDetail[i]) { continue; }
-            if (this.rowtoDetail[i][2] === 'Pesos') {
-                totalSumPesos += this.rowtoDetail[i][1];
-            } else if (this.rowtoDetail[i][2] === 'Dolares') {
-                totalSumaDolares += this.rowtoDetail[i][1]
-            }
+        let userData = this.props.route.params
+        if (!this.state.data) {
+            this.getInversionesData(userData)
         }
+
         return (
             <Block style={styles.inversiones}>
                 <ScrollView>
                     <Carrousel items={this.state.items} type={'Inversiones'} />
-
                     <Form
                         type={'Inversiones'}
                         getFormData={this.formData.bind(this)}
@@ -110,8 +169,8 @@ export default class Inversiones extends React.Component {
                     <HistoricTable type={'Inversiones'}
                         ref={(table) => { this.HistoricTable = table }}
                         cols={this.colTable}
-                        rows={this.rowToShow}
-                        detailRows={this.rowtoDetail}
+                        rows={this.state.rowToShow}
+                        detailRows={this.state.rowtoDetail}
                         deleteRow={this.deleteRow.bind(this)}
                     />
                 </ScrollView>
