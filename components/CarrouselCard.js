@@ -32,6 +32,14 @@ export default class CarrouselCard extends React.Component {
             type: this.props.type
         }
     }
+
+    updateState(value) {
+        this.setState(
+          {
+            carouselItems: value
+          }
+        )
+      }
     _renderItemCard({ item, index }) {
         return (
             <View>

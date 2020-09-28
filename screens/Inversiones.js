@@ -9,29 +9,31 @@ import moment from 'moment';
 const { width, height } = Dimensions.get('screen');
 
 export default class Inversiones extends React.Component {
+    defaultDate = 'Anual'
+    colTable = ['Fecha', 'Cantidad', 'Tipo', ''];
+    totalSumPesos = 0;
+    totalSumaDolares = 0;
     constructor(props) {
         super(props);
         this.state = {
             rowToShow: [],
             rowtoDetail: [],
-            data: undefined
+            data: undefined,
+            dataGraph: new Map()
         }
     }
-    defaultDate = 'Anual'
-    colTable = ['Fecha', 'Cantidad', 'Tipo', ''];
-    totalSumPesos = 0;
-    totalSumaDolares = 0;
+
 
     getInversionesData(data) {
         AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
             let userData = JSON.parse(value)
             this.state.data = userData
-            console.log(userData)
 
             if (userData.inversiones.length > 0) {
                 let arrayDataDetail = [];
                 let showData = [];
-
+                let graphData = new Map()
+                console.log(userData)
                 for (let i = 0; i < userData.inversiones.length; i++) {
                     arrayDataDetail.push(
                         [
@@ -39,9 +41,7 @@ export default class Inversiones extends React.Component {
                             userData.inversiones[i][1],
                             userData.inversiones[i][2],
                             userData.inversiones[i][3],
-                            userData.inversiones[i][4],
-                            userData.inversiones[i][5],
-                            userData.inversiones[i][6]
+                            userData.inversiones[i][4]
                         ]);
                     showData.push(
                         [
@@ -50,14 +50,39 @@ export default class Inversiones extends React.Component {
                             userData.inversiones[i][2],
                             ''
                         ]);
+                    this.setState({
+                        rowToShow: showData,
+                        rowtoDetail: arrayDataDetail,
+                        dataGraph: graphData
+                    })
+                    if (graphData.has(userData.inversiones[i][2])) {
+                        let data = graphData.get(userData.inversiones[i][2]);
+
+                        data.datasets[0].data.push(userData.inversiones[i][1])
+                        data.labels.push(userData.inversiones[i][0].toString())
+                        graphData.set(
+                            userData.inversiones[i][2],
+                            data
+                        )
+                    } else {
+
+                        graphData.set(
+                            userData.inversiones[i][2],
+                            {
+                                labels: [userData.inversiones[i][0].toString()],
+                                datasets:
+                                    [
+                                        {
+                                            data: [userData.inversiones[i][1]],
+                                        }
+                                    ],
+                                legend: [userData.inversiones[i][2]] // optional
+                            }
+                        )
+                    }
+
                 }
 
-                this.setState({
-                    rowToShow: showData,
-                    rowtoDetail: arrayDataDetail
-                })
-
-                console.log('ROW DETAIL', this.state.rowtoDetail)
 
                 for (let i = 0; i < this.state.rowtoDetail.length; i++) {
                     if (!this.state.rowtoDetail[i]) { continue; }
@@ -67,9 +92,14 @@ export default class Inversiones extends React.Component {
                         totalSumaDolares += this.state.rowtoDetail[i][1]
                     }
                 }
+                let graphToShow = []
+                graphData.forEach((values, keys) => {
+                    graphToShow.push(values)
+                })
 
-                this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
+
                 this.HistoricTable.updateState(this.state.rowToShow);
+                this.Carrousel.updateState(graphToShow)
             }
         })
     }
@@ -97,7 +127,38 @@ export default class Inversiones extends React.Component {
 
     insertData(arrayData) {
         this.state.data.inversiones.push(arrayData)
-        
+        if (this.state.dataGraph.has(arrayData[2])) {
+            let data = this.state.dataGraph.get(arrayData[2]);
+            
+            data.datasets[0].data.push(arrayData[1])
+            data.labels.push(arrayData[0].toString())
+            this.state.dataGraph.set(
+                arrayData[2],
+                data
+            )
+        } else {
+
+            this.state.dataGraph.set(
+                arrayData[2],
+                {
+                    labels: [arrayData[0].toString()],
+                    datasets:
+                        [
+                            {
+                                data: [arrayData[1]],
+                            }
+                        ],
+                    legend: [arrayData[2]] // optional
+                }
+            )
+        }
+
+        let graphToShow = []
+        this.state.dataGraph.forEach((values, keys) => {
+            graphToShow.push(values)
+        })
+        this.Carrousel.updateState(graphToShow)
+
         AsyncStorage.mergeItem(
             this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
             JSON.stringify(this.state.data),
@@ -161,7 +222,12 @@ export default class Inversiones extends React.Component {
         return (
             <Block style={styles.inversiones}>
                 <ScrollView>
-                    <Carrousel items={this.state.items} type={'Inversiones'} />
+                    <Carrousel
+                        items={this.state.dataGraph}
+                        type={'Inversiones'}
+                        ref={(carrousel) => { this.Carrousel = carrousel }}
+
+                    />
                     <Form
                         type={'Inversiones'}
                         getFormData={this.formData.bind(this)}
