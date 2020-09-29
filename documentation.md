@@ -192,11 +192,27 @@ Para toda persona que quiera conocer a fondo cuales son sus ingresos y egresos. 
 ## Inversiones
 
 - ### Agregar nueva inversión.
-  Para agregar una nueva inversión del usuario, debe completar el formulario ingresando la cantidad de 
+  Para agregar una nueva inversión del usuario, debe completar el formulario ingresando el monto de la inversión en pesos argentinos.
+  - Al seleccionar 'Tipo' se encuentran las opciones: Plazo fijo, compra de titulos, acciones, bienes raices, energias renovables, divisas, bono, comodities y futuros.
+  - Al seleccionar 'Plazo fijo' nos solicita ingresar el interés anual en %.
+  - Al seleccionar 'Acciones' nos solicita ingresar el nombre de la empresa.
+
+  ![Agregar inversion](\assets\pantallas\inversionesagregar.jpg)
+
 
 
 - ### Ver historial de inversiones.
+  Al bajar, se encuentra una tabla que nos muestra un listado de las inversiones realizadas del usuario.
+
+  ![Agregar inversion](\assets\pantallas\inversioneshistorial.jpg)
     - #### Ver detalle de una inversión.
+      Al pulsar el '+' de la derecha, se muestra la información detallada de la inversión.
+
+      ![Inversión detalle](\assets\pantallas\inversiondetalle.jpg)
+      - #### Eliminar una inversión.
+        Cuando se visualiza un detalle, pulsando el botón 'borrar' se elimina el registro de ese movimiento.
+
+
 
 
 ## Prestamos

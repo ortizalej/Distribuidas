@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, Dimensions } from 'react-native'
-import { TextInput } from 'react-native-paper';
-import { Dropdown } from 'react-native-material-dropdown';
+import { TextInput } from 'react-native-paper'
+import { Dropdown } from 'react-native-material-dropdown'
+import { showMessage, hideMessage } from 'react-native-flash-message'
 
 import {
   Container,
@@ -13,12 +14,12 @@ import {
   Text,
   Picker
 } from 'native-base'
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker'
 
 const { width, height } = Dimensions.get('screen')
 export default class Formulario extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       tipo: undefined,
       fuente: undefined,
@@ -38,123 +39,122 @@ export default class Formulario extends React.Component {
       CBU: undefined,
       banco: undefined,
       uri: undefined
-    };
+    }
   }
 
-
-  onChangeCantidad(value) {
+  onChangeCantidad (value) {
     this.setState({
       cantidad: value
-    });
+    })
   }
-  onChangeUri(value) {
+  onChangeUri (value) {
     this.setState({
       uri: value
-    });
+    })
   }
-  onChangePropietario(value) {
+  onChangePropietario (value) {
     this.setState({
       propietario: value
-    });
+    })
   }
-  onChangeOtros(value) {
+  onChangeOtros (value) {
     this.setState({
       otros: value
-    });
+    })
   }
-  onChangeTitular(value) {
+  onChangeTitular (value) {
     this.setState({
       titularName: value
-    });
+    })
   }
-  onChangeCBU(value) {
+  onChangeCBU (value) {
     this.setState({
       CBU: value
-    });
+    })
   }
-  onChangeBanco(value) {
+  onChangeBanco (value) {
     this.setState({
       bankName: value
-    });
+    })
   }
-  onChangeVencimientos(value) {
+  onChangeVencimientos (value) {
     this.setState({
       vencimiento: value
-    });
+    })
   }
-  onChangeCuotas(value) {
+  onChangeCuotas (value) {
     this.setState({
       cuotas: value
-    });
+    })
   }
 
-  onChangeInteres(value) {
+  onChangeInteres (value) {
     this.setState({
       interes: value
     })
   }
 
-  onChangeTipoServicio(value) {
+  onChangeTipoServicio (value) {
     this.setState({
       tipoServicio: value
     })
   }
-  onChangeTipo(value) {
+  onChangeTipo (value) {
     this.setState({
       tipo: value
     })
   }
 
-  onChangeMedio(value) {
+  onChangeMedio (value) {
     this.setState({
       medio: value
     })
   }
 
-  onChangeDestino(value) {
+  onChangeDestino (value) {
     this.setState({
       destino: value
     })
   }
 
-  onChangeFuente(value) {
+  onChangeFuente (value) {
     this.setState({
       fuente: value
     })
   }
 
-  onChangeCuenta(value) {
+  onChangeCuenta (value) {
     this.setState({
       cuenta: value
     })
   }
 
-  onChangeMoneda(value) {
+  onChangeMoneda (value) {
     this.setState({
       moneda: value
     })
   }
-  onChangeUserName(value) {
+  onChangeUserName (value) {
     this.setState({
       userName: value
     })
   }
 
-  onChangePassword(value) {
+  onChangePassword (value) {
     this.setState({
       password: value
     })
   }
 
-  getFormData(data) {
+  getFormData (data) {
     this.props.getFormData(data)
   }
 
-  render() {
+  render () {
     if (this.props.type === 'Ingresos') {
-      return renderIngresos(this);
+      return renderIngresos(this)
     } else if (this.props.type === 'Egresos') {
-      return renderEgresos(this);
+      return renderEgresos(this)
     } else if (this.props.type === 'Prestamos Prestados') {
       return renderPrestamosPrestados(this)
     } else if (this.props.type === 'Prestamos Tomados') {
@@ -173,18 +173,25 @@ export default class Formulario extends React.Component {
   }
 }
 
-function renderIngresos(props) {
+function renderIngresos (props) {
   return (
     <Container style={styles.container}>
       <Content>
         <Form scrollEnabled={false}>
           <TextInput
             keyboardType='number-pad'
-            label="Monto"
+            label='Monto'
             onChangeText={props.onChangeCantidad.bind(props)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
 
           <Dropdown
@@ -250,6 +257,10 @@ function renderIngresos(props) {
                 moneda: props.state.moneda,
                 tipo: props.state.tipo
               })
+              showMessage({
+                message: '¡Ingreso registrado con éxito!',
+                type: 'success'
+              })
             }}
           >
             <Text>INGRESAR</Text>
@@ -260,17 +271,17 @@ function renderIngresos(props) {
   )
 }
 
-function renderEgresos(props) {
+function renderEgresos (props) {
   let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync()
 
     if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
+      alert('Permission to access camera roll is required!')
+      return
     }
 
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    console.log(pickerResult);
+    let pickerResult = await ImagePicker.launchImageLibraryAsync()
+    console.log(pickerResult)
     props.onChangeUri(pickerResult.uri)
   }
   return (
@@ -279,11 +290,18 @@ function renderEgresos(props) {
         <Form scrollEnabled={false}>
           <TextInput
             keyboardType='number-pad'
-            label="Monto"
+            label='Monto'
             onChangeText={props.onChangeCantidad.bind(props)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
 
           <Dropdown
@@ -335,11 +353,18 @@ function renderEgresos(props) {
             }
           >
             <TextInput
-              label="Especifique otro servicio"
+              label='Especifique otro servicio'
               onChangeText={props.onChangeOtros.bind(props)}
-              mode="outlined"
+              mode='outlined'
               style={styles.itemTextInput}
-              theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+              theme={{
+                colors: {
+                  placeholder: '#697A8C',
+                  text: '#697A8C',
+                  primary: '#FF8141',
+                  backdrop: 'white'
+                }
+              }}
             />
           </Item>
           <Dropdown
@@ -437,11 +462,18 @@ function renderEgresos(props) {
           >
             <TextInput
               keyboardType='number-pad'
-              label="Interés mensual en %"
+              label='Interés mensual en %'
               onChangeText={props.onChangeInteres.bind(props)}
-              mode="outlined"
+              mode='outlined'
               style={styles.itemTextInput}
-              theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+              theme={{
+                colors: {
+                  placeholder: '#697A8C',
+                  text: '#697A8C',
+                  primary: '#FF8141',
+                  backdrop: 'white'
+                }
+              }}
             />
           </Item>
           <Button style={styles.btnIngresar} onPress={openImagePickerAsync}>
@@ -460,6 +492,10 @@ function renderEgresos(props) {
                 otros: props.state.otros,
                 tipoServicio: props.state.tipoServicio
               })
+              showMessage({
+                message: '¡Egreso registrado con éxito!',
+                type: 'success'
+              })
             }}
           >
             <Text>REGISTRAR</Text>
@@ -470,27 +506,40 @@ function renderEgresos(props) {
   )
 }
 
-function renderPrestamosPrestados(props) {
+function renderPrestamosPrestados (props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
         <Form scrollEnabled={false}>
           <TextInput
             keyboardType='number-pad'
-            label="Monto"
+            label='Monto'
             onChangeText={props.onChangeCantidad.bind(props)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
 
           <TextInput
-            keyboardType='number-pad'
-            label="Destinatario"
+            label='Destinatario'
             onChangeText={props.onChangeDestino.bind(props)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
 
           <Dropdown
@@ -544,6 +593,10 @@ function renderPrestamosPrestados(props) {
                 cuenta: props.state.cuenta,
                 moneda: props.state.moneda
               })
+              showMessage({
+                message: '¡Prestamo prestado registrado con éxito!',
+                type: 'success'
+              })
             }}
           >
             <Text>REGISTRAR</Text>
@@ -554,26 +607,40 @@ function renderPrestamosPrestados(props) {
   )
 }
 
-function renderPrestamosTomados(props) {
+function renderPrestamosTomados (props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
         <Form scrollEnabled={false}>
           <TextInput
             keyboardType='number-pad'
-            label="Monto"
+            label='Monto'
             onChangeText={props.onChangeCantidad.bind(props)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
 
           <TextInput
-            label="Propietario"
+            label='Propietario'
             onChangeText={props.onChangePropietario.bind(props)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
 
           <Dropdown
@@ -630,19 +697,33 @@ function renderPrestamosTomados(props) {
 
           <TextInput
             keyboardType='number-pad'
-            label="Interés mensual en %"
+            label='Interés mensual en %'
             onChangeText={props.onChangeInteres.bind(props)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
 
           <TextInput
-            label="Fecha primera cuota (DD-MM-YYYY)"
+            label='Fecha primera cuota (DD-MM-YYYY)'
             onChangeText={props.onChangeVencimientos.bind(props)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
           <Button
             style={styles.btnIngresar}
@@ -658,6 +739,10 @@ function renderPrestamosTomados(props) {
                 moneda: props.state.moneda,
                 type: 'Tomado'
               })
+              showMessage({
+                message: '¡Prestamo tomado registrado con éxito!',
+                type: 'success'
+              })
             }}
           >
             <Text>REGISTRAR</Text>
@@ -667,18 +752,25 @@ function renderPrestamosTomados(props) {
     </Container>
   )
 }
-function renderPresupuesto(props) {
+function renderPresupuesto (props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
         <Form scrollEnabled={false}>
           <TextInput
             keyboardType='number-pad'
-            label="Monto"
+            label='Monto'
             onChangeText={props.onChangeCantidad.bind(props)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
 
           <Dropdown
@@ -699,6 +791,10 @@ function renderPresupuesto(props) {
                 cantidad: props.state.cantidad,
                 tipo: props.state.tipo
               })
+              showMessage({
+                message: '¡Presupuesto registado con éxito!',
+                type: 'success'
+              })
             }}
           >
             <Text>REGISTRAR</Text>
@@ -709,18 +805,25 @@ function renderPresupuesto(props) {
   )
 }
 
-function renderInversiones(props) {
+function renderInversiones (props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
         <Form scrollEnabled={false}>
           <TextInput
             keyboardType='number-pad'
-            label="Cantidad a invertir"
+            label='Cantidad a invertir'
             onChangeText={props.onChangeCantidad.bind(props)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
 
           <Dropdown
@@ -744,11 +847,18 @@ function renderInversiones(props) {
           >
             <TextInput
               keyboardType='number-pad'
-              label="Interés mensual en %"
+              label='Interés mensual en %'
               onChangeText={props.onChangeInteres.bind(props)}
-              mode="outlined"
+              mode='outlined'
               style={styles.itemTextInput}
-              theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+              theme={{
+                colors: {
+                  placeholder: '#697A8C',
+                  text: '#697A8C',
+                  primary: '#FF8141',
+                  backdrop: 'white'
+                }
+              }}
             />
           </Item>
           <Item
@@ -761,11 +871,18 @@ function renderInversiones(props) {
           >
             <TextInput
               keyboardType='number-pad'
-              label="Nombre de la empresa"
+              label='Nombre de la empresa'
               onChangeText={props.onChangeDestino.bind(props)}
-              mode="outlined"
+              mode='outlined'
               style={styles.itemTextInput}
-              theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+              theme={{
+                colors: {
+                  placeholder: '#697A8C',
+                  text: '#697A8C',
+                  primary: '#FF8141',
+                  backdrop: 'white'
+                }
+              }}
             />
           </Item>
           <Button
@@ -786,25 +903,39 @@ function renderInversiones(props) {
     </Container>
   )
 }
-function renderLogin(prop) {
+function renderLogin (prop) {
   return (
     <Container style={styles.container}>
       <Content>
         <Form>
           <TextInput
-            label="Usuario"
+            label='Usuario'
             onChangeText={prop.onChangeUserName.bind(prop)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
           <TextInput
-            label="Contraseña"
+            label='Contraseña'
             secureTextEntry={true}
             onChangeText={prop.onChangePassword.bind(prop)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
 
           <Button
@@ -827,45 +958,46 @@ function renderLogin(prop) {
   )
 }
 
-function renderCuentaBancaria(props) {
+function renderCuentaBancaria (props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
         <Form scrollEnabled={false}>
           <Item stackedLabel>
             <Input
-              style={{ color: "#697A8C" }}
-              placeholder="Titular" placeholderTextColor="#697A8C"
+              style={{ color: '#697A8C' }}
+              placeholder='Titular'
+              placeholderTextColor='#697A8C'
               onChangeText={props.onChangeTitular.bind(props)}
             />
           </Item>
           <Item stackedLabel>
             <Input
-              keyboardType="number-pad"
-              style={{ color: "#697A8C" }}
-              placeholder="CBU"
-              placeholderTextColor="#697A8C"
+              keyboardType='number-pad'
+              style={{ color: '#697A8C' }}
+              placeholder='CBU'
+              placeholderTextColor='#697A8C'
               onChangeText={props.onChangeCBU.bind(props)}
             />
           </Item>
           <Item stackedLabel>
             <Input
-              style={{ color: "#697A8C" }}
-              placeholder="Banco"
-              placeholderTextColor="#697A8C"
+              style={{ color: '#697A8C' }}
+              placeholder='Banco'
+              placeholderTextColor='#697A8C'
               onChangeText={props.onChangeBanco.bind(props)}
             />
           </Item>
           <Button
             style={styles.btnIngresar}
             onPress={() => {
-              props.getFormData(
-                {
-                  titularName: props.state.titularName,
-                  CBU: props.state.CBU,
-                  bankName: props.state.bankName,
-                })
-            }}>
+              props.getFormData({
+                titularName: props.state.titularName,
+                CBU: props.state.CBU,
+                bankName: props.state.bankName
+              })
+            }}
+          >
             <Text>REGISTRAR</Text>
           </Button>
         </Form>
@@ -874,37 +1006,53 @@ function renderCuentaBancaria(props) {
   )
 }
 
-function renderSingIn(prop) {
+function renderSingIn (prop) {
   return (
     <Container style={styles.container}>
       <Content>
         <Form>
           <TextInput
-            label="Email"
+            label='Email'
             onChangeText={prop.onChangeUserName.bind(prop)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
           <TextInput
-            label="Contraseña"
+            label='Contraseña'
             secureTextEntry={true}
             onChangeText={prop.onChangePassword.bind(prop)}
-            mode="outlined"
+            mode='outlined'
             style={styles.textInput}
             sec
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+            theme={{
+              colors: {
+                placeholder: '#697A8C',
+                text: '#697A8C',
+                primary: '#FF8141',
+                backdrop: 'white'
+              }
+            }}
           />
           <Button
             style={styles.btnIngresar}
-            onPress={() => actionButton('sign in', prop)}>
+            onPress={() => actionButton('sign in', prop)}
+          >
             <Text>REGISTRARSE</Text>
           </Button>
           <Button
             style={styles.btnIngresar}
             onPress={() => {
               prop.props.navigation.navigate('Login')
-            }}>
+            }}
+          >
             <Text>Volver</Text>
           </Button>
         </Form>
@@ -913,7 +1061,7 @@ function renderSingIn(prop) {
   )
 }
 
-function actionButton(type, prop) {
+function actionButton (type, prop) {
   switch (type) {
     case 'login':
       prop.props.actionButton(prop.state.userName, prop.state.password)
@@ -952,7 +1100,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0B1F35',
     width: 300,
     height: 50,
-    justifyContent: "center",
+    justifyContent: 'center',
     alignSelf: 'center',
     marginLeft: 15,
     marginTop: 10
@@ -961,7 +1109,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0B1F35',
     width: 300,
     height: 50,
-    justifyContent: "center",
+    justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 5
   },
@@ -973,7 +1121,7 @@ const styles = StyleSheet.create({
     height: 50,
     paddingLeft: 10,
     marginTop: 10,
-    marginLeft: 20,
+    marginLeft: 20
   },
   itemCombo: {
     borderWidth: 0.9,
@@ -987,14 +1135,63 @@ const styles = StyleSheet.create({
   }
 })
 
-const monedaOptions = [{ value: 'Pesos' }, { value: 'Dolares' }];
-const fuenteOptions = [{ value: 'Alquiler' }, { value: 'Sueldo' }, { value: 'Facturación' }, { value: 'Extraordinario' }];
-const medioOptions1 = [{ value: 'Efectivo' }, { value: 'Transferencia Bancaria' }];
-const medioOptions2 = [{ value: 'Efectivo' }, { value: 'Transferencia Bancaria' }, { value: 'Tarjeta de Crédito' }, { value: 'Tarjeta de Débito' }];
-const cuentaOptions = [{ value: 'Cuenta 1' }, { value: 'Cuenta 2' }];
-const tipoEgresoOptions = [{ value: 'Impuestos Nacionales' }, { value: 'Impuestos Provinciales' }, { value: 'Impuestos Municipales' }, { value: 'Educacion' }, { value: 'Salud' }, { value: 'Gastos Varios ' }, { value: 'Entretenimiento' }, { value: 'Viaticos' }, { value: 'Otros' }];
-const tipoServicioOptions = [{ value: 'Luz' }, { value: 'Gas' }, { value: 'Agua' }, { value: 'Otro' }];
-const tarjetaDebitoOptions = [{ value: 'Tarjeta débito 1' }, { value: 'Tarjeta débito 2' }];
-const tarjetaCreditoOptions = [{ value: 'Tarjeta crédito 1' }, { value: 'Tarjeta crédito 2' }];
-const coutaOptions = [{ value: '3' }, { value: '6' }, { value: '12' }, { value: '18' }];
-const inversionOptions = [{ value: 'Plazo Fijo' }, { value: 'Compra de titulos' }, { value: 'Acciones' }, { value: 'Bienes Raices ' }, { value: 'Energias Renovables' }, { value: 'Divisas' }, { value: 'Bono' }, { value: 'Comodities' }, { value: 'Futuros' }];
+const monedaOptions = [{ value: 'Pesos' }, { value: 'Dolares' }]
+const fuenteOptions = [
+  { value: 'Alquiler' },
+  { value: 'Sueldo' },
+  { value: 'Facturación' },
+  { value: 'Extraordinario' }
+]
+const medioOptions1 = [
+  { value: 'Efectivo' },
+  { value: 'Transferencia Bancaria' }
+]
+const medioOptions2 = [
+  { value: 'Efectivo' },
+  { value: 'Transferencia Bancaria' },
+  { value: 'Tarjeta de Crédito' },
+  { value: 'Tarjeta de Débito' }
+]
+const cuentaOptions = [{ value: 'Cuenta 1' }, { value: 'Cuenta 2' }]
+const tipoEgresoOptions = [
+  { value: 'Impuestos Nacionales' },
+  { value: 'Impuestos Provinciales' },
+  { value: 'Impuestos Municipales' },
+  { value: 'Educacion' },
+  { value: 'Salud' },
+  { value: 'Gastos Varios ' },
+  { value: 'Entretenimiento' },
+  { value: 'Viaticos' },
+  { value: 'Otros' }
+]
+const tipoServicioOptions = [
+  { value: 'Luz' },
+  { value: 'Gas' },
+  { value: 'Agua' },
+  { value: 'Otro' }
+]
+const tarjetaDebitoOptions = [
+  { value: 'Tarjeta débito 1' },
+  { value: 'Tarjeta débito 2' }
+]
+const tarjetaCreditoOptions = [
+  { value: 'Tarjeta crédito 1' },
+  { value: 'Tarjeta crédito 2' }
+]
+const coutaOptions = [
+  { value: '3' },
+  { value: '6' },
+  { value: '12' },
+  { value: '18' }
+]
+const inversionOptions = [
+  { value: 'Plazo Fijo' },
+  { value: 'Compra de titulos' },
+  { value: 'Acciones' },
+  { value: 'Bienes Raices ' },
+  { value: 'Energias Renovables' },
+  { value: 'Divisas' },
+  { value: 'Bono' },
+  { value: 'Comodities' },
+  { value: 'Futuros' }
+]
