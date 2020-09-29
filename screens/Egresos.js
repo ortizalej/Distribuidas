@@ -72,7 +72,6 @@ export default class Egresos extends React.Component {
     AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
       let userData = JSON.parse(value)
       this.state.data = userData
-      console.log(userData)
       if (userData.egresos.length > 0) {
         let arrayDataDetail = [];
         let showData = [];
@@ -109,8 +108,7 @@ export default class Egresos extends React.Component {
             this.totalSumaDolares += this.state.rowtoDetail[i][1]
           }
         }
-        console.log(this.totalSumDolares)
-        console.log(this.totalSumPesos)
+
         this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
         this.HistoricTable.updateState(this.state.rowToShow);
       }

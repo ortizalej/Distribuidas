@@ -213,8 +213,8 @@ export default class Tarjetas extends React.Component {
                     <HistoricTable type={'Tarjetas'}
                         ref={(table) => { this.HistoricTable = table }}
                         cols={this.colTable}
-                        rows={this.state.rowtoshow}
-                        detailRows={this.state.rowtoDetail}
+                        rows={[]}
+                        detailRows={[]}
                         deleteRow={this.deleteRow.bind(this)}
                     />
                 </ScrollView>

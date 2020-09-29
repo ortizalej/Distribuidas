@@ -71,7 +71,6 @@ export default class Ingresos extends React.Component {
     AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
       let userData = JSON.parse(value)
       this.state.data = userData
-      console.log(userData)
 
       if (userData.ingresos.length > 0) {
         let arrayDataDetail = [];
@@ -101,7 +100,6 @@ export default class Ingresos extends React.Component {
           rowtoDetail: arrayDataDetail
         })
 
-        console.log('ROW DETAIL', this.state.rowtoDetail)
 
         for (let i = 0; i < this.state.rowtoDetail.length; i++) {
           if (!this.state.rowtoDetail[i]) { continue; }
