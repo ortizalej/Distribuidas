@@ -164,27 +164,23 @@ export default class HistoricTable extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     paddingTop: 10,
+    paddingBottom: 10,
     backgroundColor: '#0B1F35',
     width: 340,
     marginTop: 30,
     borderRadius: 20,
     marginBottom: 150,
     alignSelf: 'center',
-    paddingRight: 15,
-
   },
   head: {
     height: 40,
     backgroundColor: '#0B1F35',
-    borderBottomColor: 'black',
+    borderBottomColor: '#697A8C',
     borderBottomWidth: 1,
-    width: 340,
+    width: 380,
     borderRadius: 20,
-
   },
-
   headText: {
     textAlign: 'center',
     color: 'gray',
@@ -194,17 +190,15 @@ const styles = StyleSheet.create({
     margin: 6,
     textAlign: 'center',
     color: 'white'
-
   },
   row: {
     height: 28,
     borderBottomColor: 'black',
     borderBottomWidth: 1,
-    marginRight: 20,
-    width: width,
+    width: 380,
     justifyContent: 'center',
     flexDirection: 'row',
-    borderRadius: 20,
+    borderRadius: 20
   },
   btn: {
     width: 18,
@@ -213,7 +207,9 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     alignSelf: 'auto',
     borderRadius: 30,
-
+    position: 'absolute',
+    right: 50,
+    bottom: -10
   },
   btnText: {
     textAlign: 'center',
