@@ -800,6 +800,7 @@ function renderLogin(prop) {
           />
           <TextInput
             label="Contraseña"
+            secureTextEntry={true}
             onChangeText={prop.onChangePassword.bind(prop)}
             mode="outlined"
             style={styles.textInput}
@@ -876,27 +877,24 @@ function renderCuentaBancaria(props) {
 function renderSingIn(prop) {
   return (
     <Container style={styles.container}>
-      <Content >
-        <Form >
-          <Item stackedLabel>
-            <Input
-              style={{ color: "#697A8C" }}
-              placeholder="Email"
-              placeholderTextColor="#697A8C"
-              onChangeText={prop.onChangeUserName.bind(prop)}
-
-            />
-          </Item>
-          <Item stackedLabel>
-            <Input
-              style={{ color: "#697A8C" }}
-              placeholder="Contraseña"
-              placeholderTextColor="#697A8C"
-              onChangeText={prop.onChangePassword.bind(prop)}
-
-            />
-          </Item>
-
+      <Content>
+        <Form>
+          <TextInput
+            label="Email"
+            onChangeText={prop.onChangeUserName.bind(prop)}
+            mode="outlined"
+            style={styles.textInput}
+            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+          />
+          <TextInput
+            label="Contraseña"
+            secureTextEntry={true}
+            onChangeText={prop.onChangePassword.bind(prop)}
+            mode="outlined"
+            style={styles.textInput}
+            sec
+            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
+          />
           <Button
             style={styles.btnIngresar}
             onPress={() => actionButton('sign in', prop)}>
