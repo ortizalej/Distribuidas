@@ -28,7 +28,6 @@ export default class DisplayMount extends React.Component {
     )
   }
 
-
   getDate(value) {
 
     this.setState({
@@ -59,7 +58,7 @@ export default class DisplayMount extends React.Component {
           </LinearGradient>
           <Item >
             <Picker
-              textStyle={{ color: '#697A8C' }}
+              textStyle={styles.picker}
               selectedValue={this.state.defaultDate}
               onValueChange={this.getDate.bind(this)}
             >
@@ -102,5 +101,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     borderTopColor: 'black',
     borderTopWidth: 1
+  },
+  picker: {
+     color: '#697A8C',
+     height: 20,
+     alignItems: 'center',
+     justifyContent: 'center',
   }
 });
