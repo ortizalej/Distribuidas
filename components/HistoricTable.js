@@ -99,13 +99,35 @@ export default class HistoricTable extends React.Component {
         break;
     }
   }
+
+  openImage(data) {
+    return (
+      <Image
+        source={{ uri: selectedImage.localUri }}
+        style={styles.thumbnail}
+      />
+    )
+
+  }
+
   _alertIndex(index, data, type) {
     const title = 'Informacion Detallada';
     let message = this.renderText(data[index], type)
-    const buttons = [
-      { text: 'Cancel', type: 'cancel' },
-      { text: 'Borrar', onPress: () => this.deleteRow(index, type) }
-    ];
+    let buttons;
+    if (type === 'Egresos') {
+      buttons = [
+        { text: 'Cancel', type: 'cancel' },
+        { text: 'Borrar', onPress: () => this.deleteRow(index, type) },
+        { text: 'Abrir adjunto', onPress: () => this.openImage(data[index][9]) }
+      ];
+    } else {
+      buttons = [
+        { text: 'Cancel', type: 'cancel' },
+        { text: 'Borrar', onPress: () => this.deleteRow(index, type) }
+      ];
+
+    }
+
     Alert.alert(title, message, buttons);
   }
 

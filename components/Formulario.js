@@ -10,33 +10,12 @@ import {
   Text,
   Picker
 } from 'native-base'
+import * as ImagePicker from 'expo-image-picker';
+
 const { width, height } = Dimensions.get('screen')
 export default class Formulario extends React.Component {
-<<<<<<< HEAD
-    constructor(props) {
-        super(props);
-        this.state = {
-            tipo: undefined,
-            fuente: undefined,
-            cantidad: undefined,
-            medio: undefined,
-            destino: undefined,
-            moneda: undefined,
-            cuotas: undefined,
-            interes: undefined,
-            vencimiento: undefined,
-            propietario: undefined,
-            otros: undefined,
-            tipoServicio: undefined,
-            userName: undefined,
-            password: undefined,
-            titular: undefined,
-            CBU: undefined,
-            banco: undefined
-        };
-=======
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       tipo: undefined,
       fuente: undefined,
@@ -51,170 +30,128 @@ export default class Formulario extends React.Component {
       otros: undefined,
       tipoServicio: undefined,
       userName: undefined,
-      password: undefined
->>>>>>> 21bf46f4ba62065280e9e330e4e95f5c2ccde93d
-    }
+      password: undefined,
+      titular: undefined,
+      CBU: undefined,
+      banco: undefined,
+      uri: undefined
+    };
   }
 
-<<<<<<< HEAD
-    onChangeCantidad(value) {
-        this.setState({
-            cantidad: value
-        });
-    }
-    onChangePropietario(value) {
-        this.setState({
-            propietario: value
-        });
-    }
-    onChangeOtros(value) {
-        this.setState({
-            otros: value
-        });
-    }
-    onChangeTitular(value) {
-        this.setState({
-            titularName: value
-        });
-    }
-    onChangeCBU(value) {
-        this.setState({
-            CBU: value
-        });
-    }
-    onChangeBanco(value) {
-        this.setState({
-            bankName: value
-        });
-    }
-    onChangeVencimientos(value) {
-        this.setState({
-            vencimiento: value
-        });
-    }
-    onChangeCuotas(value) {
-        this.setState({
-            cuotas: value
-        });
-    }
-=======
-  onChangeCantidad (value) {
+
+  onChangeCantidad(value) {
     this.setState({
       cantidad: value
-    })
+    });
   }
-  onChangePropietario (value) {
+  onChangeUri(value) {
+    this.setState({
+      uri: value
+    });
+  }
+  onChangePropietario(value) {
     this.setState({
       propietario: value
-    })
+    });
   }
-  onChangeOtros (value) {
+  onChangeOtros(value) {
     this.setState({
       otros: value
-    })
+    });
   }
-
-  onChangeVencimientos (value) {
+  onChangeTitular(value) {
+    this.setState({
+      titularName: value
+    });
+  }
+  onChangeCBU(value) {
+    this.setState({
+      CBU: value
+    });
+  }
+  onChangeBanco(value) {
+    this.setState({
+      bankName: value
+    });
+  }
+  onChangeVencimientos(value) {
     this.setState({
       vencimiento: value
-    })
+    });
   }
-  onChangeCuotas (value) {
+  onChangeCuotas(value) {
     this.setState({
       cuotas: value
-    })
+    });
   }
->>>>>>> 21bf46f4ba62065280e9e330e4e95f5c2ccde93d
 
-  onChangeInteres (value) {
+  onChangeInteres(value) {
     this.setState({
       interes: value
     })
   }
 
-  onChangeTipoServicio (value) {
+  onChangeTipoServicio(value) {
     this.setState({
       tipoServicio: value
     })
   }
-  onChangeTipo (value) {
+  onChangeTipo(value) {
     this.setState({
       tipo: value
     })
   }
 
-  onChangeMedio (value) {
+  onChangeMedio(value) {
     this.setState({
       medio: value
     })
   }
 
-  onChangeDestino (value) {
+  onChangeDestino(value) {
     this.setState({
       destino: value
     })
   }
 
-  onChangeFuente (value) {
+  onChangeFuente(value) {
     this.setState({
       fuente: value
     })
   }
 
-  onChangeCuenta (value) {
+  onChangeCuenta(value) {
     this.setState({
       cuenta: value
     })
   }
 
-  onChangeMoneda (value) {
+  onChangeMoneda(value) {
     this.setState({
       moneda: value
     })
   }
-  onChangeUserName (value) {
+  onChangeUserName(value) {
     this.setState({
       userName: value
     })
   }
 
-  onChangePassword (value) {
+  onChangePassword(value) {
     this.setState({
       password: value
     })
   }
 
-  getFormData (data) {
+  getFormData(data) {
     this.props.getFormData(data)
   }
 
-<<<<<<< HEAD
-    render() {
-        if (this.props.type === 'Ingresos') {
-            return renderIngresos(this);
-        } else if (this.props.type === 'Egresos') {
-            return renderEgresos(this);
-        } else if (this.props.type === 'Prestamos Prestados') {
-            return renderPrestamosPrestados(this)
-        } else if (this.props.type === 'Prestamos Tomados') {
-            return renderPrestamosTomados(this)
-        } else if (this.props.type === 'Login') {
-            return renderLogin(this)
-        } else if (this.props.type === 'Presupuesto') {
-            return renderPresupuesto(this)
-        } else if (this.props.type === 'SingIn') {
-            return renderSingIn(this)
-        } else if (this.props.type === 'Inversiones') {
-            return renderInversiones(this)
-        } else if(this.props.type === 'Cuenta') {
-            return renderCuentaBancaria(this)
-        }
-=======
-  render () {
+  render() {
     if (this.props.type === 'Ingresos') {
-      return renderIngresos(this)
+      return renderIngresos(this);
     } else if (this.props.type === 'Egresos') {
-      return renderEgresos(this)
+      return renderEgresos(this);
     } else if (this.props.type === 'Prestamos Prestados') {
       return renderPrestamosPrestados(this)
     } else if (this.props.type === 'Prestamos Tomados') {
@@ -227,12 +164,14 @@ export default class Formulario extends React.Component {
       return renderSingIn(this)
     } else if (this.props.type === 'Inversiones') {
       return renderInversiones(this)
->>>>>>> 21bf46f4ba62065280e9e330e4e95f5c2ccde93d
+    } else if (this.props.type === 'Cuenta') {
+      return renderCuentaBancaria(this)
     }
   }
 }
 
-function renderIngresos (props) {
+
+function renderIngresos(props) {
   return (
     <Container style={styles.container}>
       <Content>
@@ -343,7 +282,19 @@ function renderIngresos (props) {
   )
 }
 
-function renderEgresos (props) {
+function renderEgresos(props) {
+  let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    console.log(pickerResult);
+    props.onChangeUri(pickerResult.uri)
+  }
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -584,7 +535,7 @@ function renderEgresos (props) {
               onChangeText={props.onChangeInteres.bind(props)}
             />
           </Item>
-          <Button style={styles.btnIngresar}>
+          <Button style={styles.btnIngresar} onPress={openImagePickerAsync}>
             <Text>SUBIR ARCHIVO</Text>
           </Button>
           <Button
@@ -610,7 +561,8 @@ function renderEgresos (props) {
   )
 }
 
-function renderPrestamosPrestados (props) {
+
+function renderPrestamosPrestados(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -706,7 +658,7 @@ function renderPrestamosPrestados (props) {
   )
 }
 
-function renderPrestamosTomados (props) {
+function renderPrestamosTomados(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -836,7 +788,7 @@ function renderPrestamosTomados (props) {
     </Container>
   )
 }
-function renderPresupuesto (props) {
+function renderPresupuesto(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -914,7 +866,7 @@ function renderPresupuesto (props) {
   )
 }
 
-function renderInversiones (props) {
+function renderInversiones(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -1017,7 +969,7 @@ function renderInversiones (props) {
     </Container>
   )
 }
-function renderLogin (prop) {
+function renderLogin(prop) {
   return (
     <Container style={styles.container}>
       <Content>
@@ -1059,139 +1011,96 @@ function renderLogin (prop) {
   )
 }
 
-<<<<<<< HEAD
 function renderCuentaBancaria(props) {
-    return (
-        <Container style={styles.container}>
-            <Content bounces={false}>
-                <Form scrollEnabled={false}>
-                    <Item stackedLabel>
-                        <Input
-                            style={{ color: "#697A8C" }}
-                            placeholder="Titular" placeholderTextColor="#697A8C"
-                            onChangeText={props.onChangeTitular.bind(props)}
-                        />
-                    </Item>
-                    <Item stackedLabel>
-                        <Input
-                            keyboardType="number-pad"
-                            style={{ color: "#697A8C" }}
-                            placeholder="CBU"
-                            placeholderTextColor="#697A8C"
-                            onChangeText={props.onChangeCBU.bind(props)}
-                        />
-                    </Item>
-                    <Item stackedLabel>
-                        <Input
-                            style={{ color: "#697A8C" }}
-                            placeholder="Banco"
-                            placeholderTextColor="#697A8C"
-                            onChangeText={props.onChangeBanco.bind(props)}
-                        />
-                    </Item>
-                    <Button
-                        style={styles.btnIngresar}
-                        onPress={() => {
-                            props.getFormData(
-                                {
-                                    titularName: props.state.titularName,
-                                    CBU: props.state.CBU,
-                                    bankName: props.state.bankName,
-                                })
-                        }}>
-                        <Text>REGISTRAR</Text>
-                    </Button>
-                </Form>
-            </Content>
-        </Container>
-    )
-}
- 
-function renderSingIn(prop) { 
-    return (
-        <Container style={styles.container}>
-            <Content >
-                <Form >
-                    <Item stackedLabel>
-                        <Input
-                            style={{ color: "#697A8C" }}
-                            placeholder="Email"
-                            placeholderTextColor="#697A8C"
-                            onChangeText={prop.onChangeUserName.bind(prop)}
-
-                        />
-                    </Item>
-                    <Item stackedLabel>
-                        <Input
-                            style={{ color: "#697A8C" }}
-                            placeholder="Contraseña"
-                            placeholderTextColor="#697A8C"
-                            onChangeText={prop.onChangePassword.bind(prop)}
-
-                        />
-                    </Item>
-
-                    <Button
-                        style={styles.btnIngresar}
-                        onPress={() => actionButton('sign in', prop)}>
-                        <Text>REGISTRARSE</Text>
-                    </Button>
-                    <Button
-                        style={styles.btnIngresar}
-                        onPress={() => {
-                            prop.props.navigation.navigate('Login')
-                        }}>
-                        <Text>Volver</Text>
-                    </Button>
-                </Form>
-            </Content>
-        </Container>
-    )
-=======
-function renderSingIn (prop) {
   return (
     <Container style={styles.container}>
-      <Content>
-        <Form>
+      <Content bounces={false}>
+        <Form scrollEnabled={false}>
           <Item stackedLabel>
             <Input
-              style={{ color: '#697A8C' }}
-              placeholder='Email'
-              placeholderTextColor='#697A8C'
-              onChangeText={prop.onChangeUserName.bind(prop)}
+              style={{ color: "#697A8C" }}
+              placeholder="Titular" placeholderTextColor="#697A8C"
+              onChangeText={props.onChangeTitular.bind(props)}
             />
           </Item>
           <Item stackedLabel>
             <Input
-              style={{ color: '#697A8C' }}
-              placeholder='Contraseña'
-              placeholderTextColor='#697A8C'
+              keyboardType="number-pad"
+              style={{ color: "#697A8C" }}
+              placeholder="CBU"
+              placeholderTextColor="#697A8C"
+              onChangeText={props.onChangeCBU.bind(props)}
+            />
+          </Item>
+          <Item stackedLabel>
+            <Input
+              style={{ color: "#697A8C" }}
+              placeholder="Banco"
+              placeholderTextColor="#697A8C"
+              onChangeText={props.onChangeBanco.bind(props)}
+            />
+          </Item>
+          <Button
+            style={styles.btnIngresar}
+            onPress={() => {
+              props.getFormData(
+                {
+                  titularName: props.state.titularName,
+                  CBU: props.state.CBU,
+                  bankName: props.state.bankName,
+                })
+            }}>
+            <Text>REGISTRAR</Text>
+          </Button>
+        </Form>
+      </Content>
+    </Container>
+  )
+}
+
+function renderSingIn(prop) {
+  return (
+    <Container style={styles.container}>
+      <Content >
+        <Form >
+          <Item stackedLabel>
+            <Input
+              style={{ color: "#697A8C" }}
+              placeholder="Email"
+              placeholderTextColor="#697A8C"
+              onChangeText={prop.onChangeUserName.bind(prop)}
+
+            />
+          </Item>
+          <Item stackedLabel>
+            <Input
+              style={{ color: "#697A8C" }}
+              placeholder="Contraseña"
+              placeholderTextColor="#697A8C"
               onChangeText={prop.onChangePassword.bind(prop)}
+
             />
           </Item>
 
           <Button
             style={styles.btnIngresar}
-            onPress={() => actionButton('sign in', prop)}
-          >
+            onPress={() => actionButton('sign in', prop)}>
             <Text>REGISTRARSE</Text>
           </Button>
           <Button
             style={styles.btnIngresar}
             onPress={() => {
               prop.props.navigation.navigate('Login')
-            }}
-          >
+            }}>
             <Text>Volver</Text>
           </Button>
         </Form>
       </Content>
     </Container>
   )
->>>>>>> 21bf46f4ba62065280e9e330e4e95f5c2ccde93d
 }
 
-function actionButton (type, prop) {
+function actionButton(type, prop) {
   switch (type) {
     case 'login':
       prop.props.actionButton(prop.state.userName, prop.state.password)
