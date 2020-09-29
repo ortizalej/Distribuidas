@@ -18,7 +18,7 @@ import * as ImagePicker from 'expo-image-picker'
 
 const { width, height } = Dimensions.get('screen')
 export default class Formulario extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       tipo: undefined,
@@ -42,115 +42,117 @@ export default class Formulario extends React.Component {
     }
   }
 
-  onChangeCantidad (value) {
+  onChangeCantidad(value) {
     this.setState({
       cantidad: value
     })
   }
-  onChangeUri (value) {
+  onChangeUri(value) {
     this.setState({
       uri: value
     })
   }
-  onChangePropietario (value) {
+  onChangePropietario(value) {
     this.setState({
       propietario: value
     })
   }
-  onChangeOtros (value) {
+  onChangeOtros(value) {
     this.setState({
       otros: value
     })
   }
-  onChangeTitular (value) {
+  onChangeTitular(value) {
     this.setState({
       titularName: value
     })
   }
-  onChangeCBU (value) {
+  onChangeCBU(value) {
     this.setState({
       CBU: value
     })
   }
-  onChangeBanco (value) {
+  onChangeBanco(value) {
     this.setState({
       bankName: value
     })
   }
-  onChangeVencimientos (value) {
+  onChangeVencimientos(value) {
     this.setState({
       vencimiento: value
     })
   }
-  onChangeCuotas (value) {
+  onChangeCuotas(value) {
     this.setState({
       cuotas: value
     })
   }
-
-  onChangeInteres (value) {
+  onChangeInteres(value) {
     this.setState({
       interes: value
     })
   }
-
-  onChangeTipoServicio (value) {
+  onChangeTipoServicio(value) {
     this.setState({
       tipoServicio: value
     })
   }
-  onChangeTipo (value) {
+  onChangeTipo(value) {
     this.setState({
       tipo: value
     })
   }
-
-  onChangeMedio (value) {
+  onChangeMedio(value) {
     this.setState({
       medio: value
     })
   }
-
-  onChangeDestino (value) {
+  onChangeDestino(value) {
     this.setState({
       destino: value
     })
   }
-
-  onChangeFuente (value) {
+  onChangeFuente(value) {
     this.setState({
       fuente: value
     })
   }
-
-  onChangeCuenta (value) {
+  onChangeCuenta(value) {
     this.setState({
       cuenta: value
     })
   }
-
-  onChangeMoneda (value) {
+  onChangeMoneda(value) {
     this.setState({
       moneda: value
     })
   }
-  onChangeUserName (value) {
+  onChangeUserName(value) {
     this.setState({
       userName: value
     })
   }
-
-  onChangePassword (value) {
+  onChangeLastName(value) {
+    this.setState({
+      lastName: value
+    })
+  }
+  onChangeName(value) {
+    this.setState({
+      name: value
+    })
+  }
+  onChangePassword(value) {
     this.setState({
       password: value
     })
   }
 
-  getFormData (data) {
+  getFormData(data) {
     this.props.getFormData(data)
   }
 
-  render () {
+  render() {
     if (this.props.type === 'Ingresos') {
       return renderIngresos(this)
     } else if (this.props.type === 'Egresos') {
@@ -173,7 +175,7 @@ export default class Formulario extends React.Component {
   }
 }
 
-function renderIngresos (props) {
+function renderIngresos(props) {
   return (
     <Container style={styles.container}>
       <Content>
@@ -184,14 +186,7 @@ function renderIngresos (props) {
             onChangeText={props.onChangeCantidad.bind(props)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
 
           <Dropdown
@@ -271,7 +266,7 @@ function renderIngresos (props) {
   )
 }
 
-function renderEgresos (props) {
+function renderEgresos(props) {
   let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync()
 
@@ -294,14 +289,7 @@ function renderEgresos (props) {
             onChangeText={props.onChangeCantidad.bind(props)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
 
           <Dropdown
@@ -357,14 +345,7 @@ function renderEgresos (props) {
               onChangeText={props.onChangeOtros.bind(props)}
               mode='outlined'
               style={styles.itemTextInput}
-              theme={{
-                colors: {
-                  placeholder: '#697A8C',
-                  text: '#697A8C',
-                  primary: '#FF8141',
-                  backdrop: 'white'
-                }
-              }}
+              theme={theme}
             />
           </Item>
           <Dropdown
@@ -466,14 +447,7 @@ function renderEgresos (props) {
               onChangeText={props.onChangeInteres.bind(props)}
               mode='outlined'
               style={styles.itemTextInput}
-              theme={{
-                colors: {
-                  placeholder: '#697A8C',
-                  text: '#697A8C',
-                  primary: '#FF8141',
-                  backdrop: 'white'
-                }
-              }}
+              theme={theme}
             />
           </Item>
           <Button style={styles.btnIngresar} onPress={openImagePickerAsync}>
@@ -506,7 +480,7 @@ function renderEgresos (props) {
   )
 }
 
-function renderPrestamosPrestados (props) {
+function renderPrestamosPrestados(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -517,14 +491,7 @@ function renderPrestamosPrestados (props) {
             onChangeText={props.onChangeCantidad.bind(props)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
 
           <TextInput
@@ -532,14 +499,7 @@ function renderPrestamosPrestados (props) {
             onChangeText={props.onChangeDestino.bind(props)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
 
           <Dropdown
@@ -607,7 +567,7 @@ function renderPrestamosPrestados (props) {
   )
 }
 
-function renderPrestamosTomados (props) {
+function renderPrestamosTomados(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -618,14 +578,7 @@ function renderPrestamosTomados (props) {
             onChangeText={props.onChangeCantidad.bind(props)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
 
           <TextInput
@@ -633,14 +586,7 @@ function renderPrestamosTomados (props) {
             onChangeText={props.onChangePropietario.bind(props)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
 
           <Dropdown
@@ -701,14 +647,7 @@ function renderPrestamosTomados (props) {
             onChangeText={props.onChangeInteres.bind(props)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
 
           <TextInput
@@ -716,14 +655,7 @@ function renderPrestamosTomados (props) {
             onChangeText={props.onChangeVencimientos.bind(props)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
           <Button
             style={styles.btnIngresar}
@@ -752,7 +684,7 @@ function renderPrestamosTomados (props) {
     </Container>
   )
 }
-function renderPresupuesto (props) {
+function renderPresupuesto(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -763,14 +695,7 @@ function renderPresupuesto (props) {
             onChangeText={props.onChangeCantidad.bind(props)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
 
           <Dropdown
@@ -805,7 +730,7 @@ function renderPresupuesto (props) {
   )
 }
 
-function renderInversiones (props) {
+function renderInversiones(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -816,14 +741,7 @@ function renderInversiones (props) {
             onChangeText={props.onChangeCantidad.bind(props)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
 
           <Dropdown
@@ -851,14 +769,7 @@ function renderInversiones (props) {
               onChangeText={props.onChangeInteres.bind(props)}
               mode='outlined'
               style={styles.itemTextInput}
-              theme={{
-                colors: {
-                  placeholder: '#697A8C',
-                  text: '#697A8C',
-                  primary: '#FF8141',
-                  backdrop: 'white'
-                }
-              }}
+              theme={theme}
             />
           </Item>
           <Item
@@ -875,14 +786,7 @@ function renderInversiones (props) {
               onChangeText={props.onChangeDestino.bind(props)}
               mode='outlined'
               style={styles.itemTextInput}
-              theme={{
-                colors: {
-                  placeholder: '#697A8C',
-                  text: '#697A8C',
-                  primary: '#FF8141',
-                  backdrop: 'white'
-                }
-              }}
+              theme={theme}
             />
           </Item>
           <Button
@@ -903,24 +807,17 @@ function renderInversiones (props) {
     </Container>
   )
 }
-function renderLogin (prop) {
+function renderLogin(prop) {
   return (
     <Container style={styles.container}>
       <Content>
         <Form>
           <TextInput
-            label='Usuario'
+            label='Email'
             onChangeText={prop.onChangeUserName.bind(prop)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
           <TextInput
             label='Contraseña'
@@ -928,14 +825,7 @@ function renderLogin (prop) {
             onChangeText={prop.onChangePassword.bind(prop)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
 
           <Button
@@ -958,7 +848,7 @@ function renderLogin (prop) {
   )
 }
 
-function renderCuentaBancaria (props) {
+function renderCuentaBancaria(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -1006,7 +896,7 @@ function renderCuentaBancaria (props) {
   )
 }
 
-function renderSingIn (prop) {
+function renderSingIn(prop) {
   return (
     <Container style={styles.container}>
       <Content>
@@ -1016,14 +906,7 @@ function renderSingIn (prop) {
             onChangeText={prop.onChangeUserName.bind(prop)}
             mode='outlined'
             style={styles.textInput}
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
           <TextInput
             label='Contraseña'
@@ -1031,16 +914,25 @@ function renderSingIn (prop) {
             onChangeText={prop.onChangePassword.bind(prop)}
             mode='outlined'
             style={styles.textInput}
-            sec
-            theme={{
-              colors: {
-                placeholder: '#697A8C',
-                text: '#697A8C',
-                primary: '#FF8141',
-                backdrop: 'white'
-              }
-            }}
+            theme={theme}
           />
+
+          <TextInput
+            label='Nombre'
+            onChangeText={prop.onChangeName.bind(prop)}
+            mode='outlined'
+            style={styles.textInput}
+            theme={theme}
+          />
+
+          <TextInput
+            label='Apellido'
+            onChangeText={prop.onChangeLastName.bind(prop)}
+            mode='outlined'
+            style={styles.textInput}
+            theme={theme}
+          />
+
           <Button
             style={styles.btnIngresar}
             onPress={() => actionButton('sign in', prop)}
@@ -1061,12 +953,12 @@ function renderSingIn (prop) {
   )
 }
 
-function actionButton (type, prop) {
+function actionButton(type, prop) {
   switch (type) {
     case 'login':
       prop.props.actionButton(prop.state.userName, prop.state.password)
     case 'sign in':
-      prop.props.actionButton(prop.state.userName, prop.state.password)
+      prop.props.actionButton(prop.state.userName, prop.state.password, prop.state.name, prop.state.lastName)
     default:
       break
   }
@@ -1195,3 +1087,12 @@ const inversionOptions = [
   { value: 'Comodities' },
   { value: 'Futuros' }
 ]
+
+const theme = {
+  colors: {
+    placeholder: '#697A8C',
+    text: '#697A8C',
+    primary: '#FF8141',
+    backdrop: 'white'
+  }
+};

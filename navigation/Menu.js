@@ -2,7 +2,6 @@ import React from "react";
 import { TouchableWithoutFeedback, ScrollView, StyleSheet, Image } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 import { useSafeArea } from "react-native-safe-area-context";
-
 import { Icon, Drawer as DrawerCustomItem } from '../components/';
 import { Images, materialTheme } from "../constants/";
 
@@ -10,7 +9,6 @@ import { Images, materialTheme } from "../constants/";
 function CustomDrawerContent({
   drawerPosition,
   navigation,
-  profile,
   focused,
   state,
   user,
@@ -37,7 +35,7 @@ function CustomDrawerContent({
         <Block style={styles.profile}>
           <Image source={require('../assets/images/userImage.png')} style={styles.avatar} />
           <Text h5 color={"white"}>
-            {profile.name}
+            {user.name + " " + user.lastName}
           </Text>
         </Block>
       </Block>

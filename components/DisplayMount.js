@@ -25,10 +25,6 @@ export default class DisplayMount extends React.Component {
       defaultPesos: valuePesos,
       defaultDolares: valueDolares
     })
-    showMessage({
-      message: '¡Prestamo tomado eliminado con éxito!',
-      type: 'success'
-    })
   }
 
   getDate (value) {

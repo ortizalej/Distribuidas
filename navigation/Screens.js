@@ -23,12 +23,6 @@ const { width } = Dimensions.get("screen");
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const profile = {
-  avatar: Images.Profile,
-  name: "Alejandro Ortiz"
-};
-
-
 function HomeStack() {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
@@ -243,11 +237,20 @@ function SingInStack() {
 
 function AppStack(props) {
   let user = props.route.params.seguridad
+  console.log(user);
   return (
     <Drawer.Navigator
       style={{ flex: 1 }}
       drawerContent={props => (
-        <CustomDrawerContent {...props} profile={profile} user={user} />
+        <CustomDrawerContent
+          {...props}
+          profile={{
+            avatar: Images.Profile,
+            name: user.name,
+            lastName: user.lastName
+          }}
+          user={user} 
+        />
       )}
       drawerStyle={{
         backgroundColor: "white",

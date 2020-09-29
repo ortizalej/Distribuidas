@@ -6,11 +6,13 @@ import { showMessage, hideMessage } from 'react-native-flash-message'
 const { width, height } = Dimensions.get('screen')
 
 export default class SignIn extends React.Component {
-  actionButton (userName, password) {
+  actionButton (userName, password, name, lastName) {
     let insertUser = {
       seguridad: {
         userName: userName,
-        password: password
+        password: password,
+        name: name,
+        lastName: lastName
       },
       ingresos: [],
       egresos: [],

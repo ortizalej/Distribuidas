@@ -3,7 +3,6 @@ import { StyleSheet, Dimensions, ScrollView } from 'react-native'
 import { Button, Block, Text } from 'galio-framework'
 import Display from '../components/DisplayMount'
 import Form from '../components/Formulario'
-import { showMessage, hideMessage } from 'react-native-flash-message'
 import HistoricTable from '../components/HistoricTable'
 const { width, height } = Dimensions.get('screen')
 import moment from 'moment'
