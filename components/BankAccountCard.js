@@ -47,14 +47,6 @@ export default class DisplayMount extends React.Component {
                         </Text>
                         <Text
                             style={styles.labelText}>
-                            Tipo
-                        </Text>
-                        <Text
-                            style={styles.valueText}>
-                            {this.state.tipo}
-                        </Text>
-                        <Text
-                            style={styles.labelText}>
                             CBU
                         </Text>
                         <Text

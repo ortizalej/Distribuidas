@@ -64,43 +64,50 @@ var endDate = moment("25-12-2016", "DD-MM-YYYY");
 var differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
 
 export default class Tarjetas extends React.Component {
-
+    defaultDate = 'Anual'
+    colTable = ['Fecha', 'Cantidad', 'Moneda', ''];
     constructor(props) {
         super(props);
         this.state = {
             type: 'Card',
             cards: [
-                {
-                    name: "Alejandro Ortiz",
-                    number: 'XXXXXXXX2 123',
-                    expiry: '22/11',
-                    brand: "visa",
-                },
-                {
-                    name: "Alejandro Ortiz",
-                    number: 'XXXXXXXX2 452',
-                    expiry: '12/04',
-                    brand: "master-card",
-                }
+                // {
+                //     name: "Alejandro Ortiz",
+                //     number: 'XXXXXXXX2 123',
+                //     expiry: '22/11',
+                //     brand: "visa",
+                // },
+                // {
+                //     name: "Alejandro Ortiz",
+                //     number: 'XXXXXXXX2 452',
+                //     expiry: '12/04',
+                //     brand: "master-card",
+                // }
             ],
-            rowToShow: [
-                ['02-09-2020', 1000, 'Pesos', ''],
-                ['02-07-2020', 1000, 'Dolares', ''],
-                ['13-01-2020', 1000, 'Pesos', '']
-                // INIT QUERY
-            ],
+            rowToShow: [],
 
-            rowtoDetail: [
-                ['02-09-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta'],
-                ['02-07-2020', 1000, 'Dolares', 'Medio', 'Fuente', 'Cuenta'],
-                ['13-01-2020', 1000, 'Pesos', 'Medio', 'Fuente', 'Cuenta']
-                // INIT QUERY
-            ]
+            rowtoDetail: []
         }
     }
-    defaultDate = 'Anual'
-    colTable = ['Fecha', 'Cantidad', 'Moneda', ''];
+    // insertData(arrayData) { 
+    //     this.state.data.ingresos.push(arrayData)
+    //     AsyncStorage.mergeItem(
+    //         this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
+    //         JSON.stringify(this.state.data),
+    //         (value) => {
+    //             console.log(value)
+    //         })
+    // }
 
+    // deleteData(ingresosItems) {
+    //     this.state.data.ingresos = ingresosItems
+    //     AsyncStorage.mergeItem(
+    //         this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
+    //         JSON.stringify(this.state.data),
+    //         (value) => {
+    //             console.log(value)
+    //         })
+    // }
 
     formData(data) {
         var now = moment().format('DD-MM-YYYY');
@@ -155,7 +162,10 @@ export default class Tarjetas extends React.Component {
                     >
                         <Text style={{ fontWeight: "bold" }}>+</Text>
                     </Button>
-                    <CarrouselCard items={this.state.cards} type={this.state.type} />
+                    <CarrouselCard
+                        items={this.state.cards}
+                        type={this.state.type}
+                    />
                     <Display style={styles.display}
                         ref={(display) => { this.Display = display }}
                         defaultDate={this.defaultDate}

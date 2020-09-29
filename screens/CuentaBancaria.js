@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
 import { Block } from 'galio-framework';
 import CarrouselCard from '../components/CarrouselCard';
 import Display from '../components/DisplayMount'
 import HistoricTable from '../components/HistoricTable';
 import moment from 'moment';
-
+import Form from '../components/Formulario'
 const { width, height } = Dimensions.get('screen');
 function getMatchedData(dateFilter, rowValues) {
     let filterDataRows = [];
@@ -53,80 +53,138 @@ function sumValues(rowValues) {
     return sumas;
 }
 export default class Tarjetas extends React.Component {
+    colTable = ['Fecha', 'Cantidad', 'Tipo', '']
+
     constructor(props) {
         super(props);
         this.state = {
             type: 'Bank',
-            carouselItems: [
-                {
-                    bankName: 'SANTANDER RIO',
-                    titularName: 'TESTING',
-                    tipo: 'CUENTA DE AHORRO',
-                    CBU: '123123123131231'
-                },
-                {
-                    bankName: 'SANTANDER RIO',
-                    titularName: 'TESTING',
-                    tipo: 'CUENTA DE AHORRO',
-                    CBU: '123123123131231'
-                }
-            ]
+            carouselItems: [],
+            rowToShow: [],
+            rowtoDetail: [],
+            data: undefined
+
         }
     }
 
-    rowToShow = [
-        ['02-09-2020', 1000, 'Pesos', ''],
-        ['02-07-2020', 1000, 'Dolares', ''],
-        ['13-01-2020', 1000, 'Pesos', '']
-        // INIT QUERY
-    ];
+    getCuentaData(data) {
 
-    rowtoDetail = [
-        ['02-09-2020', 1000, 'Pesos', 'Santander', 'Titular', 'Tipo'],
-        ['02-07-2020', 1000, 'Dolares', 'Santander', 'Titular', 'Tipo'],
-        ['13-01-2020', 1000, 'Pesos', 'Santander', 'Titular', 'Tipo']
-        // INIT QUERY
-    ]
+        AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
+            let userData = JSON.parse(value)
+            this.state.data = userData
+            console.log('CUENTAS', JSON.stringify(this.state.data.cuentasBancarias))
+            this.Carrousel.updateState(this.state.data.cuentasBancarias)
 
-    colTable = ['Fecha', 'Cantidad', 'Tipo', 'Operacion']
+            let arrayDataDetail = [];
+            let showData = [];
+            // if (userData.ingresos.length > 0) {
+
+
+            //     for (let i = 0; i < userData.ingresos.length; i++) {
+            //         arrayDataDetail.push(
+            //             [
+            //                 userData.ingresos[i][0],
+            //                 userData.ingresos[i][1],
+            //                 userData.ingresos[i][2],
+            //                 userData.ingresos[i][3],
+            //                 userData.ingresos[i][4],
+            //                 userData.ingresos[i][5]
+            //             ]);
+            //         showData.push(
+            //             [
+            //                 userData.ingresos[i][0],
+            //                 userData.ingresos[i][1],
+            //                 userData.ingresos[i][2],
+            //                 ''
+            //             ]);
+            //     }
+
+            //     if (userData.egresos.length > 0) {
+            //         for (let i = 0; i < userData.egresos.length; i++) {
+            //             arrayDataDetail.push(
+            //                 [
+            //                     userData.egresos[i][0],
+            //                     userData.egresos[i][1],
+            //                     userData.egresos[i][2],
+            //                     userData.egresos[i][3],
+            //                     userData.egresos[i][4],
+            //                     userData.egresos[i][5]
+            //                 ]);
+            //             showData.push(
+            //                 [
+            //                     userData.egresos[i][0],
+            //                     userData.egresos[i][1],
+            //                     userData.egresos[i][2],
+            //                     ''
+            //                 ]);
+            //         }
+            //     }
+            //     this.setState({
+            //         rowToShow: showData,
+            //         rowtoDetail: arrayDataDetail
+            //     })
+
+
+            //     for (let i = 0; i < this.state.rowtoDetail.length; i++) {
+            //         if (!this.state.rowtoDetail[i]) { continue; }
+            //         if (this.state.rowtoDetail[i][2] === 'Pesos') {
+            //             this.totalSumPesos += this.state.rowtoDetail[i][1];
+            //         } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+            //             this.totalSumaDolares += this.state.rowtoDetail[i][1]
+            //         }
+            //     }
+
+            //     this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
+            //     this.HistoricTable.updateState(this.state.rowToShow);
+            // }
+        })
+
+    }
+ 
+    insertData(accountData) {
+        console.log('ACCOUNT', accountData) 
+        this.state.data.cuentasBancarias.push(accountData);
+        this.state.carouselItems.push(accountData)
+        let dataToShow = this.state.carouselItems 
+        this.Carrousel.updateState(dataToShow)
+        
+        AsyncStorage.mergeItem(
+            this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
+            JSON.stringify(this.state.data)
+        )
+
+
+    }
+
     formData(data) {
-        var now = moment().format('DD-MM-YYYY');
-        let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
-        let arrayData = [now, parseInt(data.cantidad), data.moneda, data.medio, data.fuente, data.cuenta]
-        this.rowtoDetail.push(arrayData);
-        this.rowToShow.push(arrayDataToShow);
-        let totalSumPesos = sumValues(this.rowtoDetail)[0]
-        let totalSumDolares = sumValues(this.rowtoDetail)[1]
-        this.HistoricTable.updateState(this.rowToShow);
-        this.Display.updateState(totalSumPesos, totalSumDolares);
+        this.insertData(data)
+
     }
     getDisplayFilter(date) {
-        if (this.rowtoDetail.length > 0) {
-            let filterDataToShow = getMatchedData(date, this.rowToShow);
-            let filterData = getMatchedData(date, this.rowtoDetail);
+        if (this.state.rowtoDetail.length > 0) {
+            let filterDataToShow = getMatchedData(date, this.state.rowToShow);
+            let filterData = getMatchedData(date, this.state.rowtoDetail);
             let filterSumPesos = sumValues(filterData)[0]
             let filterSumDolares = sumValues(filterData)[1]
             this.HistoricTable.updateState(filterDataToShow);
             this.Display.updateState(filterSumPesos, filterSumDolares);
         }
     }
-    deleteRow(index) {
-        this.rowtoDetail.splice(index, 1);
-        this.rowToShow.splice(index, 1);
-        let totalSumPesos = sumValues(this.rowtoDetail)[0]
-        let totalSumDolares = sumValues(this.rowtoDetail)[1]
-        this.HistoricTable.updateState(this.rowToShow);
-        this.Display.updateState(totalSumPesos, totalSumDolares);
-    }
+
     render() {
+        let userData = this.props.route.params
+        console.log(userData)
+        if (!this.state.data) {
+            this.getCuentaData(userData)
+        }
         let totalSumPesos = 0;
         let totalSumaDolares = 0;
-        for (let i = 0; i < this.rowtoDetail.length; i++) {
-            if (!this.rowtoDetail[i]) { continue; }
-            if (this.rowtoDetail[i][2] === 'Pesos') {
-                totalSumPesos += this.rowtoDetail[i][1];
-            } else if (this.rowtoDetail[i][2] === 'Dolares') {
-                totalSumaDolares += this.rowtoDetail[i][1]
+        for (let i = 0; i < this.state.rowtoDetail.length; i++) {
+            if (!this.state.rowtoDetail[i]) { continue; }
+            if (this.state.rowtoDetail[i][2] === 'Pesos') {
+                totalSumPesos += this.state.rowtoDetail[i][1];
+            } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+                totalSumaDolares += this.state.rowtoDetail[i][1]
             }
         }
         return (
@@ -136,6 +194,9 @@ export default class Tarjetas extends React.Component {
                     <CarrouselCard
                         items={this.state.carouselItems}
                         type={this.state.type}
+                        ref={(carrousel) => { this.Carrousel = carrousel }}
+                        onch
+
                     />
                     <Display
                         ref={(display) => { this.Display = display }}
@@ -145,12 +206,14 @@ export default class Tarjetas extends React.Component {
                         getDate={this.getDisplayFilter.bind(this)}
 
                     />
+                    <Form type={'Cuenta'}
+                        getFormData={this.formData.bind(this)}
+                    />
                     <HistoricTable type={'Cuenta'}
                         ref={(table) => { this.HistoricTable = table }}
                         cols={this.colTable}
-                        rows={this.rowToShow}
-                        detailRows={this.rowtoDetail}
-                        deleteRow={this.deleteRow.bind(this)}
+                        rows={this.state.rowToShow}
+                        detailRows={this.state.rowtoDetail}
                     />
                 </ScrollView>
             </Block>

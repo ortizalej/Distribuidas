@@ -81,12 +81,14 @@ function LoginRedirect() {
   )
 }
 
-function PresupuestoStack() {
+function PresupuestoStack(user) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Presupuesto"
         component={PresupuestoScreen}
+        initialParams={user.route.params}
+
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Presupuesto" scene={scene} navigation={navigation} />
@@ -133,12 +135,14 @@ function EgresosStack(user) {
   );
 }
 
-function TarjetasStack() {
+function TarjetasStack(user) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Tarjetas"
         component={TarjetasScreen}
+        initialParams={user.route.params}
+
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Tarjetas" scene={scene} navigation={navigation} />
@@ -149,11 +153,13 @@ function TarjetasStack() {
   );
 }
 
-function PrestamosStack() {
+function PrestamosStack(user) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Prestamos"
+        initialParams={user.route.params}
+
         component={PrestamosScreen}
         options={{
           header: ({ navigation, scene }) => (
@@ -164,12 +170,13 @@ function PrestamosStack() {
     </Stack.Navigator>
   );
 }
-function CuentaStack() {
+function CuentaStack(user) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Cuenta Bancaria"
         component={CuentaScreen}
+        initialParams={user.route.params}
 
         options={{
           header: ({ navigation, scene }) => (
@@ -181,12 +188,14 @@ function CuentaStack() {
   );
 }
 
-function AgregarTarjetasStack() {
+function AgregarTarjetasStack(user) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Agregar Tarjetas"
         component={AgregarTarjetas}
+        initialParams={user.route.params}
+
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Agregar Tarjetas" scene={scene} navigation={navigation} />

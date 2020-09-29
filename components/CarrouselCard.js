@@ -40,6 +40,10 @@ export default class CarrouselCard extends React.Component {
           }
         )
       }
+    
+    onchangeItem() {
+        console.log(this.carousel)
+    }
     _renderItemCard({ item, index }) {
         return (
             <View>
@@ -53,12 +57,12 @@ export default class CarrouselCard extends React.Component {
         )
     }
     _renderItemBank({ item, index }) {
+        console.log('ITEM', item)
         return (
             <View>
                 <BankCard
                     bankName={item.bankName}
                     titularName={item.titularName}
-                    tipo={item.tipo}
                     CBU={item.CBU}
                 />
             </View>
@@ -83,7 +87,7 @@ export default class CarrouselCard extends React.Component {
         return (
             <View center style={styles.container}>
                 <Carousel
-                    ref={(c) => { this._carousel = c; }}
+                    ref={(c) => { this.carousel = c; }}
                     data={this.state.carouselItems}
                     layout={'default'} 
                     layoutCardOffset={`18`} 
@@ -94,6 +98,8 @@ export default class CarrouselCard extends React.Component {
                     }
                     sliderWidth={300}
                     itemWidth={300}
+                    onViewableItemsChanged={this.onchangeItem}
+                    
                 />
             </View>
         );

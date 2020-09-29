@@ -29,7 +29,10 @@ export default class Formulario extends React.Component {
             otros: undefined,
             tipoServicio: undefined,
             userName: undefined,
-            password: undefined
+            password: undefined,
+            titular: undefined,
+            CBU: undefined,
+            banco: undefined
         };
     }
 
@@ -48,7 +51,21 @@ export default class Formulario extends React.Component {
             otros: value
         });
     }
-
+    onChangeTitular(value) {
+        this.setState({
+            titularName: value
+        });
+    }
+    onChangeCBU(value) {
+        this.setState({
+            CBU: value
+        });
+    }
+    onChangeBanco(value) {
+        this.setState({
+            bankName: value
+        });
+    }
     onChangeVencimientos(value) {
         this.setState({
             vencimiento: value
@@ -139,6 +156,8 @@ export default class Formulario extends React.Component {
             return renderSingIn(this)
         } else if (this.props.type === 'Inversiones') {
             return renderInversiones(this)
+        } else if(this.props.type === 'Cuenta') {
+            return renderCuentaBancaria(this)
         }
     }
 }
@@ -734,7 +753,54 @@ function renderLogin(prop) {
     )
 }
 
-function renderSingIn(prop) {
+function renderCuentaBancaria(props) {
+    return (
+        <Container style={styles.container}>
+            <Content bounces={false}>
+                <Form scrollEnabled={false}>
+                    <Item stackedLabel>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Titular" placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeTitular.bind(props)}
+                        />
+                    </Item>
+                    <Item stackedLabel>
+                        <Input
+                            keyboardType="number-pad"
+                            style={{ color: "#697A8C" }}
+                            placeholder="CBU"
+                            placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeCBU.bind(props)}
+                        />
+                    </Item>
+                    <Item stackedLabel>
+                        <Input
+                            style={{ color: "#697A8C" }}
+                            placeholder="Banco"
+                            placeholderTextColor="#697A8C"
+                            onChangeText={props.onChangeBanco.bind(props)}
+                        />
+                    </Item>
+                    <Button
+                        style={styles.btnIngresar}
+                        onPress={() => {
+                            props.getFormData(
+                                {
+                                    titularName: props.state.titularName,
+                                    CBU: props.state.CBU,
+                                    bankName: props.state.bankName,
+                                })
+                        }}>
+                        <Text>REGISTRAR</Text>
+                    </Button>
+                </Form>
+            </Content>
+        </Container>
+    )
+}
+ 
+function renderSingIn(prop) { 
     return (
         <Container style={styles.container}>
             <Content >
@@ -742,7 +808,7 @@ function renderSingIn(prop) {
                     <Item stackedLabel>
                         <Input
                             style={{ color: "#697A8C" }}
-                            placeholder="Email" 
+                            placeholder="Email"
                             placeholderTextColor="#697A8C"
                             onChangeText={prop.onChangeUserName.bind(prop)}
 
@@ -751,7 +817,7 @@ function renderSingIn(prop) {
                     <Item stackedLabel>
                         <Input
                             style={{ color: "#697A8C" }}
-                            placeholder="Contraseña" 
+                            placeholder="Contraseña"
                             placeholderTextColor="#697A8C"
                             onChangeText={prop.onChangePassword.bind(prop)}
 
