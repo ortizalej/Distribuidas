@@ -18,11 +18,7 @@ import * as ImagePicker from 'expo-image-picker';
 const { width, height } = Dimensions.get('screen')
 export default class Formulario extends React.Component {
   constructor(props) {
-<<<<<<< HEAD
     super(props);
-=======
-    super(props)
->>>>>>> 4c21b9d0b2d7cd91aa9ca36ce9e4250a1d3c8217
     this.state = {
       tipo: undefined,
       fuente: undefined,
@@ -37,7 +33,6 @@ export default class Formulario extends React.Component {
       otros: undefined,
       tipoServicio: undefined,
       userName: undefined,
-<<<<<<< HEAD
       password: undefined,
       titular: undefined,
       CBU: undefined,
@@ -47,12 +42,6 @@ export default class Formulario extends React.Component {
   }
 
 
-=======
-      password: undefined
-    }
-  }
-
->>>>>>> 4c21b9d0b2d7cd91aa9ca36ce9e4250a1d3c8217
   onChangeCantidad(value) {
     this.setState({
       cantidad: value
@@ -73,7 +62,6 @@ export default class Formulario extends React.Component {
       otros: value
     });
   }
-<<<<<<< HEAD
   onChangeTitular(value) {
     this.setState({
       titularName: value
@@ -89,9 +77,6 @@ export default class Formulario extends React.Component {
       bankName: value
     });
   }
-=======
-
->>>>>>> 4c21b9d0b2d7cd91aa9ca36ce9e4250a1d3c8217
   onChangeVencimientos(value) {
     this.setState({
       vencimiento: value
@@ -182,19 +167,12 @@ export default class Formulario extends React.Component {
       return renderSingIn(this)
     } else if (this.props.type === 'Inversiones') {
       return renderInversiones(this)
-<<<<<<< HEAD
     } else if (this.props.type === 'Cuenta') {
       return renderCuentaBancaria(this)
-=======
->>>>>>> 4c21b9d0b2d7cd91aa9ca36ce9e4250a1d3c8217
     }
   }
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4c21b9d0b2d7cd91aa9ca36ce9e4250a1d3c8217
 function renderIngresos(props) {
   return (
     <Container style={styles.container}>
@@ -283,7 +261,6 @@ function renderIngresos(props) {
 }
 
 function renderEgresos(props) {
-<<<<<<< HEAD
   let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 
@@ -296,8 +273,6 @@ function renderEgresos(props) {
     console.log(pickerResult);
     props.onChangeUri(pickerResult.uri)
   }
-=======
->>>>>>> 4c21b9d0b2d7cd91aa9ca36ce9e4250a1d3c8217
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -495,10 +470,6 @@ function renderEgresos(props) {
   )
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4c21b9d0b2d7cd91aa9ca36ce9e4250a1d3c8217
 function renderPrestamosPrestados(props) {
   return (
     <Container style={styles.container}>
@@ -855,7 +826,6 @@ function renderLogin(prop) {
   )
 }
 
-<<<<<<< HEAD
 function renderCuentaBancaria(props) {
   return (
     <Container style={styles.container}>
@@ -927,27 +897,6 @@ function renderSingIn(prop) {
             />
           </Item>
 
-=======
-function renderSingIn(prop) {
-  return (
-    <Container style={styles.container}>
-      <Content>
-        <Form>
-          <TextInput
-            label="Email"
-            onChangeText={prop.onChangeUserName.bind(prop)}
-            mode="outlined"
-            style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
-          />
-          <TextInput
-            label="Contraseña"
-            onChangeText={prop.onChangePassword.bind(prop)}
-            mode="outlined"
-            style={styles.textInput}
-            theme={{ colors: { placeholder: '#697A8C', text: '#697A8C', primary: '#FF8141', backdrop: 'white' } }}
-          />
->>>>>>> 4c21b9d0b2d7cd91aa9ca36ce9e4250a1d3c8217
           <Button
             style={styles.btnIngresar}
             onPress={() => actionButton('sign in', prop)}>
