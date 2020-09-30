@@ -1,8 +1,9 @@
-import React from 'react'
-import { StyleSheet, Dimensions } from 'react-native'
-import { TextInput } from 'react-native-paper'
-import { Dropdown } from 'react-native-material-dropdown'
-import { showMessage, hideMessage } from 'react-native-flash-message'
+import React from 'react';
+import { StyleSheet, Dimensions } from 'react-native';
+import { TextInput } from 'react-native-paper';
+import { Dropdown } from 'react-native-material-dropdown';
+import { showMessage, hideMessage } from 'react-native-flash-message';
+import { validate } from 'validate.js';
 
 import {
   Container,
@@ -128,9 +129,9 @@ export default class Formulario extends React.Component {
     })
   }
   onChangeUserName(value) {
-    this.setState({
-      userName: value
-    })
+      this.setState({
+        userName: value
+      })
   }
   onChangeLastName(value) {
     this.setState({
@@ -958,11 +959,41 @@ function actionButton(type, prop) {
     case 'login':
       prop.props.actionButton(prop.state.userName, prop.state.password)
     case 'sign in':
-      prop.props.actionButton(prop.state.userName, prop.state.password, prop.state.name, prop.state.lastName)
+      let result = validateFields(prop);
+      if(result === ''){
+        prop.props.actionButton(prop.state.userName, prop.state.password)
+      } else {
+        showMessage({
+          message: result,
+          type: 'danger',
+          animationDuration: 300
+        })
+      }
     default:
       break
   }
 }
+
+function validateFields(prop) {
+  let msg = "";
+  const validationResult = validate(prop.state.userName);
+
+  if(typeof prop.state.userName === 'undefined' || typeof validationResult !== 'undefined' || prop.state.userName?.length < 6) {
+    msg += "El mail es inválido. \n";
+  }
+  if(typeof prop.state.password === 'undefined' || prop.state.password=== null || prop.state.password.length < 8) {
+    msg += "La contraseña es inválida \n";
+  }
+  if(typeof prop.state.name === 'undefined' || prop.state.name === null || prop.state.name === '') {
+    msg += "El nombre es obligatorio. \n";
+  }
+  if(typeof prop.state.lastName === 'undefined' || prop.state.lastName === null || prop.state.lastName === '') {
+    msg += "El apellido es obligatorio. \n";
+  }
+
+  return msg;
+}
+
 
 const styles = StyleSheet.create({
   container: {

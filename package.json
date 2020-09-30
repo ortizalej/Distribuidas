@@ -60,7 +60,8 @@
     "react-native-web": "^0.13.12",
     "react-navigation": "^4.4.0",
     "rn-modal-picker": "^0.3.0",
-    "tcomb-form-native": "^0.6.20"
+    "tcomb-form-native": "^0.6.20",
+    "validate.js": "^0.13.1"
   },
   "devDependencies": {
     "babel-plugin-jsx-control-statements": "^4.1.0",
