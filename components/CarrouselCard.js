@@ -38,11 +38,13 @@ export default class CarrouselCard extends React.Component {
           {
             carouselItems: value
           }
-        )
+        ) 
       }
     
-    onchangeItem() {
-        console.log(this.carousel)
+    onchangeItem(prop,index) {
+        console.log(index)
+        console.log(this)
+        // prop.props.filterCard(index)
     }
     _renderItemCard({ item, index }) {
         return (
@@ -57,7 +59,6 @@ export default class CarrouselCard extends React.Component {
         )
     }
     _renderItemBank({ item, index }) {
-        console.log('ITEM', item)
         return (
             <View>
                 <BankCard
@@ -98,7 +99,7 @@ export default class CarrouselCard extends React.Component {
                     }
                     sliderWidth={300}
                     itemWidth={300}
-                    onViewableItemsChanged={this.onchangeItem}
+                    onSnapToItem={this.props.filterData}
                     
                 />
             </View>

@@ -17,6 +17,7 @@ export default class SignIn extends React.Component {
             tarjetas: [],
             cuentasBancarias: [],
             inversiones: [],
+            notification: [],
             prestamos: {
                 prestado: [],
                 tomado: [],

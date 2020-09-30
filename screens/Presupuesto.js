@@ -77,6 +77,60 @@ export default class Presupuesto extends React.Component {
         }
         this.forceUpdate()
     }
+
+    getCuentaData(data) {
+
+        AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
+            let userData = JSON.parse(value)
+            this.state.data = userData
+            let actualCard = this.state.data.cuentasBancarias[0]
+            console.log('CUENTAS', JSON.stringify(this.state.data.cuentasBancarias))
+            this.Carrousel.updateState(this.state.data.cuentasBancarias)
+
+            let arrayDataDetail = [];
+            let showData = [];
+            if (userData.ingresos.length > 0) {
+                for (let i = 0; i < userData.ingresos.length; i++) {
+                    if (actualCard.CBU === userData.ingresos[i][5]) {
+                        arrayDataDetail.push(
+                            [
+                                userData.ingresos[i][0],
+                                userData.ingresos[i][1],
+                                userData.ingresos[i][2],
+                                userData.ingresos[i][3],
+                                userData.ingresos[i][4],
+                                userData.ingresos[i][5]
+                            ]);
+                        showData.push(
+                            [
+                                userData.ingresos[i][0],
+                                userData.ingresos[i][1],
+                                userData.ingresos[i][2],
+                                ''
+                            ]);
+                    }
+                }
+            }
+            this.setState({
+                rowToShow: showData,
+                rowtoDetail: arrayDataDetail
+            })
+
+
+            for (let i = 0; i < this.state.rowtoDetail.length; i++) {
+                if (!this.state.rowtoDetail[i]) { continue; }
+                if (this.state.rowtoDetail[i][2] === 'Pesos') {
+                    this.totalSumPesos += this.state.rowtoDetail[i][1];
+                } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+                    this.totalSumaDolares += this.state.rowtoDetail[i][1]
+                }
+            }
+
+            this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
+            this.HistoricTable.updateState(this.state.rowToShow);
+        })
+
+    }    
     render() {
         return (
             <Block style={styles.presupuesto}>
