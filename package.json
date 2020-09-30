@@ -21,7 +21,6 @@
     "@react-navigation/drawer": "^5.8.7",
     "@react-navigation/native": "^5.5.1",
     "@react-navigation/stack": "^5.4.2",
-    "babel-plugin-jsx-control-statements": "^4.1.0",
     "expo": "^37.0.12",
     "expo-asset": "~8.1.5",
     "expo-font": "~8.1.0",
@@ -40,6 +39,7 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-dropdown-picker": "^3.6.8",
     "react-native-dropdownalert": "^4.3.0",
+    "react-native-flash-message": "^0.1.16",
     "react-native-form-builder": "^1.0.16",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-image-picker": "^2.3.4",
@@ -60,9 +60,11 @@
     "react-native-web": "^0.13.12",
     "react-navigation": "^4.4.0",
     "rn-modal-picker": "^0.3.0",
-    "tcomb-form-native": "^0.6.20"
+    "tcomb-form-native": "^0.6.20",
+    "validate.js": "^0.13.1"
   },
   "devDependencies": {
+    "babel-plugin-jsx-control-statements": "^4.1.0",
     "babel-preset-expo": "^8.2.1",
     "cross-env": "^7.0.2",
     "expo-cli": "^3.27.4",
