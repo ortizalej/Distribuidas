@@ -17,11 +17,10 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import { Block, GalioProvider } from 'galio-framework';
 import FlashMessage from 'react-native-flash-message';
-
 import { Images, products, materialTheme } from './constants/';
-
 import { NavigationContainer } from '@react-navigation/native';
 import Screens from './navigation/Screens';
+import Font  from 'expo';
 
 // Before rendering any navigation stack
 import { enableScreens } from 'react-native-screens';
@@ -53,10 +52,19 @@ function cacheImages(images) {
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
-  };
+    loading: true
+  }; 
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Roboto': require('native-base/Fonts/Roboto.ttf'),
+      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    })
+    this.setState({ loading: false })
+  }
 
   render() {
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+    if (this.state.loading && !this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <AppLoading
           startAsync={this._loadResourcesAsync}
@@ -65,6 +73,8 @@ export default class App extends React.Component {
         />
       );
     } else {
+      console.log(this.state.isLoadingComplete)
+
       return (
         <NavigationContainer>
           <GalioProvider theme={materialTheme}>

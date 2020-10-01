@@ -102,7 +102,6 @@ export default class HistoricTable extends React.Component {
   }
 
   openImage(data) {
-    console.log(data[9])
     let visible = true
     return (
       <Modal

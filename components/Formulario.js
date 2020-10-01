@@ -181,7 +181,6 @@ function renderIngresos(props) {
   let cuentas = [];
   AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
     let userData = JSON.parse(value)
-    console.log(userData)
     for (let i = 0; i < userData.cuentasBancarias.length; i++) {
       cuentas.push({ value: userData.cuentasBancarias[i].CBU })
     }

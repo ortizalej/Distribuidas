@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage, PureComponent } from 'react-native';
 import { Button, Block, Text, Input, theme, View, } from 'galio-framework';
 import {
   BarChart,
@@ -7,6 +7,8 @@ import {
   LineChart,
   StackedBarChart
 } from 'react-native-chart-kit'
+import moment from 'moment'
+
 const { width, height } = Dimensions.get('screen');
 const chartConfig = {
   backgroundColor: '#071019',
@@ -24,7 +26,7 @@ const graphStyle = {
 }
 
 
-export default class Home extends React.Component {
+export default class Home extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -37,25 +39,15 @@ export default class Home extends React.Component {
       dataCuenta: {
         labels: [],
         datasets: [{
-          data: [0]
+          data: []
         }]
-      },
-      dataVencimientoSemanal: {
-        legend: ["Egresos", "Inversiones", "Prestamos"],
-        labels: ["Semana Pasada", "Esta semana"],
-        data: [
-          [60, 60, 60],
-          [30, 30, 60],
-
-        ],
-        barColors: ["#e57373", "#e53935", "#b71c1c"]
       },
       dataRealvsPres: {
         legend: ["Egresos", "Inversiones", "Prestamos"],
         labels: ["Real", "Presupuesto"],
         data: [
-          [0, 0, 0.1],
-          [20,]
+          [null, null, 0.1],
+          [null,]
 
         ],
         barColors: ["#e57373", "#e53935", "#b71c1c"]
@@ -67,8 +59,7 @@ export default class Home extends React.Component {
     AsyncStorage.getItem(data.userName + '-' + data.password).then(value => {
       let userData = JSON.parse(value)
       this.state.data = userData
-
-      // EGRESOS
+      console.log(moment().add(1, 'weeks').startOf('week').format('DD-MM-YYYY'));
       if (userData.egresos.length > 0) {
         let egresosTranf = 0
         let egresosTarjeta = 0
@@ -76,20 +67,18 @@ export default class Home extends React.Component {
         for (let i = 0; i < userData.egresos.length; i++) {
 
           //Monto Por mes
-          if (userData.egresos[i][3] == 'Tarjeta de Crédito' || userData.egresos[i][3] == 'Tarjeta de Debito') {
-            egresosTarjeta += userData[i][1]
-          } else if (userData.egresos.egresos[i][3] == 'Transferencia Bancaria') {
+          if (userData.egresos[i][3] == 'Tarjeta de Crédito' || userData.egresos[i][3] == 'Tarjeta de Débito') {
+            egresosTarjeta += userData.egresos[i][1]
+          } else if (userData.egresos[i][3] == 'Transferencia Bancaria') {
             egresosTranf += userData.egresos[i][1]
           }
           totalEgresos += userData.egresos[i][1]
         }
-        console.log(this.state.dataRealvsPres.data[0][0])
         this.state.dataMedioPago.datasets[0].data[0] = egresosTarjeta
         this.state.dataMedioPago.datasets[0].data[1] = egresosTranf
         this.state.dataRealvsPres.data[0][0] = totalEgresos
 
-
-      } 
+      }
       if (userData.presupuestos.length > 0) {
         let totalPresupuesto = 0
 
@@ -101,18 +90,30 @@ export default class Home extends React.Component {
 
       }
 
-      if(userData.cuentasBancarias.length > 0 ) {
+      if (userData.cuentasBancarias.length > 0) {
         for (let i = 0; i < userData.cuentasBancarias.length; i++) {
-          let cuentaBancariaEgreso = 0;
-          for (let j = 0; j < userData.egresos.length; j++) {
-
+          let cuentaBancariaSaldo = 0;
+          this.state.dataCuenta.labels.push(userData.cuentasBancarias[i].CBU)
+          for (let j = 0; j < userData.ingresos.length; j++) {
             //Monto Por Cuenta
-            if (userData.cuentasBancarias[i].CBU == userData.egresos[j].cuenta) {
-              cuentaBancariaEgreso += userData.egresos[j][1]
-            } 
+            if (userData.cuentasBancarias[i].CBU == userData.ingresos[j][5]) {
+              cuentaBancariaSaldo += userData.ingresos[j][1]
+            }
           }
+          for (let j = 0; j < userData.egresos.length; j++) {
+            //Monto Por Cuenta
+            if (userData.cuentasBancarias[i].CBU == userData.egresos[j][8]) {
+              console.log(userData.egresos[j][8])
+              cuentaBancariaSaldo -= userData.egresos[j][1]
+            }
+
+          }
+
+
+          this.state.dataCuenta.datasets[0].data.push(cuentaBancariaSaldo)
         }
       }
+      this.forceUpdate()
 
 
     })
@@ -145,15 +146,7 @@ export default class Home extends React.Component {
             yAxisLabel="$"
             chartConfig={chartConfig}
           />
-          <Text style={styles.titleGraph}>Vencimiento Semanal</Text>
 
-          <StackedBarChart
-            style={graphStyle}
-            data={this.state.dataVencimientoSemanal}
-            width={width}
-            height={220}
-            chartConfig={chartConfig}
-          />
           <Text style={styles.titleGraph}>Desvio Presupuestal</Text>
 
           <StackedBarChart

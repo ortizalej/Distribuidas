@@ -239,7 +239,6 @@ function SingInStack() {
 
 function AppStack(props) {
   let user = props.route.params.seguridad
-  console.log(user);
   return (
     <Drawer.Navigator
       style={{ flex: 1 }}
@@ -275,65 +274,88 @@ function AppStack(props) {
       initialRouteName="Home"
     >
       <Drawer.Screen
+
         name="Home"
         component={HomeStack}
+        options={{unmountOnBlur:true}}
         initialParams={user}
       />
       <Drawer.Screen
         name="Ingresos"
         component={IngresosStack}
+        options={{unmountOnBlur:true}}
+
         initialParams={user}
 
       />
       <Drawer.Screen
         name="Egresos"
         component={EgresosStack}
+        options={{unmountOnBlur:true}}
+
         initialParams={user}
+        listeners
 
       />
       <Drawer.Screen
         name="Tarjetas"
         component={TarjetasStack}
+        options={{unmountOnBlur:true}}
+
         initialParams={user}
 
       />
       <Drawer.Screen
         name="Cuentas bancarias"
         component={CuentaStack}
+        options={{unmountOnBlur:true}}
+
         initialParams={user}
 
       />
       <Drawer.Screen
         name="Inversiones"
         component={InversionesStack}
+        options={{unmountOnBlur:true}}
+
         initialParams={user}
 
       />
       <Drawer.Screen
         name="Prestamos"
         component={PrestamosStack}
+        options={{unmountOnBlur:true}}
+
         initialParams={user}
 
       />
       <Drawer.Screen
         name="Presupuestos"
         component={PresupuestoStack}
+        options={{unmountOnBlur:true}}
+
         initialParams={user}
 
       />
       <Drawer.Screen
         name="Agregar Tarjeta"
         component={AgregarTarjetasStack}
+        options={{unmountOnBlur:true}}
+
         initialParams={user}
 
       />
       <Drawer.Screen
         name="Sign In"
         component={SingInStack}
+        options={{unmountOnBlur:true}}
+
       />
       <Drawer.Screen
         name="Cerrar Sesion"
         component={LoginStack}
+        options={{unmountOnBlur:true}}
+
       />
 
     </Drawer.Navigator>

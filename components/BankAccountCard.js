@@ -8,6 +8,7 @@ import {
     Text,
     Picker
 } from "native-base";
+import { TextInput } from 'react-native-paper'
 
 export default class DisplayMount extends React.Component {
     constructor(props) {
