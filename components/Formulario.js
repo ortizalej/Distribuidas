@@ -963,7 +963,7 @@ function actionButton(type, props) {
         props.props.actionButton(props.state.userName, props.state.password, props.state.name, props.state.lastName)
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(message);
+        Toast.show(result);
 
       }
       break;
@@ -983,7 +983,7 @@ function actionButton(type, props) {
 
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(message);
+        Toast.show(result);
 
       }
       break;
@@ -1007,7 +1007,7 @@ function actionButton(type, props) {
 
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(message);
+        Toast.show(result);
 
       }
       break;
@@ -1027,7 +1027,7 @@ function actionButton(type, props) {
 
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(message);
+        Toast.show(result);
       }
       break;
     case 'tomados':
@@ -1048,7 +1048,7 @@ function actionButton(type, props) {
         Toast.show('¡Prestamo tomado registrado con éxito!');
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(message);
+        Toast.show(result);
       }
       break;
     case 'presupuesto':
@@ -1062,7 +1062,7 @@ function actionButton(type, props) {
         Toast.show('¡Presupuesto registado con éxito!');
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(message);
+        Toast.show(result);
       }
       break;
     case 'inversion':
@@ -1078,7 +1078,7 @@ function actionButton(type, props) {
         Toast.show('¡Inversión registado con éxito!');
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(message);
+        Toast.show(result);
       }
       break;
     case 'cuenta bancaria':
@@ -1093,7 +1093,7 @@ function actionButton(type, props) {
         Toast.show('¡Cuenta bancaria registada con éxito!');
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(message);
+        Toast.show(result);
       }
       break;
     default:

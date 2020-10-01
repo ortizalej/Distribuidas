@@ -233,7 +233,7 @@ function validateNewCard(props) {
     props.props.navigation.navigate('Tarjetas')
   } else {
     showMessage({ message: result, type: 'danger', animationDuration: 300 })
-    Toast.show(message);
+    Toast.show(result);
   }
 }
 
