@@ -5,10 +5,11 @@ import Display from '../components/DisplayMount'
 import Form from '../components/Formulario'
 import HistoricTable from '../components/HistoricTable'
 import { showMessage, hideMessage } from 'react-native-flash-message'
+import ImageViewer from './ImageViewer'
 import moment from 'moment'
 const { width, height } = Dimensions.get('screen')
 
-function getMatchedData (dateFilter, rowValues) {
+function getMatchedData(dateFilter, rowValues) {
   let filterDataRows = []
   switch (dateFilter) {
     case 'Mensual':
@@ -27,7 +28,7 @@ function getMatchedData (dateFilter, rowValues) {
   return filterDataRows
 }
 
-function compareDates (filterDate, filterDataRows, rowValues) {
+function compareDates(filterDate, filterDataRows, rowValues) {
   for (let i = 0; i < rowValues.length; i++) {
     let baseDate = moment(rowValues[i][0], 'DD-MM-YYYY')
     if (baseDate.isAfter(filterDate)) {
@@ -36,7 +37,7 @@ function compareDates (filterDate, filterDataRows, rowValues) {
   }
 }
 
-function sumValues (rowValues) {
+function sumValues(rowValues) {
   let totalSumPesos = 0
   let totalSumaDolares = 0
   let sumas = []
@@ -56,20 +57,21 @@ function sumValues (rowValues) {
 }
 
 export default class Egresos extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       rowToShow: [],
       rowtoDetail: [],
-      data: undefined
-    } 
+      data: undefined,
+      uriImage: undefined
+    }
   }
   defaultDate = 'Anual'
   colTable = ['Fecha', 'Cantidad', 'Moneda', '']
   totalSumPesos = 0
   totalSumaDolares = 0
 
-  getEgresoData (data) {
+  getEgresoData(data) {
     AsyncStorage.getItem(data.userName + '-' + data.password).then(value => {
       let userData = JSON.parse(value)
       this.state.data = userData
@@ -117,7 +119,7 @@ export default class Egresos extends React.Component {
     })
   }
 
-  deleteEgresoData () {
+  deleteEgresoData() {
     let itemToDelete = this.state.rowtoDetail[0]
     let items = this.state.data.egresos
 
@@ -142,25 +144,23 @@ export default class Egresos extends React.Component {
     this.deleteData(items)
   }
 
-  insertData (arrayData) {
+  insertData(arrayData) {
+    console.log('DATA TO SAVE', arrayData)
     this.state.data.egresos.push(arrayData)
     AsyncStorage.mergeItem(
       this.state.data.seguridad.userName +
-        '-' +
-        this.state.data.seguridad.password,
-      JSON.stringify(this.state.data),
-      value => {
-        console.log(value)
-      }
+      '-' +
+      this.state.data.seguridad.password,
+      JSON.stringify(this.state.data)
     )
   }
 
-  deleteData (egresosItems) {
+  deleteData(egresosItems) {
     this.state.data.egresos = egresosItems
     AsyncStorage.mergeItem(
       this.state.data.seguridad.userName +
-        '-' +
-        this.state.data.seguridad.password,
+      '-' +
+      this.state.data.seguridad.password,
       JSON.stringify(this.state.data),
       value => {
         console.log(value)
@@ -172,7 +172,7 @@ export default class Egresos extends React.Component {
     })
   }
 
-  formData (data) {
+  formData(data) {
     console.log(JSON.stringify(data))
     var now = moment().format('DD-MM-YYYY')
     let arrayDataToShow = [
@@ -180,7 +180,7 @@ export default class Egresos extends React.Component {
       parseInt(
         (parseInt(data.cantidad) *
           (1 + (data.interes ? parseInt(data.interes) : 0) / 100)) /
-          (data.cuotas ? parseInt(data.cuotas) : 1)
+        (data.cuotas ? parseInt(data.cuotas) : 1)
       ),
       data.moneda,
       ''
@@ -190,7 +190,7 @@ export default class Egresos extends React.Component {
       parseInt(
         (parseInt(data.cantidad) *
           (1 + (data.interes ? parseInt(data.interes) : 0) / 100)) /
-          (data.cuotas ? parseInt(data.cuotas) : 1)
+        (data.cuotas ? parseInt(data.cuotas) : 1)
       ),
       data.moneda,
       data.medio,
@@ -202,7 +202,6 @@ export default class Egresos extends React.Component {
       data.otros,
       data.uriImage
     ]
-    console.log(arrayData)
     this.insertData(arrayData)
     this.state.rowtoDetail.push(arrayData)
     this.state.rowToShow.push(arrayDataToShow)
@@ -212,7 +211,7 @@ export default class Egresos extends React.Component {
     this.Display.updateState(totalSumPesos, totalSumDolares)
   }
 
-  getDisplayFilter (date) {
+  getDisplayFilter(date) {
     if (this.state.rowtoDetail.length > 0) {
       let filterDataToShow = getMatchedData(date, this.state.rowToShow)
       let filterData = getMatchedData(date, this.state.rowtoDetail)
@@ -222,8 +221,12 @@ export default class Egresos extends React.Component {
       this.Display.updateState(filterSumPesos, filterSumDolares)
     }
   }
+  navigateToImage(data) {
+    console.log('DATA', data)
+    this.setState({ uriImage: data[10] })
 
-  deleteRow (index) {
+  }
+  deleteRow(index) {
     this.deleteEgresoData()
     this.state.rowtoDetail.splice(index, 1)
     this.state.rowToShow.splice(index, 1)
@@ -233,7 +236,7 @@ export default class Egresos extends React.Component {
     this.Display.updateState(totalSumPesos, totalSumDolares)
   }
 
-  render () {
+  render() {
     let userData = this.props.route.params
     if (!this.state.data) {
       this.getEgresoData(userData)
@@ -261,7 +264,10 @@ export default class Egresos extends React.Component {
             rows={this.state.rowToShow}
             detailRows={this.state.rowtoDetail}
             deleteRow={this.deleteRow.bind(this)}
+            navigateToImage={this.navigateToImage.bind(this)}
           />
+          <ImageViewer data={this.state.uriImage} />
+
         </ScrollView>
       </Block>
     )

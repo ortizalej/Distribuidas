@@ -23,6 +23,9 @@ export default class HistoricTable extends React.Component {
   deleteRow(index, type) {
     this.props.deleteRow(index, type)
   }
+  navigateToImage(index, type) {
+    this.props.navigateToImage(index, type)
+  }
   renderText(data, type) {
 
     switch (type) {
@@ -41,12 +44,12 @@ export default class HistoricTable extends React.Component {
         Monto: ${data[1] ?? '-'}
         Moneda: ${data[2] ?? '-'}
         Medio: ${data[3] ?? '-'}
-        Tipo: ${data[4] ?? '-'}
+        Tipo: ${data[4] ?? '-'} 
         Tipo de Servicio: ${data[5] ?? '-'}
         Interes: ${data[6] ?? '-'}
         Cuota: ${data[7] ?? '-'}
         Otros: ${data[8] ?? '-'}
-        URI: ${data[9] ?? '-'}
+        URI: ${data[10] ?? '-'}
         `
       case 'Inversiones':
         return `
@@ -101,27 +104,7 @@ export default class HistoricTable extends React.Component {
     }
   }
 
-  openImage(data) {
-    let visible = true
-    return (
-      <Modal
-        animationType={"slide"}
-        transparent={false}
-        visible={visible}
-        onRequestClose={() => {
-          Alert.alert('Modal has now been closed.');
-        }}>
 
-        <Image
-          source={data[9]}
-          style={styles.image} />
-        <Text style={styles.text}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Maecenas eget tempus augue, a convallis velit.</Text>
-      </Modal>
-    )
-
-  }
 
   _alertIndex(index, data, type) {
     const title = 'Informacion Detallada';
@@ -131,7 +114,7 @@ export default class HistoricTable extends React.Component {
       buttons = [
         { text: 'Cancel', type: 'cancel' },
         { text: 'Borrar', onPress: () => this.deleteRow(index, type) },
-        { text: 'Abrir adjunto', onPress: () => this.openImage(data[index]) }
+        { text: 'Abrir adjunto', onPress: () =>this.navigateToImage(data[index])}
       ];
     } else {
       buttons = [

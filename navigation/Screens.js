@@ -14,7 +14,7 @@ import LoginScreen from '../screens/Login'
 import SignInScreen from '../screens/SingIn'
 import InversionesScreen from '../screens/Inversiones'
 import CustomDrawerContent from './Menu';
-
+import ImageViewerScreen from '../screens/ImageViewer'
 import { Icon, Header } from '../components';
 import { materialTheme } from "../constants/";
 
@@ -202,6 +202,22 @@ function AgregarTarjetasStack(user) {
   );
 }
 
+function AgregarImageViewerStack() {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="ImageViewer"
+        component={ImageViewerScreen}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="ImageViewer" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function InversionesStack(user) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
@@ -245,7 +261,7 @@ function AppStack(props) {
       drawerContent={props => (
         <CustomDrawerContent
           {...props}
-          user={user} 
+          user={user}
         />
       )}
       drawerStyle={{
@@ -277,13 +293,13 @@ function AppStack(props) {
 
         name="Home"
         component={HomeStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
         initialParams={user}
       />
       <Drawer.Screen
         name="Ingresos"
         component={IngresosStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
 
         initialParams={user}
 
@@ -291,7 +307,7 @@ function AppStack(props) {
       <Drawer.Screen
         name="Egresos"
         component={EgresosStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
 
         initialParams={user}
         listeners
@@ -300,7 +316,7 @@ function AppStack(props) {
       <Drawer.Screen
         name="Tarjetas"
         component={TarjetasStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
 
         initialParams={user}
 
@@ -308,7 +324,7 @@ function AppStack(props) {
       <Drawer.Screen
         name="Cuentas bancarias"
         component={CuentaStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
 
         initialParams={user}
 
@@ -316,7 +332,7 @@ function AppStack(props) {
       <Drawer.Screen
         name="Inversiones"
         component={InversionesStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
 
         initialParams={user}
 
@@ -324,7 +340,7 @@ function AppStack(props) {
       <Drawer.Screen
         name="Prestamos"
         component={PrestamosStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
 
         initialParams={user}
 
@@ -332,7 +348,7 @@ function AppStack(props) {
       <Drawer.Screen
         name="Presupuestos"
         component={PresupuestoStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
 
         initialParams={user}
 
@@ -340,21 +356,27 @@ function AppStack(props) {
       <Drawer.Screen
         name="Agregar Tarjeta"
         component={AgregarTarjetasStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
 
         initialParams={user}
 
       />
       <Drawer.Screen
+        name="ImageViewer"
+        component={AgregarImageViewerStack}
+        options={{ unmountOnBlur: true }}
+
+      />
+      <Drawer.Screen
         name="Sign In"
         component={SingInStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
 
       />
       <Drawer.Screen
         name="Cerrar Sesion"
         component={LoginStack}
-        options={{unmountOnBlur:true}}
+        options={{ unmountOnBlur: true }}
 
       />
 
