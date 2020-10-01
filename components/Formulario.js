@@ -782,7 +782,6 @@ function renderInversiones(props) {
             }
           >
             <TextInput
-              keyboardType='number-pad'
               label='Nombre de la empresa'
               onChangeText={props.onChangeDestino.bind(props)}
               mode='outlined'
@@ -936,7 +935,7 @@ function renderSingIn(prop) {
 
           <Button
             style={styles.btnIngresar}
-            onPress={() => actionButton('sign in', prop)}
+            onPress={() => actionButton('signUp', prop)}
           >
             <Text>REGISTRARSE</Text>
           </Button>
@@ -955,26 +954,25 @@ function renderSingIn(prop) {
 }
 
 function actionButton(type, prop) {
+  let result;
   switch (type) {
     case 'login':
       prop.props.actionButton(prop.state.userName, prop.state.password)
-    case 'sign in':
-      let result = validateFields(prop);
+    case 'signUp':
+      result = validateSignUp(prop);
       if(result === ''){
         prop.props.actionButton(prop.state.userName, prop.state.password)
       } else {
-        showMessage({
-          message: result,
-          type: 'danger',
-          animationDuration: 300
-        })
+        showMessage({message: result, type: 'danger', animationDuration: 300})
       }
+    case 'ingreso':
+        
     default:
       break
   }
 }
 
-function validateFields(prop) {
+function validateSignUp(prop) {
   let msg = "";
   const validationResult = validate(prop.state.userName);
 
@@ -992,6 +990,10 @@ function validateFields(prop) {
   }
 
   return msg;
+}
+
+function validateIngreso(prop) {
+
 }
 
 

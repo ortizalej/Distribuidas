@@ -16,7 +16,7 @@ import InversionesScreen from '../screens/Inversiones'
 import CustomDrawerContent from './Menu';
 
 import { Icon, Header } from '../components';
-import { Images, materialTheme } from "../constants/";
+import { materialTheme } from "../constants/";
 
 const { width } = Dimensions.get("screen");
 
@@ -244,11 +244,6 @@ function AppStack(props) {
       drawerContent={props => (
         <CustomDrawerContent
           {...props}
-          profile={{
-            avatar: Images.Profile,
-            name: user.name,
-            lastName: user.lastName
-          }}
           user={user} 
         />
       )}

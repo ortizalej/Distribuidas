@@ -132,7 +132,7 @@ export default class Inversiones extends React.Component {
             data: [arrayData[1]]
           }
         ],
-        legend: [arrayData[2]] // optional
+        legend: [arrayData[2]]
       })
     }
 
@@ -148,13 +148,12 @@ export default class Inversiones extends React.Component {
         this.state.data.seguridad.password,
       JSON.stringify(this.state.data),
       () => {
-        console.log('Inversion Guardada')
+        showMessage({
+          message: '¡Inversión registrada con éxito!',
+          type: 'success'
+        })
       }
     )
-    showMessage({
-      message: '¡Inversión registrada con éxito!',
-      type: 'success'
-    })
   }
 
   deleteData (inversionesItems) {
@@ -165,17 +164,18 @@ export default class Inversiones extends React.Component {
         this.state.data.seguridad.password,
       JSON.stringify(this.state.data),
       () => {
-        console.log('Inversion Eliminada')
+        showMessage({
+          message: '¡Inversión eliminada con éxito!',
+          type: 'success'
+        })
+
+        this.insertData(inversionesItems);
+
       }
     )
-    showMessage({
-      message: '¡Inversión eliminada con éxito!',
-      type: 'success'
-    })
   }
 
   formData (data) {
-    console.log(data)
     var now = moment().format('DD-MM-YYYY')
     let arrayDataToShow = [
       now,
