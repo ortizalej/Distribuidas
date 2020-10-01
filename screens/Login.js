@@ -9,6 +9,8 @@ import {
 import { Button, Block } from 'galio-framework'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import Form from '../components/Formulario'
+import Toast from 'react-native-simple-toast';
+
 const { width, height } = Dimensions.get('screen')
 
 export default class Login extends React.Component {
@@ -17,6 +19,8 @@ export default class Login extends React.Component {
       .then(value => {
         if (value) {
           this.props.navigation.navigate('Home', JSON.parse(value))
+          Toast.show('¡Inicio de sesión exitoso!');
+
           showMessage({
             message: '¡Inicio de sesión exitoso!',
             type: 'success',
@@ -24,6 +28,8 @@ export default class Login extends React.Component {
           })
         } else {
           //ALERTA ERROR
+          Toast.show('El usuario o contraseña es incorrecto');
+
           showMessage({
             message: 'El usuario o contraseña es incorrecto',
             type: 'danger',

@@ -43,11 +43,11 @@ export default class Home extends React.PureComponent {
         }]
       },
       dataRealvsPres: {
-        legend: ["Egresos", "Inversiones", "Prestamos"],
+        legend: ["Egresos"],
         labels: ["Real", "Presupuesto"],
         data: [
-          [null, null, 0.1],
-          [null,]
+          [1, null, null],
+          [null,1]
 
         ],
         barColors: ["#e57373", "#e53935", "#b71c1c"]
@@ -113,6 +113,7 @@ export default class Home extends React.PureComponent {
           this.state.dataCuenta.datasets[0].data.push(cuentaBancariaSaldo)
         }
       }
+      console.log(this.state.dataRealvsPres);
       this.forceUpdate()
 
 

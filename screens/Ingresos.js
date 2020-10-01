@@ -6,6 +6,7 @@ import Form from '../components/Formulario'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import HistoricTable from '../components/HistoricTable'
 import moment from 'moment'
+import Toast from 'react-native-simple-toast';
 
 const { width, height } = Dimensions.get('screen')
 
@@ -167,6 +168,8 @@ export default class Ingresos extends React.Component {
       message: '¡Ingreso eliminado con éxito!',
       type: 'success'
     })
+    Toast.show('¡Ingreso eliminado con éxito!');
+
   }
 
   formData (data) {

@@ -43,8 +43,8 @@ export default class Presupuesto extends React.Component {
                 ],
                 labels: ["Real", "Presupuesto"],
                 data: [
-                    [0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.01]
+                    [null, null, null,null, null, null,null, null, null,null, null, null],
+                    [null, null, null, null, null, null, null, null, null, null, 0.01]
 
                 ],
                 barColors: ["#e57373", "#e53935", "#b71c1c", "#e57373", "#e53935", "#b71c1c", "#e57373", "#e53935", "#b71c1c", "#e57373", "#e53935"]

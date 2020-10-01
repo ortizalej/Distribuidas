@@ -7,6 +7,8 @@ import {
 import { TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-material-dropdown'
 import { showMessage, hideMessage } from 'react-native-flash-message'
+import Toast from 'react-native-simple-toast';
+
 import {
   Item,
   Picker,
@@ -223,12 +225,15 @@ function validateNewCard(props) {
           message: '¡Tarjeta agregada con éxito!',
           type: 'success'
         })
+        Toast.show('¡Tarjeta agregada con éxito!');
+
         console.log(props.state.data)
       }
     )
     props.props.navigation.navigate('Tarjetas')
   } else {
     showMessage({ message: result, type: 'danger', animationDuration: 300 })
+    Toast.show(message);
   }
 }
 

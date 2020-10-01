@@ -7,6 +7,8 @@ import HistoricTable from '../components/HistoricTable'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import ImageViewer from './ImageViewer'
 import moment from 'moment'
+import Toast from 'react-native-simple-toast';
+
 const { width, height } = Dimensions.get('screen')
 
 function getMatchedData(dateFilter, rowValues) {
@@ -170,6 +172,8 @@ export default class Egresos extends React.Component {
       message: '¡Egreso eliminado con éxito!',
       type: 'success'
     })
+    Toast.show('¡Egreso eliminado con éxito!');
+
   }
 
   formData(data) {

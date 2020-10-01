@@ -4,6 +4,7 @@ import { TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-material-dropdown'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import { validate } from 'validate.js'
+import Toast from 'react-native-simple-toast';
 
 import {
   Container,
@@ -962,6 +963,8 @@ function actionButton(type, props) {
         props.props.actionButton(props.state.userName, props.state.password, props.state.name, props.state.lastName)
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
+        Toast.show(message);
+
       }
       break;
     case 'ingreso':
@@ -976,8 +979,12 @@ function actionButton(type, props) {
           tipo: props.state.tipo
         })
         showMessage({ message: '¡Ingreso registrado con éxito!', type: 'success' })
+        Toast.show('¡Ingreso registrado con éxito!');
+
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
+        Toast.show(message);
+
       }
       break;
     case 'egreso':
@@ -996,8 +1003,12 @@ function actionButton(type, props) {
           uriImage: props.state.uri
         })
         showMessage({ message: '¡Egreso registrado con éxito!', type: 'success' })
+        Toast.show('¡Egreso registrado con éxito!');
+
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
+        Toast.show(message);
+
       }
       break;
     case 'prestados':
@@ -1012,8 +1023,11 @@ function actionButton(type, props) {
           moneda: props.state.moneda
         })
         showMessage({ message: '¡Prestamo prestado registrado con éxito!', type: 'success' })
+        Toast.show('¡Prestamo prestado registrado con éxito!');
+
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
+        Toast.show(message);
       }
       break;
     case 'tomados':
@@ -1031,8 +1045,10 @@ function actionButton(type, props) {
           type: 'Tomado'
         })
         showMessage({ message: '¡Prestamo tomado registrado con éxito!', type: 'success' })
+        Toast.show('¡Prestamo tomado registrado con éxito!');
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
+        Toast.show(message);
       }
       break;
     case 'presupuesto':
@@ -1043,8 +1059,10 @@ function actionButton(type, props) {
           tipo: props.state.tipo
         })
         showMessage({ message: '¡Presupuesto registado con éxito!', type: 'success' })
+        Toast.show('¡Presupuesto registado con éxito!');
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
+        Toast.show(message);
       }
       break;
     case 'inversion':
@@ -1057,8 +1075,10 @@ function actionButton(type, props) {
           empresa: props.state.destino
         })
         showMessage({ message: '¡Inversión registado con éxito!', type: 'success' })
+        Toast.show('¡Inversión registado con éxito!');
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
+        Toast.show(message);
       }
       break;
     case 'cuenta bancaria':
@@ -1070,8 +1090,10 @@ function actionButton(type, props) {
           bankName: props.state.bankName
         })
         showMessage({ message: '¡Cuenta bancaria registada con éxito!', type: 'success' })
+        Toast.show('¡Cuenta bancaria registada con éxito!');
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
+        Toast.show(message);
       }
       break;
     default:
