@@ -1,5 +1,11 @@
 import React from 'react'
-import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native'
+import {
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  AsyncStorage,
+  ImageBackground
+} from 'react-native'
 import { Button, Block } from 'galio-framework'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import Form from '../components/Formulario'
@@ -31,13 +37,18 @@ export default class Login extends React.Component {
   render () {
     return (
       <Block center style={styles.login}>
-        <ScrollView>
-          <Form
-            type={'Login'}
-            navigation={this.props.navigation}
-            actionButton={this.actionButton.bind(this)}
-          />
-        </ScrollView>
+        <ImageBackground
+          source={require('../assets/images/fondo.jpg')}
+          style={styles.backgoundContainer}
+        >
+          <ScrollView>
+            <Form
+              type={'Login'}
+              navigation={this.props.navigation}
+              actionButton={this.actionButton.bind(this)}
+            />
+          </ScrollView>
+        </ImageBackground>
       </Block>
     )
   }
@@ -46,7 +57,13 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   login: {
     width: width,
-    height: height,
-    backgroundColor: '#071019'
+    height: height
+  },
+  backgoundContainer: {
+    flex: 1,
+    width: 500,
+    height: null,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
