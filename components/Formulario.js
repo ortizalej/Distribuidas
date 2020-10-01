@@ -646,12 +646,8 @@ function renderPrestamosTomados (props) {
     </Container>
   )
 }
-<<<<<<< HEAD
 
 function renderPresupuesto(props) {
-=======
-function renderPresupuesto (props) {
->>>>>>> 8fa9d67e938c1ad7df4ad3916e593124101ef07d
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -759,12 +755,8 @@ function renderInversiones (props) {
     </Container>
   )
 }
-<<<<<<< HEAD
 
 function renderLogin(prop) {
-=======
-function renderLogin (prop) {
->>>>>>> 8fa9d67e938c1ad7df4ad3916e593124101ef07d
   return (
     <Container style={styles.containerLogin}>
       <Content>
@@ -911,7 +903,6 @@ function renderSingIn (prop) {
   )
 }
 
-<<<<<<< HEAD
 function actionButton(type, props) {
   let result;
   console.log("type", type);
@@ -923,16 +914,6 @@ function actionButton(type, props) {
       result = validateSignUp(props);
       if (result === '') {
         props.props.actionButton(props.state.userName, props.state.password)
-=======
-function actionButton (type, prop) {
-  switch (type) {
-    case 'login':
-      prop.props.actionButton(prop.state.userName, prop.state.password)
-    case 'sign in':
-      let result = validateFields(prop)
-      if (result === '') {
-        prop.props.actionButton(prop.state.userName, prop.state.password)
->>>>>>> 8fa9d67e938c1ad7df4ad3916e593124101ef07d
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
       }
@@ -1172,6 +1153,7 @@ const styles = StyleSheet.create({
     height: 300,
     marginBottom: -40,
     marginTop: -40,
+    marginLeft: 22,
     justifyContent: 'center',
     alignItems: 'center'
   },
