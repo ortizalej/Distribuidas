@@ -913,11 +913,7 @@ function actionButton(type, props) {
     case 'signUp':
       result = validateSignUp(props);
       if (result === '') {
-<<<<<<< HEAD
         props.props.actionButton(props.state.userName, props.state.password, props.state.name, props.state.lastName)
-=======
-        props.props.actionButton(props.state.userName, props.state.password)
->>>>>>> 1cebc0ba1f73fe79abc24d12b404267bddf51a53
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
       }

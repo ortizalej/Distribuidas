@@ -48,12 +48,7 @@ export default class DisplayMount extends React.Component {
       vencimiento: value
     })
   }
-<<<<<<< HEAD
-  onChangeTipo (value) {
-    console.log(value)
-=======
   onChangeTipo(value) {
->>>>>>> 1cebc0ba1f73fe79abc24d12b404267bddf51a53
     this.setState({
       tipo: value
     })
