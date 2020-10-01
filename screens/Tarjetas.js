@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, Platform } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, Platform, AsyncStorage } from 'react-native';
 import { Block } from 'galio-framework';
 import CarrouselCard from '../components/CarrouselCard';
 import Display from '../components/DisplayMount'
@@ -71,59 +71,28 @@ export default class Tarjetas extends React.Component {
         super(props);
         this.state = {
             type: 'Card',
-            cards: [
-                // {
-                //     name: "Alejandro Ortiz",
-                //     number: 'XXXXXXXX2 123',
-                //     expiry: '22/11',
-                //     brand: "visa",
-                // },
-                // {
-                //     name: "Alejandro Ortiz",
-                //     number: 'XXXXXXXX2 452',
-                //     expiry: '12/04',
-                //     brand: "master-card",
-                // }
-            ],
+            cards: [],
             rowToShow: [],
-
-            rowtoDetail: []
+            rowtoDetail: [],
+            data: undefined
         }
     }
-    getTarjetasData(data) {
 
+    totalSumPesos = 0
+    totalSumDolares = 0
+
+    getTarjetasData(data) {
         AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
             let userData = JSON.parse(value)
             this.state.data = userData
             let actualCard = this.state.data.tarjetas[0]
-            console.log('TARJETAS', JSON.stringify(this.state.data.cuentasBancarias))
+
             let arrayDataDetail = [];
             let showData = [];
-            if (userData.ingresos.length > 0) {
-                for (let i = 0; i < userData.ingresos.length; i++) {
-                    if (actualCard.number === userData.ingresos[i][5]) {
-                        arrayDataDetail.push(
-                            [
-                                userData.ingresos[i][0],
-                                userData.ingresos[i][1],
-                                userData.ingresos[i][2],
-                                userData.ingresos[i][3],
-                                userData.ingresos[i][4],
-                                userData.ingresos[i][5]
-                            ]);
-                        showData.push(
-                            [
-                                userData.ingresos[i][0],
-                                userData.ingresos[i][1],
-                                userData.ingresos[i][2],
-                                ''
-                            ]);
-                    }
-                }
-            }
+
             if (userData.egresos.length > 0) {
                 for (let i = 0; i < userData.egresos.length; i++) {
-                    if (actualCard.number === userData.egresos[i][5]) {
+                    if (actualCard.numero.replace(/ /g,'') === userData.egresos[i][8]) {
                         arrayDataDetail.push(
                             [
                                 userData.egresos[i][0],
@@ -134,8 +103,12 @@ export default class Tarjetas extends React.Component {
                                 userData.egresos[i][5],
                                 userData.egresos[i][6],
                                 userData.egresos[i][7],
-                                userData.egresos[i][8]
-                            ]);
+                                userData.egresos[i][8],
+                                userData.egresos[i][9],
+                                userData.egresos[i][10],
+                            ]
+                        );
+
                         showData.push(
                             [
                                 userData.egresos[i][0],
@@ -150,26 +123,25 @@ export default class Tarjetas extends React.Component {
                 rowToShow: showData,
                 rowtoDetail: arrayDataDetail
             })
-
-
+            
             for (let i = 0; i < this.state.rowtoDetail.length; i++) {
                 if (!this.state.rowtoDetail[i]) { continue; }
                 if (this.state.rowtoDetail[i][2] === 'Pesos') {
                     this.totalSumPesos += this.state.rowtoDetail[i][1];
                 } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
-                    this.totalSumaDolares += this.state.rowtoDetail[i][1]
+                    this.totalSumDolares += this.state.rowtoDetail[i][1];
                 }
             }
 
-            this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
+            this.Display.updateState(this.totalSumPesos, this.totalSumDolares);
             this.HistoricTable.updateState(this.state.rowToShow);
             var startDate = moment("DD-MM-YYYY")
             var endDate = moment("25-12-2016", "DD-MM-YYYY");
-            this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
-            this.CountDown.until = differenceDate
+            // this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
+            // this.CountDown.until = differenceDate
         })
-
     }
+
     formData(data) {
         var now = moment().format('DD-MM-YYYY');
         let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
@@ -193,7 +165,10 @@ export default class Tarjetas extends React.Component {
     }
 
     render() {
-        console.log('test')
+        let userData = this.props.route.params
+        if (!this.state.data) {
+            this.getTarjetasData(userData)
+        }
         let totalSumPesos = 0;
         let totalSumaDolares = 0;
         for (let i = 0; i < this.state.rowtoDetail.length; i++) {
@@ -227,12 +202,12 @@ export default class Tarjetas extends React.Component {
                         defaultDolares={totalSumaDolares}
                         getDate={this.getDisplayFilter.bind(this)}
                     />
-                    {this.differenceDate > 0 ?
+                    {0 > 0 ?
                         <CountDown
                             ref={(countdown) => { this.CountDown = countdown }}
 
                             style={{ marginTop: 50 }}
-                            until={this.differenceDate}
+                            until={0}
                             digitTxtStyle={{ fontSize: 12, color: 'black' }}
                             timeToShow={['D', 'H', 'M', 'S']}
                             size={20}

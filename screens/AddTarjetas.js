@@ -223,7 +223,7 @@ function validateNewCard(props) {
         console.log(props.state.data)
       }
     )
-    //props.props.navigation.navigate('Tarjetas', { data: data })
+    props.props.navigation.navigate('Tarjetas')
   } else {
     showMessage({ message: result, type: 'danger', animationDuration: 300 })
   }
