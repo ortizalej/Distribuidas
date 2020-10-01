@@ -19,7 +19,7 @@ import * as ImagePicker from 'expo-image-picker'
 
 const { width, height } = Dimensions.get('screen')
 export default class Formulario extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       tipo: undefined,
@@ -43,87 +43,87 @@ export default class Formulario extends React.Component {
     }
   }
 
-  onChangeCantidad (value) {
+  onChangeCantidad(value) {
     this.setState({
       cantidad: value
     })
   }
-  onChangeUri (value) {
+  onChangeUri(value) {
     this.setState({
       uri: value
     })
   }
-  onChangePropietario (value) {
+  onChangePropietario(value) {
     this.setState({
       propietario: value
     })
   }
-  onChangeOtros (value) {
+  onChangeOtros(value) {
     this.setState({
       otros: value
     })
   }
-  onChangeTitular (value) {
+  onChangeTitular(value) {
     this.setState({
       titularName: value
     })
   }
-  onChangeCBU (value) {
+  onChangeCBU(value) {
     this.setState({
       CBU: value
     })
   }
-  onChangeBanco (value) {
+  onChangeBanco(value) {
     this.setState({
       bankName: value
     })
   }
-  onChangeVencimientos (value) {
+  onChangeVencimientos(value) {
     this.setState({
       vencimiento: value
     })
   }
-  onChangeCuotas (value) {
+  onChangeCuotas(value) {
     this.setState({
       cuotas: value
     })
   }
-  onChangeInteres (value) {
+  onChangeInteres(value) {
     this.setState({
       interes: value
     })
   }
-  onChangeTipoServicio (value) {
+  onChangeTipoServicio(value) {
     this.setState({
       tipoServicio: value
     })
   }
-  onChangeTipo (value) {
+  onChangeTipo(value) {
     this.setState({
       tipo: value
     })
   }
-  onChangeMedio (value) {
+  onChangeMedio(value) {
     this.setState({
       medio: value
     })
   }
-  onChangeDestino (value) {
+  onChangeDestino(value) {
     this.setState({
       destino: value
     })
   }
-  onChangeFuente (value) {
+  onChangeFuente(value) {
     this.setState({
       fuente: value
     })
   }
-  onChangeCuenta (value) {
+  onChangeCuenta(value) {
     this.setState({
       cuenta: value
     })
   }
-  onChangeMoneda (value) {
+  onChangeMoneda(value) {
     this.setState({
       moneda: value
     })
@@ -133,27 +133,27 @@ export default class Formulario extends React.Component {
       userName: value
     })
   }
-  onChangeLastName (value) {
+  onChangeLastName(value) {
     this.setState({
       lastName: value
     })
   }
-  onChangeName (value) {
+  onChangeName(value) {
     this.setState({
       name: value
     })
   }
-  onChangePassword (value) {
+  onChangePassword(value) {
     this.setState({
       password: value
     })
   }
 
-  getFormData (data) {
+  getFormData(data) {
     this.props.getFormData(data)
   }
 
-  render () {
+  render() {
     if (this.props.type === 'Ingresos') {
       return renderIngresos(this)
     } else if (this.props.type === 'Egresos') {
@@ -176,14 +176,14 @@ export default class Formulario extends React.Component {
   }
 }
 
-function renderIngresos (props) {
+function renderIngresos(props) {
   let user = props.props.user
   let cuentas = [];
   AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
     let userData = JSON.parse(value)
     console.log(userData)
     for (let i = 0; i < userData.cuentasBancarias.length; i++) {
-      cuentas.push({value:userData.cuentasBancarias[i].CBU})
+      cuentas.push({ value: userData.cuentasBancarias[i].CBU })
     }
 
   })
@@ -266,7 +266,7 @@ function renderIngresos (props) {
   )
 }
 
-function renderEgresos (props) {
+function renderEgresos(props) {
   let user = props.props.user
   let cuentas = [];
   let tarjetaCredito = []
@@ -275,14 +275,14 @@ function renderEgresos (props) {
     let userData = JSON.parse(value)
     console.log(userData)
     for (let i = 0; i < userData.tarjetas.length; i++) {
-      if(userData.tarjetas[i] === 'Tarjeta de Crédito') {
-        tarjetaCredito.push({value: userData.tarjetas[i].numero})
-      } else if(userData.tarjetas[i] === 'Tarjeta de Debito') {
-        tarjetaDebito.push({value: userData.tarjetas[i].numero})
+      if (userData.tarjetas[i] === 'Tarjeta de Crédito') {
+        tarjetaCredito.push({ value: userData.tarjetas[i].numero })
+      } else if (userData.tarjetas[i] === 'Tarjeta de Debito') {
+        tarjetaDebito.push({ value: userData.tarjetas[i].numero })
       }
     }
     for (let i = 0; i < userData.cuentasBancarias.length; i++) {
-      cuentas.push({value:userData.cuentasBancarias[i].CBU})
+      cuentas.push({ value: userData.cuentasBancarias[i].CBU })
     }
 
   })
@@ -493,14 +493,14 @@ function renderEgresos (props) {
   )
 }
 
-function renderPrestamosPrestados (props) {
+function renderPrestamosPrestados(props) {
   let user = props.props.user
   let cuentas = [];
   AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
     let userData = JSON.parse(value)
     console.log(userData)
     for (let i = 0; i < userData.cuentasBancarias.length; i++) {
-      cuentas.push({value:userData.cuentasBancarias[i].CBU})
+      cuentas.push({ value: userData.cuentasBancarias[i].CBU })
     }
 
   })
@@ -580,14 +580,14 @@ function renderPrestamosPrestados (props) {
   )
 }
 
-function renderPrestamosTomados (props) {
+function renderPrestamosTomados(props) {
   let user = props.props.user
   let cuentas = [];
   AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
     let userData = JSON.parse(value)
     console.log(userData)
     for (let i = 0; i < userData.cuentasBancarias.length; i++) {
-      cuentas.push({value:userData.cuentasBancarias[i].CBU})
+      cuentas.push({ value: userData.cuentasBancarias[i].CBU })
     }
 
   })
@@ -734,7 +734,7 @@ function renderPresupuesto(props) {
   )
 }
 
-function renderInversiones (props) {
+function renderInversiones(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -850,36 +850,33 @@ function renderLogin(prop) {
   )
 }
 
-function renderCuentaBancaria (props) {
+function renderCuentaBancaria(props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
         <Form scrollEnabled={false}>
-          <Item stackedLabel>
-            <Input
-              style={{ color: '#697A8C' }}
-              placeholder='Titular'
-              placeholderTextColor='#697A8C'
-              onChangeText={props.onChangeTitular.bind(props)}
-            />
-          </Item>
-          <Item stackedLabel>
-            <Input
-              keyboardType='number-pad'
-              style={{ color: '#697A8C' }}
-              placeholder='CBU'
-              placeholderTextColor='#697A8C'
-              onChangeText={props.onChangeCBU.bind(props)}
-            />
-          </Item>
-          <Item stackedLabel>
-            <Input
-              style={{ color: '#697A8C' }}
-              placeholder='Banco'
-              placeholderTextColor='#697A8C'
-              onChangeText={props.onChangeBanco.bind(props)}
-            />
-          </Item>
+          <TextInput
+            label='Titular'
+            onChangeText={props.onChangeTitular.bind(props)}
+            mode='outlined'
+            style={styles.textInput}
+            theme={theme}
+          />
+          <TextInput
+            label='CBU'
+            keyboardType='number-pad'
+            onChangeText={props.onChangeCBU.bind(props)}
+            mode='outlined'
+            style={styles.textInput}
+            theme={theme}
+          />
+          <TextInput
+            label='Banco'
+            onChangeText={props.onChangeBanco.bind(props)}
+            mode='outlined'
+            style={styles.textInput}
+            theme={theme}
+          />
           <Button
             style={styles.btnIngresar}
             onPress={() => { actionButton('cuenta bancaria', props) }}
@@ -892,7 +889,7 @@ function renderCuentaBancaria (props) {
   )
 }
 
-function renderSingIn (prop) {
+function renderSingIn(prop) {
   return (
     <Container style={styles.containerLogin}>
       <Content>

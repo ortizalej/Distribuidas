@@ -4,11 +4,7 @@ import { Block } from 'galio-framework';
 import CarrouselCard from '../components/CarrouselCard';
 import Display from '../components/DisplayMount'
 import HistoricTable from '../components/HistoricTable';
-import {
-    Button,
-    Text,
-    Picker
-} from "native-base";
+import { Button, Text, Picker } from "native-base";
 import moment from 'moment';
 import CountDown from 'react-native-countdown-component';
 import { Notifications } from 'expo';
