@@ -103,16 +103,22 @@ export default class HistoricTable extends React.Component {
 
   openImage(data) {
     console.log(data[9])
+    let visible = true
     return (
       <Modal
-        animationType="slide"
-        visible={true}
+        animationType={"slide"}
+        transparent={false}
+        visible={visible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
-      >
-        <Image source={{uri:data[9]}} />
+          Alert.alert('Modal has now been closed.');
+        }}>
 
+        <Image
+          source={data[9]}
+          style={styles.image} />
+        <Text style={styles.text}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Maecenas eget tempus augue, a convallis velit.</Text>
       </Modal>
     )
 

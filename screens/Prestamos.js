@@ -290,6 +290,7 @@ export default class Prestamos extends React.Component {
           <Form
             type={'Prestamos Prestados'}
             getFormData={this.formData.bind(this)}
+            user ={userData}
           />
           <HistoricTable
             type={'Prestados'}
@@ -316,6 +317,7 @@ export default class Prestamos extends React.Component {
           <Form
             type={'Prestamos Tomados'}
             getFormData={this.formData.bind(this)}
+            user ={userData}
           />
           <HistoricTable
             type={'Tomados'}

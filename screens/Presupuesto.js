@@ -80,6 +80,8 @@ export default class Presupuesto extends React.Component {
         this.forceUpdate()
     }
     insertData() {
+        console.log('PRESUPUESTO',this.state.data.presupuestos)
+
         if(this.state.data.presupuestos[0]) {
             this.state.data.presupuestos[0] = this.state.graphData.data[1]
         } else {
@@ -91,7 +93,6 @@ export default class Presupuesto extends React.Component {
             this.state.data.seguridad.password,
           JSON.stringify(this.state.data),
           value => {
-            console.log(value)
           }
         )
       }
@@ -130,7 +131,6 @@ export default class Presupuesto extends React.Component {
                     }
                 } 
             }
-            console.log(this.state.data.presupuestos)
             if(this.state.data.presupuestos[0]) { 
                 this.state.graphData.data[1] = this.state.data.presupuestos[0]
             }

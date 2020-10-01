@@ -193,6 +193,7 @@ export default class Tarjetas extends React.Component {
     }
 
     render() {
+        console.log('test')
         let totalSumPesos = 0;
         let totalSumaDolares = 0;
         for (let i = 0; i < this.state.rowtoDetail.length; i++) {

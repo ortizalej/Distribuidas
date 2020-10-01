@@ -250,7 +250,7 @@ export default class Egresos extends React.Component {
             defaultDolares={this.totalSumaDolares}
             getDate={this.getDisplayFilter.bind(this)}
           />
-          <Form type={'Egresos'} getFormData={this.formData.bind(this)} />
+          <Form type={'Egresos'} getFormData={this.formData.bind(this)} user={userData} />
           <HistoricTable
             type={'Egresos'}
             ref={table => {

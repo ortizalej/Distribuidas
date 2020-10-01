@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
-import { Button, Block, Text, Input, theme, View,  } from 'galio-framework';
+import { Button, Block, Text, Input, theme, View, } from 'galio-framework';
 import {
   BarChart,
   PieChart,
@@ -54,8 +54,8 @@ export default class Home extends React.Component {
         legend: ["Egresos", "Inversiones", "Prestamos"],
         labels: ["Real", "Presupuesto"],
         data: [
-          [60, 60, 60],
-          [20]
+          [0, 0, 0.1],
+          [20,]
 
         ],
         barColors: ["#e57373", "#e53935", "#b71c1c"]
@@ -68,6 +68,7 @@ export default class Home extends React.Component {
       let userData = JSON.parse(value)
       this.state.data = userData
 
+      // EGRESOS
       if (userData.egresos.length > 0) {
         let egresosTranf = 0
         let egresosTarjeta = 0
@@ -77,16 +78,43 @@ export default class Home extends React.Component {
           //Monto Por mes
           if (userData.egresos[i][3] == 'Tarjeta de Crédito' || userData.egresos[i][3] == 'Tarjeta de Debito') {
             egresosTarjeta += userData[i][1]
-          } else if (userData.egresos[i][3] == 'Transferencia Bancaria') {
-            egresosTranf += userData[i][1]
+          } else if (userData.egresos.egresos[i][3] == 'Transferencia Bancaria') {
+            egresosTranf += userData.egresos[i][1]
           }
-
-
+          totalEgresos += userData.egresos[i][1]
         }
+        console.log(this.state.dataRealvsPres.data[0][0])
         this.state.dataMedioPago.datasets[0].data[0] = egresosTarjeta
         this.state.dataMedioPago.datasets[0].data[1] = egresosTranf
+        this.state.dataRealvsPres.data[0][0] = totalEgresos
+
+
+      } 
+      if (userData.presupuestos.length > 0) {
+        let totalPresupuesto = 0
+
+        for (let i = 0; i < userData.presupuestos[0].length; i++) {
+
+          totalPresupuesto += userData.presupuestos[0][i]
+        }
+        this.state.dataRealvsPres.data[1][1] = totalPresupuesto
 
       }
+
+      if(userData.cuentasBancarias.length > 0 ) {
+        for (let i = 0; i < userData.cuentasBancarias.length; i++) {
+          let cuentaBancariaEgreso = 0;
+          for (let j = 0; j < userData.egresos.length; j++) {
+
+            //Monto Por Cuenta
+            if (userData.cuentasBancarias[i].CBU == userData.egresos[j].cuenta) {
+              cuentaBancariaEgreso += userData.egresos[j][1]
+            } 
+          }
+        }
+      }
+
+
     })
   }
   render() {

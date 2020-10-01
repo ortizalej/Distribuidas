@@ -118,7 +118,7 @@ export default class DisplayMount extends React.Component {
             />
             <DatePicker
               style={styles.dataPicker}
-              date={this.state.date} //initial date from state
+              date={this.state.cierre} //initial date from state
               mode='date' //The enum of date, datetime and time
               placeholder='Fecha de Cierre'
               format='DD-MM-YYYY'

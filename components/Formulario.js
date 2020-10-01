@@ -177,6 +177,16 @@ export default class Formulario extends React.Component {
 }
 
 function renderIngresos (props) {
+  let user = props.props.user
+  let cuentas = [];
+  AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
+    let userData = JSON.parse(value)
+    console.log(userData)
+    for (let i = 0; i < userData.cuentasBancarias.length; i++) {
+      cuentas.push({value:userData.cuentasBancarias[i].CBU})
+    }
+
+  })
   return (
     <Container style={styles.container}>
       <Content>
@@ -233,7 +243,7 @@ function renderIngresos (props) {
           >
             <Dropdown
               label='Cuentas vinculadas'
-              data={cuentaOptions}
+              data={cuentas}
               dropdownOffset={{ top: 10, left: 30 }}
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
@@ -257,6 +267,25 @@ function renderIngresos (props) {
 }
 
 function renderEgresos (props) {
+  let user = props.props.user
+  let cuentas = [];
+  let tarjetaCredito = []
+  let tarjetaDebito = []
+  AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
+    let userData = JSON.parse(value)
+    console.log(userData)
+    for (let i = 0; i < userData.tarjetas.length; i++) {
+      if(userData.tarjetas[i] === 'Tarjeta de Crédito') {
+        tarjetaCredito.push({value: userData.tarjetas[i].numero})
+      } else if(userData.tarjetas[i] === 'Tarjeta de Debito') {
+        tarjetaDebito.push({value: userData.tarjetas[i].numero})
+      }
+    }
+    for (let i = 0; i < userData.cuentasBancarias.length; i++) {
+      cuentas.push({value:userData.cuentasBancarias[i].CBU})
+    }
+
+  })
   let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync()
 
@@ -362,7 +391,7 @@ function renderEgresos (props) {
           >
             <Dropdown
               label='Cuentas vinculadas'
-              data={cuentaOptions}
+              data={cuentas}
               dropdownOffset={{ top: 10, left: 30 }}
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
@@ -383,7 +412,7 @@ function renderEgresos (props) {
           >
             <Dropdown
               label='Seleccione la tarjeta'
-              data={tarjetaDebitoOptions}
+              data={tarjetaDebito}
               dropdownOffset={{ top: 10, left: 30 }}
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
@@ -403,7 +432,7 @@ function renderEgresos (props) {
           >
             <Dropdown
               label='Seleccione la tarjeta'
-              data={tarjetaCreditoOptions}
+              data={tarjetaCredito}
               dropdownOffset={{ top: 10, left: 30 }}
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
@@ -465,6 +494,16 @@ function renderEgresos (props) {
 }
 
 function renderPrestamosPrestados (props) {
+  let user = props.props.user
+  let cuentas = [];
+  AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
+    let userData = JSON.parse(value)
+    console.log(userData)
+    for (let i = 0; i < userData.cuentasBancarias.length; i++) {
+      cuentas.push({value:userData.cuentasBancarias[i].CBU})
+    }
+
+  })
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -519,7 +558,7 @@ function renderPrestamosPrestados (props) {
           >
             <Dropdown
               label='Cuentas vinculadas'
-              data={cuentaOptions}
+              data={cuentas}
               dropdownOffset={{ top: 10, left: 30 }}
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
@@ -542,6 +581,16 @@ function renderPrestamosPrestados (props) {
 }
 
 function renderPrestamosTomados (props) {
+  let user = props.props.user
+  let cuentas = [];
+  AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
+    let userData = JSON.parse(value)
+    console.log(userData)
+    for (let i = 0; i < userData.cuentasBancarias.length; i++) {
+      cuentas.push({value:userData.cuentasBancarias[i].CBU})
+    }
+
+  })
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -596,7 +645,7 @@ function renderPrestamosTomados (props) {
           >
             <Dropdown
               label='Cuentas vinculadas'
-              data={cuentaOptions}
+              data={cuentas}
               dropdownOffset={{ top: 10, left: 30 }}
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
@@ -946,7 +995,8 @@ function actionButton(type, props) {
           cuotas: props.state.cuotas,
           otros: props.state.otros,
           tipoServicio: props.state.tipoServicio,
-          uriImage: props.state.uri
+          uriImage: props.state.uri,
+          cuenta: cuenta
         })
         showMessage({ message: '¡Egreso registrado con éxito!', type: 'success' })
       } else {

@@ -227,7 +227,7 @@ export default class Ingresos extends React.Component {
             defaultDolares={this.totalSumaDolares}
             getDate={this.getDisplayFilter.bind(this)}
           />
-          <Form type={'Ingresos'} getFormData={this.formData.bind(this)} />
+          <Form type={'Ingresos'} getFormData={this.formData.bind(this)} user={userData}/>
           <HistoricTable
             type={'Ingresos'}
             ref={table => {

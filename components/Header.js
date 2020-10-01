@@ -51,7 +51,6 @@ class Header extends React.Component {
           title={title}
           style={styles.navbar}
           transparent={transparent}
-          right={title != 'Login' && title != 'Sign In' ? this.renderRight() : null}
           rightStyle={{ alignItems: 'center' }}
           leftStyle={{ flex: 0.3, paddingTop: 2 }}
           leftIconName={title != 'Login' && title != 'Sign In' ? (back ? 'chevron-left' : 'navicon') : null}
