@@ -857,31 +857,28 @@ function renderCuentaBancaria(props) {
     <Container style={styles.container}>
       <Content bounces={false}>
         <Form scrollEnabled={false}>
-          <Item stackedLabel>
-            <Input
-              style={{ color: '#697A8C' }}
-              placeholder='Titular'
-              placeholderTextColor='#697A8C'
-              onChangeText={props.onChangeTitular.bind(props)}
-            />
-          </Item>
-          <Item stackedLabel>
-            <Input
-              keyboardType='number-pad'
-              style={{ color: '#697A8C' }}
-              placeholder='CBU'
-              placeholderTextColor='#697A8C'
-              onChangeText={props.onChangeCBU.bind(props)}
-            />
-          </Item>
-          <Item stackedLabel>
-            <Input
-              style={{ color: '#697A8C' }}
-              placeholder='Banco'
-              placeholderTextColor='#697A8C'
-              onChangeText={props.onChangeBanco.bind(props)}
-            />
-          </Item>
+          <TextInput
+            label='Titular'
+            onChangeText={props.onChangeTitular.bind(props)}
+            mode='outlined'
+            style={styles.textInput}
+            theme={theme}
+          />
+          <TextInput
+            label='CBU'
+            keyboardType='number-pad'
+            onChangeText={props.onChangeCBU.bind(props)}
+            mode='outlined'
+            style={styles.textInput}
+            theme={theme}
+          />
+          <TextInput
+            label='Banco'
+            onChangeText={props.onChangeBanco.bind(props)}
+            mode='outlined'
+            style={styles.textInput}
+            theme={theme}
+          />
           <Button
             style={styles.btnIngresar}
             onPress={() => { actionButton('cuenta bancaria', props) }}
@@ -1087,10 +1084,10 @@ function validateSignUp(prop) {
   let msg = "";
   const validationResult = validate(prop.state.userName);
 
-  if (typeof prop.state.userName === 'undefined' || typeof validationResult !== 'undefined' || prop.state.userName?.length < 6) { msg += "El mail es inválido. \n"; }
-  if (typeof prop.state.password === 'undefined' || prop.state.password === null || prop.state.password.length < 8) { msg += "La contraseña es inválida \n"; }
-  if (typeof prop.state.name === 'undefined' || prop.state.name === null || prop.state.name === '') { msg += "El nombre es obligatorio. \n"; }
-  if (typeof prop.state.lastName === 'undefined' || prop.state.lastName === null || prop.state.lastName === '') { msg += "El apellido es obligatorio. \n"; }
+  if (!prop.state.userName || typeof validationResult !== 'undefined' || prop.state.userName?.length < 6) { msg += "El mail es inválido. \n"; }
+  if (!prop.state.password || prop.state.password.length < 8) { msg += "La contraseña es inválida \n"; }
+  if (!prop.state.name || prop.state.name === '') { msg += "El nombre es obligatorio. \n"; }
+  if (!prop.state.lastName || prop.state.lastName === '') { msg += "El apellido es obligatorio. \n"; }
 
   return msg
 }
@@ -1098,11 +1095,11 @@ function validateSignUp(prop) {
 function validateIngreso(prop) {
   let msg = "";
 
-  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
-  if (typeof prop.state.moneda === 'undefined' || prop.state.moneda === null) { msg += "Ingrese una moneda. \n"; }
-  if (typeof prop.state.fuente === 'undefined' || prop.state.fuente === null) { msg += "Ingrese una fuente. \n"; }
-  if (typeof prop.state.medio === 'undefined' || prop.state.medio === null) { msg += "Ingrese un medio. \n"; }
-  if (prop.state.medio === "Transferencia Bancaria" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
+  if (!prop.state.cantidad) { msg += "Ingrese un monto. \n"; }
+  if (!prop.state.moneda) { msg += "Ingrese una moneda. \n"; }
+  if (!prop.state.fuente) { msg += "Ingrese una fuente. \n"; }
+  if (!prop.state.medio) { msg += "Ingrese un medio. \n"; }
+  if (prop.state.medio === "Transferencia Bancaria" && !prop.state.cuenta) { msg += "Ingrese una cuenta. \n"; }
 
   return msg
 }
@@ -1110,16 +1107,16 @@ function validateIngreso(prop) {
 function validateEgreso(prop) {
   let msg = "";
 
-  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
-  if (typeof prop.state.moneda === 'undefined' || prop.state.moneda === null) { msg += "Ingrese una moneda. \n"; }
-  if (typeof prop.state.tipo === 'undefined' || prop.state.fuente === null) { msg += "Ingrese un tipo. \n"; }
-  if (prop.state.tipo === 'Otros' && (typeof prop.state.otros === 'undefined' || prop.state.otros === null)) { msg += "Ingrese el nuevo servicio. \n"; }
-  if (typeof prop.state.medio === 'undefined' || prop.state.medio === null) { msg += "Ingrese un medio. \n"; }
-  if (prop.state.medio === "Transferencia Bancaria" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
-  if (prop.state.medio === "Tarjeta de Crédito" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
-  if (prop.state.medio === "Tarjeta de Crédito" && (typeof prop.state.cuotas === 'undefined' || prop.state.cuotas === null)) { msg += "Ingrese la cantidad de cuotas. \n"; }
-  if (prop.state.medio === "Tarjeta de Crédito" && (typeof prop.state.interes === 'undefined' || prop.state.interes === null)) { msg += "Ingrese el interés. \n"; }
-  if (prop.state.medio === "Tarjeta de Débito" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
+  if (!prop.state.cantidad) { msg += "Ingrese un monto. \n"; }
+  if (!prop.state.moneda) { msg += "Ingrese una moneda. \n"; }
+  if (!prop.state.tipo) { msg += "Ingrese un tipo. \n"; }
+  if (prop.state.tipo =='Otros' && !prop.state.otros) { msg += "Ingrese el nuevo servicio. \n"; }
+  if (!prop.state.medio) { msg += "Ingrese un medio. \n"; }
+  if (prop.state.medio === "Transferencia Bancaria" && !prop.state.cuenta) { msg += "Ingrese una cuenta. \n"; }
+  if (prop.state.medio === "Tarjeta de Crédito" && !prop.state.cuenta) { msg += "Ingrese una cuenta. \n"; }
+  if (prop.state.medio === "Tarjeta de Crédito" && !prop.state.cuotas) { msg += "Ingrese la cantidad de cuotas. \n"; }
+  if (prop.state.medio === "Tarjeta de Crédito" && !prop.state.interes) { msg += "Ingrese el interés. \n"; }
+  if (prop.state.medio === "Tarjeta de Débito" && !prop.state.cuenta) { msg += "Ingrese una cuenta. \n"; }
 
   return msg
 }
@@ -1127,11 +1124,11 @@ function validateEgreso(prop) {
 function validatePrestamosPrestados(prop) {
   let msg = "";
 
-  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
-  if (typeof prop.state.destino === 'undefined' || prop.state.destino === null) { msg += "Ingrese un destinatario. \n"; }
-  if (typeof prop.state.moneda === 'undefined' || prop.state.moneda === null) { msg += "Ingrese una moneda. \n"; }
-  if (typeof prop.state.medio === 'undefined' || prop.state.medio === null) { msg += "Ingrese un medio. \n"; }
-  if (prop.state.medio === "Transferencia Bancaria" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
+  if (!prop.state.cantidad) { msg += "Ingrese un monto. \n"; }
+  if (!prop.state.destino) { msg += "Ingrese un destinatario. \n"; }
+  if (!prop.state.moneda) { msg += "Ingrese una moneda. \n"; }
+  if (!prop.state.medio) { msg += "Ingrese un medio. \n"; }
+  if (prop.state.medio === "Transferencia Bancaria" && !prop.state.cuenta) { msg += "Ingrese una cuenta. \n"; }
 
   return msg
 }
@@ -1139,14 +1136,14 @@ function validatePrestamosPrestados(prop) {
 function validatePrestamosTomados(prop) {
   let msg = "";
 
-  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
-  if (typeof prop.state.propietario === 'undefined' || prop.state.propietario === null) { msg += "Ingrese un propietario. \n"; }
-  if (typeof prop.state.moneda === 'undefined' || prop.state.moneda === null) { msg += "Ingrese una moneda. \n"; }
-  if (typeof prop.state.medio === 'undefined' || prop.state.medio === null) { msg += "Ingrese un medio. \n"; }
-  if (prop.state.medio === "Transferencia Bancaria" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
-  if (typeof prop.state.cuotas === 'undefined' || prop.state.cuotas === null) { msg += "Ingrese la cantidad de cuotas. \n"; }
-  if (typeof prop.state.interes === 'undefined' || prop.state.interes === null) { msg += "Ingrese el interés mensual. \n"; }
-  if (typeof prop.state.vencimiento === 'undefined' || prop.state.vencimiento === null) { msg += "Ingrese la fecha de vencimiento. \n"; }
+  if (!prop.state.cantidad) { msg += "Ingrese un monto. \n"; }
+  if (!prop.state.propietario) { msg += "Ingrese un propietario. \n"; }
+  if (!prop.state.moneda) { msg += "Ingrese una moneda. \n"; }
+  if (!prop.state.medio) { msg += "Ingrese un medio. \n"; }
+  if (prop.state.medio === "Transferencia Bancaria" && !prop.state.cuenta) { msg += "Ingrese una cuenta. \n"; }
+  if (!prop.state.cuotas) { msg += "Ingrese la cantidad de cuotas. \n"; }
+  if (!prop.state.interes) { msg += "Ingrese el interés mensual. \n"; }
+  if (!prop.state.vencimiento) { msg += "Ingrese la fecha de vencimiento. \n"; }
 
   return msg
 }
@@ -1154,8 +1151,8 @@ function validatePrestamosTomados(prop) {
 function validatePresupuesto(prop) {
   let msg = "";
 
-  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
-  if (typeof prop.state.tipo === 'undefined' || prop.state.fuente === null) { msg += "Ingrese un tipo. \n"; }
+  if (!prop.state.cantidad) { msg += "Ingrese un monto. \n"; }
+  if (!prop.state.fuente) { msg += "Ingrese un tipo. \n"; }
 
   return msg
 }
@@ -1163,16 +1160,19 @@ function validatePresupuesto(prop) {
 function validateInversion(prop) {
   let msg = "";
 
-  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
-  if (typeof prop.state.tipo === 'undefined' || prop.state.tipo === null) { msg += "Ingrese un tipo. \n"; }
-  if (prop.state.tipo === "Plazo Fijo" && (typeof prop.state.interes === 'undefined' || prop.state.interes === null)) { msg += "Ingrese el interés. \n"; }
-  if (prop.state.tipo === "Acciones" && (typeof prop.state.destino === 'undefined' || prop.state.destino === null)) { msg += "Ingrese el nombre de la empresa. \n"; }
+  if (!prop.state.cantidad) { msg += "Ingrese un monto. \n"; }
+  if (!prop.state.tipo) { msg += "Ingrese un tipo. \n"; }
+  if (prop.state.tipo === "Plazo Fijo" && !prop.state.intere) { msg += "Ingrese el interés. \n"; }
+  if (prop.state.tipo === "Acciones" && !prop.state.destino) { msg += "Ingrese el nombre de la empresa. \n"; }
 
   return msg
 }
 
 function validateCuentaBancaria(prop) {
   let msg = "";
+  if (!props.state.titularName) { msg += "Ingrese el nombre del titular. \n"; }
+  if (!props.state.CBU) { msg += "Ingrese el CBU. \n"; }
+  if (!props.state.bankName) { msg += "Ingrese el banco en donde está la cuenta. \n"; }
   return msg
 }
 
