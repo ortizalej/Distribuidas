@@ -33,6 +33,7 @@ export default class DisplayMount extends React.Component {
       data: undefined
     }
   }
+  cuentas =[];
   onChangeCuenta(value) {
     this.setState({
       cuenta: value
@@ -64,7 +65,9 @@ export default class DisplayMount extends React.Component {
     AsyncStorage.getItem(data.userName + '-' + data.password).then(value => {
       let userData = JSON.parse(value)
       this.state.data = userData 
-      console.log(userData)
+      for (let i = 0; i < userData.cuentasBancarias.length; i++) {
+        this.cuentas.push({value:userData.cuentasBancarias[i].CBU})
+      }
     })
   }
 
@@ -107,7 +110,7 @@ export default class DisplayMount extends React.Component {
             />
             <Dropdown
               label='Cuentas bancarias'
-              data={CuentaOptions}
+              data={this.cuentas}
               dropdownOffset={{ top: 10, left: 30 }}
               containerStyle={styles.combo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}

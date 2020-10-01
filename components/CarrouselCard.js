@@ -41,11 +41,6 @@ export default class CarrouselCard extends React.Component {
         ) 
       }
     
-    onchangeItem(prop,index) {
-        console.log(index)
-        console.log(this)
-        // prop.props.filterCard(index)
-    }
     _renderItemCard({ item, index }) {
         return (
             <View>
@@ -84,7 +79,7 @@ export default class CarrouselCard extends React.Component {
     }
 
     render() {
-
+        console.log(this.state.carouselItems)
         return (
             <View center style={styles.container}>
                 <Carousel

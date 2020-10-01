@@ -64,7 +64,8 @@ export default class Tarjetas extends React.Component {
       carouselItems: [],
       rowToShow: [],
       rowtoDetail: [],
-      data: undefined
+      data: undefined,
+      actualCard: undefined
 
     }
   }
@@ -152,84 +153,12 @@ export default class Tarjetas extends React.Component {
     this.state.carouselItems.push(accountData)
     console.log(this.state.data.cuentasBancarias)
     this.Carrousel.updateState(this.state.data.cuentasBancarias)
-    AsyncStorage.mergeItem( 
+    AsyncStorage.mergeItem(
       this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
       JSON.stringify(this.state.data)
     )
     this.getCuentaData(this.props.route.params)
 
-  }
-  filterDataPerCard(index) {
-    let arrayDataDetail = [];
-    let showData = [];
-    let actualCard = this.state.data.cuentasBancarias[index];
-    let ingresos = this.state.data.ingresos
-    let egresos = this.state.data.egresos
-    console.log(actualCard)
-    if (ingresos.length > 0) {
-      for (let i = 0; i < ingresos.length; i++) {
-        if (actualCard.CBU === ingresos[i][5]) {
-          arrayDataDetail.push(
-            [
-              ingresos[i][0],
-              ingresos[i][1],
-              ingresos[i][2],
-              ingresos[i][3],
-              ingresos[i][4],
-              ingresos[i][5]
-            ]);
-          showData.push(
-            [
-              ingresos[i][0],
-              ingresos[i][1],
-              ingresos[i][2],
-              ''
-            ]);
-        }
-      }
-    }
-    if (egresos.length > 0) {
-      for (let i = 0; i < egresos.length; i++) {
-        if (actualCard.CBU === egresos[i][5]) {
-          arrayDataDetail.push(
-            [
-              egresos[i][0],
-              egresos[i][1],
-              egresos[i][2],
-              egresos[i][3],
-              egresos[i][4],
-              egresos[i][5],
-              egresos[i][6],
-              egresos[i][7],
-              egresos[i][8]
-            ]);
-          showData.push(
-            [
-              egresos[i][0],
-              egresos[i][1],
-              egresos[i][2],
-              ''
-            ]);
-        }
-      }
-    }
-    this.setState({
-      rowToShow: showData,
-      rowtoDetail: arrayDataDetail
-    })
-
-
-    for (let i = 0; i < this.state.rowtoDetail.length; i++) {
-      if (!this.state.rowtoDetail[i]) { continue; }
-      if (this.state.rowtoDetail[i][2] === 'Pesos') {
-        this.totalSumPesos += this.state.rowtoDetail[i][1];
-      } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
-        this.totalSumaDolares += this.state.rowtoDetail[i][1]
-      }
-    }
-
-    this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
-    this.HistoricTable.updateState(this.state.rowToShow);
   }
   getDisplayFilter(date) {
     if (this.state.rowtoDetail.length > 0) {
@@ -241,9 +170,56 @@ export default class Tarjetas extends React.Component {
       this.Display.updateState(filterSumPesos, filterSumDolares);
     }
   }
-  formData (data) {
+  formData(data) {
     console.log(data)
     this.insertData(data)
+  }
+
+  filterData(index) {
+    let arrayDataDetail = [];
+    let showData = [];
+    let actualCard = this.state.data.cuentasBancarias[index];
+    console.log(actualCard)
+    console.log(this.state.data.egresos)
+    if (this.state.data.egresos.length > 0) {
+      for (let i = 0; i < this.state.data.egresos.length; i++) {
+        if (actualCard.CBU === this.state.data.egresos[i][8]) {
+          arrayDataDetail.push(
+            [
+              this.state.data.egresos[i][0],
+              this.state.data.egresos[i][1],
+              this.state.data.egresos[i][2],
+              this.state.data.egresos[i][3],
+              this.state.data.egresos[i][4],
+              this.state.data.egresos[i][5],
+              this.state.data.egresos[i][6],
+              this.state.data.egresos[i][7],
+              this.state.data.egresos[i][8]
+            ]);
+          showData.push(
+            [
+              this.state.data.egresos[i][0],
+              this.state.data.egresos[i][1],
+              this.state.data.egresos[i][2],
+              ''
+            ]);
+        }
+      }
+    }
+    let filterSumPesos = 0
+    let filterSumDolares = 0
+    for (let i = 0; i < arrayDataDetail.length; i++) {
+      if (!arrayDataDetail[i]) { continue; }
+      if (arrayDataDetail[i][2] === 'Pesos') {
+        filterSumPesos += arrayDataDetail[i][1];
+      } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+        filterSumDolares += arrayDataDetail[i][1]
+      }
+    }
+
+    this.Display.updateState(filterSumPesos, filterSumDolares);
+    this.HistoricTable.updateState(showData);
+
   }
   render() {
     let userData = this.props.route.params
@@ -269,7 +245,7 @@ export default class Tarjetas extends React.Component {
             items={this.state.carouselItems}
             type={this.state.type}
             ref={(carrousel) => { this.Carrousel = carrousel }}
-            filterData={this.filterDataPerCard.bind(this)}
+            filterData={this.filterData.bind(this)}
 
           />
           <Display

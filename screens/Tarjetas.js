@@ -86,13 +86,24 @@ export default class Tarjetas extends React.Component {
             let userData = JSON.parse(value)
             this.state.data = userData
             let actualCard = this.state.data.tarjetas[0]
-
             let arrayDataDetail = [];
             let showData = [];
+            let cards = []
+            for (let i = 0; i < userData.tarjetas.length; i++) {
+                cards.push(
+                    {
+                        name: userData.tarjetas[i].nombre,
+                        number: userData.tarjetas[i].numero,
+                        expiry: userData.tarjetas[i].fechaExpiracion,
+                        brand: userData.tarjetas[i].tipoCard
+                    }
+                )
+            }
+            this.CarrouselCard.updateState(cards)
 
             if (userData.egresos.length > 0) {
                 for (let i = 0; i < userData.egresos.length; i++) {
-                    if (actualCard.numero.replace(/ /g,'') === userData.egresos[i][8]) {
+                    if (actualCard.numero === userData.egresos[i][8]) {
                         arrayDataDetail.push(
                             [
                                 userData.egresos[i][0],
@@ -123,7 +134,7 @@ export default class Tarjetas extends React.Component {
                 rowToShow: showData,
                 rowtoDetail: arrayDataDetail
             })
-            
+
             for (let i = 0; i < this.state.rowtoDetail.length; i++) {
                 if (!this.state.rowtoDetail[i]) { continue; }
                 if (this.state.rowtoDetail[i][2] === 'Pesos') {
@@ -135,10 +146,13 @@ export default class Tarjetas extends React.Component {
 
             this.Display.updateState(this.totalSumPesos, this.totalSumDolares);
             this.HistoricTable.updateState(this.state.rowToShow);
-            var startDate = moment("DD-MM-YYYY")
-            var endDate = moment("25-12-2016", "DD-MM-YYYY");
-            // this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
-            // this.CountDown.until = differenceDate
+            var startDate = moment()
+            var endDate = moment(actualCard.cierre, "DD-MM-YYYY");
+            console.log(startDate)
+            console.log(endDate)
+            this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
+            console.log(this.differenceDate)
+            this.forceUpdate()
         })
     }
 
@@ -163,7 +177,58 @@ export default class Tarjetas extends React.Component {
             this.Display.updateState(filterSumPesos, filterSumDolares);
         }
     }
+    filterData(index) {
+        let arrayDataDetail = [];
+        let showData = [];
+        let actualCard = this.state.data.tarjetas[index];
 
+        console.log(actualCard)
+        if (this.state.data.egresos.length > 0) {
+            for (let i = 0; i < this.state.data.egresos.length; i++) {
+                if (actualCard.numero === this.state.data.egresos[i][8]) {
+                    arrayDataDetail.push(
+                        [
+                            this.state.data.egresos[i][0],
+                            this.state.data.egresos[i][1],
+                            this.state.data.egresos[i][2],
+                            this.state.data.egresos[i][3],
+                            this.state.data.egresos[i][4],
+                            this.state.data.egresos[i][5],
+                            this.state.data.egresos[i][6],
+                            this.state.data.egresos[i][7],
+                            this.state.data.egresos[i][8]
+                        ]);
+                    showData.push(
+                        [
+                            this.state.data.egresos[i][0],
+                            this.state.data.egresos[i][1],
+                            this.state.data.egresos[i][2],
+                            '' 
+                        ]);
+                }
+            }
+        }
+        let filterSumPesos = 0
+        let filterSumDolares = 0
+        for (let i = 0; i < arrayDataDetail.length; i++) {
+            if (!arrayDataDetail[i]) { continue; }
+            if (arrayDataDetail[i][2] === 'Pesos') {
+                filterSumPesos += arrayDataDetail[i][1];
+            } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+                filterSumDolares += arrayDataDetail[i][1]
+            }
+        }
+
+        this.Display.updateState(filterSumPesos, filterSumDolares);
+        this.HistoricTable.updateState(showData);
+        var startDate = moment()
+        var endDate = moment(actualCard.cierre, "DD-MM-YYYY");
+        console.log(startDate)
+        console.log(endDate)
+        this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
+        console.log(this.differenceDate)
+        this.forceUpdate()
+    }
     render() {
         let userData = this.props.route.params
         if (!this.state.data) {
@@ -194,6 +259,9 @@ export default class Tarjetas extends React.Component {
                     <CarrouselCard
                         items={this.state.cards}
                         type={this.state.type}
+                        ref={(carrouselCard) => { this.CarrouselCard = carrouselCard }}
+                        filterData={this.filterData.bind(this)}
+
                     />
                     <Display style={styles.display}
                         ref={(display) => { this.Display = display }}
@@ -202,19 +270,19 @@ export default class Tarjetas extends React.Component {
                         defaultDolares={totalSumaDolares}
                         getDate={this.getDisplayFilter.bind(this)}
                     />
-                    {0 > 0 ?
+                    {this.differenceDate > 0 ?
                         <CountDown
                             ref={(countdown) => { this.CountDown = countdown }}
 
                             style={{ marginTop: 50 }}
-                            until={0}
+                            until={this.differenceDate}
                             digitTxtStyle={{ fontSize: 12, color: 'black' }}
                             timeToShow={['D', 'H', 'M', 'S']}
                             size={20}
                             onFinish={componentWillMount}
                             onPress={componentWillMount}
                         />
-                        :
+                        :  
                         <DatePicker
                             style={{ width: 200 }}
                             date={this.state.vencimiento} //initial date from state
@@ -223,7 +291,7 @@ export default class Tarjetas extends React.Component {
                             format="DD-MM-YYYY"
                             minDate="01-01-2016"
                             maxDate="01-01-2025"
-                            confirmBtnText="Confirm"
+                            confirmBtnText="Confirm" 
                             cancelBtnText="Cancel"
                             customStyles={{
                                 dateIcon: {
