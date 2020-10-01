@@ -29,6 +29,8 @@ function HomeStack() {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
+        initialParams={user.route.params}
+
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Home" scene={scene} navigation={navigation} />
