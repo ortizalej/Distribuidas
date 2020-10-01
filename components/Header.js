@@ -35,7 +35,6 @@ class Header extends React.Component {
         key='chat-home'
         navigation={this.props.navigation}
         isWhite={this.props.white}
-        onpress={}
       />
     );
   }
