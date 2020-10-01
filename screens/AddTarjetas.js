@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Switch } from 'react-native'
+import { StyleSheet, View, Switch, AsyncStorage } from 'react-native'
 import {
   CreditCardInput,
   LiteCreditCardInput
@@ -22,41 +22,62 @@ import { color } from 'react-native-reanimated'
 
 let data = undefined
 export default class DisplayMount extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       cuenta: undefined,
       cierre: undefined,
       tipo: undefined,
-      vencimiento: undefined
+      vencimiento: undefined,
+      cardData: undefined,
+      data: undefined
     }
   }
-  onChangeCuenta (value) {
+  onChangeCuenta(value) {
     this.setState({
       cuenta: value
     })
   }
-  onChangeCierre (value) {
+  onChangeCierre(value) {
     this.setState({
       cierre: value
     })
   }
-  onChangeVencimiento (value) {
+  onChangeVencimiento(value) {
     this.setState({
       vencimiento: value
     })
   }
+<<<<<<< HEAD
   onChangeTipo (value) {
     console.log(value)
+=======
+  onChangeTipo(value) {
+>>>>>>> 1cebc0ba1f73fe79abc24d12b404267bddf51a53
     this.setState({
       tipo: value
     })
   }
-
-  _onChange = formData => {
-    data = formData
+  _onChange (value) {
+    this.setState({
+      cardData: value
+    })
   }
-  render () {
+
+  getNewCardData(data) {
+    
+    AsyncStorage.getItem(data.userName + '-' + data.password).then(value => {
+      let userData = JSON.parse(value)
+      this.state.data = userData 
+      console.log(userData)
+    })
+  }
+
+  render() {
+    let userData = this.props.route.params
+    if (!this.state.data) {
+      this.getNewCardData(userData)
+    }
     const { goBack } = this.props.navigation
     return (
       <Container style={styles.container}>
@@ -76,7 +97,7 @@ export default class DisplayMount extends React.Component {
               invalidColor={'red'}
               placeholderColor={'gray'}
               inputContainerStyle={styles.inputCointaer}
-              onChange={this._onChange}
+              onChange={this._onChange.bind(this)}
             />
             <Dropdown
               label='Tipo'
@@ -168,13 +189,7 @@ export default class DisplayMount extends React.Component {
             />
             <Button
               style={styles.btnIngresar}
-              onPress={() => {
-                showMessage({
-                  message: '¡Tarjeta agregada con éxito!',
-                  type: 'success'
-                })
-                navigateWithParam(data.values, this.props, this.state.cuenta)
-              }}
+              onPress={() => { validateNewCard(this) }}
             >
               <Text>Agregar</Text>
             </Button>
@@ -184,9 +199,51 @@ export default class DisplayMount extends React.Component {
     )
   }
 }
-function navigateWithParam (data, props) {
-  props.navigation.navigate('Tarjetas', { data: data })
+
+function validateNewCard(props) {
+  let result = validateNewCardData(props)
+  if (result === '') {
+
+    let newCard = {
+      numero: props.state.cardData.values.number,
+      tipoCard: props.state.cardData.values.type,
+      fechaExpiracion: props.state.cardData.values.expiry,
+      nombre: props.state.cardData.values.name,
+      tipo: props.state.tipo,
+      cuenta: props.state.cuenta,
+      cierre: props.state.cierre,
+      vencimiento: props.state.vencimiento
+    };
+
+    props.state.data.tarjetas.push(newCard);
+
+    AsyncStorage.mergeItem(
+      props.state.data.seguridad.userName + '-' + props.state.data.seguridad.password,
+      JSON.stringify(props.state.data),
+      value => {
+        showMessage({
+          message: '¡Tarjeta agregada con éxito!',
+          type: 'success'
+        })
+        console.log(props.state.data)
+      }
+    )
+    //props.props.navigation.navigate('Tarjetas', { data: data })
+  } else {
+    showMessage({ message: result, type: 'danger', animationDuration: 300 })
+  }
 }
+
+function validateNewCardData(prop) {
+  let msg = "";
+
+   if (!prop.state.cardData) { msg += "Todos los campos de la tarjeta son requeridos \n"; }
+   if (!prop.state.tipo) { console.log(prop.state.tipo); msg += "Indique un tipo de tarjeta \n"; }
+   if (!prop.state.cuenta) { msg += "Seleccione una cuenta \n"; }
+
+  return msg
+}
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#071019',
