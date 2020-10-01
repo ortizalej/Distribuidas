@@ -1,9 +1,9 @@
-import React from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
-import { TextInput } from 'react-native-paper';
-import { Dropdown } from 'react-native-material-dropdown';
-import { showMessage, hideMessage } from 'react-native-flash-message';
-import { validate } from 'validate.js';
+import React from 'react'
+import { StyleSheet, Dimensions, Image } from 'react-native'
+import { TextInput } from 'react-native-paper'
+import { Dropdown } from 'react-native-material-dropdown'
+import { showMessage, hideMessage } from 'react-native-flash-message'
+import { validate } from 'validate.js'
 
 import {
   Container,
@@ -19,7 +19,7 @@ import * as ImagePicker from 'expo-image-picker'
 
 const { width, height } = Dimensions.get('screen')
 export default class Formulario extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       tipo: undefined,
@@ -43,117 +43,117 @@ export default class Formulario extends React.Component {
     }
   }
 
-  onChangeCantidad(value) {
+  onChangeCantidad (value) {
     this.setState({
       cantidad: value
     })
   }
-  onChangeUri(value) {
+  onChangeUri (value) {
     this.setState({
       uri: value
     })
   }
-  onChangePropietario(value) {
+  onChangePropietario (value) {
     this.setState({
       propietario: value
     })
   }
-  onChangeOtros(value) {
+  onChangeOtros (value) {
     this.setState({
       otros: value
     })
   }
-  onChangeTitular(value) {
+  onChangeTitular (value) {
     this.setState({
       titularName: value
     })
   }
-  onChangeCBU(value) {
+  onChangeCBU (value) {
     this.setState({
       CBU: value
     })
   }
-  onChangeBanco(value) {
+  onChangeBanco (value) {
     this.setState({
       bankName: value
     })
   }
-  onChangeVencimientos(value) {
+  onChangeVencimientos (value) {
     this.setState({
       vencimiento: value
     })
   }
-  onChangeCuotas(value) {
+  onChangeCuotas (value) {
     this.setState({
       cuotas: value
     })
   }
-  onChangeInteres(value) {
+  onChangeInteres (value) {
     this.setState({
       interes: value
     })
   }
-  onChangeTipoServicio(value) {
+  onChangeTipoServicio (value) {
     this.setState({
       tipoServicio: value
     })
   }
-  onChangeTipo(value) {
+  onChangeTipo (value) {
     this.setState({
       tipo: value
     })
   }
-  onChangeMedio(value) {
+  onChangeMedio (value) {
     this.setState({
       medio: value
     })
   }
-  onChangeDestino(value) {
+  onChangeDestino (value) {
     this.setState({
       destino: value
     })
   }
-  onChangeFuente(value) {
+  onChangeFuente (value) {
     this.setState({
       fuente: value
     })
   }
-  onChangeCuenta(value) {
+  onChangeCuenta (value) {
     this.setState({
       cuenta: value
     })
   }
-  onChangeMoneda(value) {
+  onChangeMoneda (value) {
     this.setState({
       moneda: value
     })
   }
-  onChangeUserName(value) {
-      this.setState({
-        userName: value
-      })
+  onChangeUserName (value) {
+    this.setState({
+      userName: value
+    })
   }
-  onChangeLastName(value) {
+  onChangeLastName (value) {
     this.setState({
       lastName: value
     })
   }
-  onChangeName(value) {
+  onChangeName (value) {
     this.setState({
       name: value
     })
   }
-  onChangePassword(value) {
+  onChangePassword (value) {
     this.setState({
       password: value
     })
   }
 
-  getFormData(data) {
+  getFormData (data) {
     this.props.getFormData(data)
   }
 
-  render() {
+  render () {
     if (this.props.type === 'Ingresos') {
       return renderIngresos(this)
     } else if (this.props.type === 'Egresos') {
@@ -176,7 +176,7 @@ export default class Formulario extends React.Component {
   }
 }
 
-function renderIngresos(props) {
+function renderIngresos (props) {
   return (
     <Container style={styles.container}>
       <Content>
@@ -267,7 +267,7 @@ function renderIngresos(props) {
   )
 }
 
-function renderEgresos(props) {
+function renderEgresos (props) {
   let openImagePickerAsync = async () => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync()
 
@@ -481,7 +481,7 @@ function renderEgresos(props) {
   )
 }
 
-function renderPrestamosPrestados(props) {
+function renderPrestamosPrestados (props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -568,7 +568,7 @@ function renderPrestamosPrestados(props) {
   )
 }
 
-function renderPrestamosTomados(props) {
+function renderPrestamosTomados (props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -685,7 +685,7 @@ function renderPrestamosTomados(props) {
     </Container>
   )
 }
-function renderPresupuesto(props) {
+function renderPresupuesto (props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -731,7 +731,7 @@ function renderPresupuesto(props) {
   )
 }
 
-function renderInversiones(props) {
+function renderInversiones (props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -808,16 +808,20 @@ function renderInversiones(props) {
     </Container>
   )
 }
-function renderLogin(prop) {
+function renderLogin (prop) {
   return (
-    <Container style={styles.container}>
+    <Container style={styles.containerLogin}>
       <Content>
+        <Image
+          source={require('../assets/images/Logo-MoneyManager.png')}
+          style={styles.logo}
+        />
         <Form>
           <TextInput
             label='Email'
             onChangeText={prop.onChangeUserName.bind(prop)}
             mode='outlined'
-            style={styles.textInput}
+            style={styles.textInputLogin}
             theme={theme}
           />
           <TextInput
@@ -825,7 +829,7 @@ function renderLogin(prop) {
             secureTextEntry={true}
             onChangeText={prop.onChangePassword.bind(prop)}
             mode='outlined'
-            style={styles.textInput}
+            style={styles.textInputLogin}
             theme={theme}
           />
 
@@ -849,7 +853,7 @@ function renderLogin(prop) {
   )
 }
 
-function renderCuentaBancaria(props) {
+function renderCuentaBancaria (props) {
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -897,16 +901,20 @@ function renderCuentaBancaria(props) {
   )
 }
 
-function renderSingIn(prop) {
+function renderSingIn (prop) {
   return (
-    <Container style={styles.container}>
+    <Container style={styles.containerLogin}>
       <Content>
+        <Image
+          source={require('../assets/images/Logo-MoneyManager.png')}
+          style={styles.logo}
+        />
         <Form>
           <TextInput
             label='Email'
             onChangeText={prop.onChangeUserName.bind(prop)}
             mode='outlined'
-            style={styles.textInput}
+            style={styles.textInputLogin}
             theme={theme}
           />
           <TextInput
@@ -914,7 +922,7 @@ function renderSingIn(prop) {
             secureTextEntry={true}
             onChangeText={prop.onChangePassword.bind(prop)}
             mode='outlined'
-            style={styles.textInput}
+            style={styles.textInputLogin}
             theme={theme}
           />
 
@@ -922,7 +930,7 @@ function renderSingIn(prop) {
             label='Nombre'
             onChangeText={prop.onChangeName.bind(prop)}
             mode='outlined'
-            style={styles.textInput}
+            style={styles.textInputLogin}
             theme={theme}
           />
 
@@ -930,7 +938,7 @@ function renderSingIn(prop) {
             label='Apellido'
             onChangeText={prop.onChangeLastName.bind(prop)}
             mode='outlined'
-            style={styles.textInput}
+            style={styles.textInputLogin}
             theme={theme}
           />
 
@@ -954,13 +962,13 @@ function renderSingIn(prop) {
   )
 }
 
-function actionButton(type, prop) {
+function actionButton (type, prop) {
   switch (type) {
     case 'login':
       prop.props.actionButton(prop.state.userName, prop.state.password)
     case 'sign in':
-      let result = validateFields(prop);
-      if(result === ''){
+      let result = validateFields(prop)
+      if (result === '') {
         prop.props.actionButton(prop.state.userName, prop.state.password)
       } else {
         showMessage({
@@ -974,26 +982,41 @@ function actionButton(type, prop) {
   }
 }
 
-function validateFields(prop) {
-  let msg = "";
-  const validationResult = validate(prop.state.userName);
+function validateFields (prop) {
+  let msg = ''
+  const validationResult = validate(prop.state.userName)
 
-  if(typeof prop.state.userName === 'undefined' || typeof validationResult !== 'undefined' || prop.state.userName?.length < 6) {
-    msg += "El mail es inválido. \n";
+  if (
+    typeof prop.state.userName === 'undefined' ||
+    typeof validationResult !== 'undefined' ||
+    prop.state.userName?.length < 6
+  ) {
+    msg += 'El mail es inválido. \n'
   }
-  if(typeof prop.state.password === 'undefined' || prop.state.password=== null || prop.state.password.length < 8) {
-    msg += "La contraseña es inválida \n";
+  if (
+    typeof prop.state.password === 'undefined' ||
+    prop.state.password === null ||
+    prop.state.password.length < 8
+  ) {
+    msg += 'La contraseña debe contener como mínimo 8 dígitos. \n'
   }
-  if(typeof prop.state.name === 'undefined' || prop.state.name === null || prop.state.name === '') {
-    msg += "El nombre es obligatorio. \n";
+  if (
+    typeof prop.state.name === 'undefined' ||
+    prop.state.name === null ||
+    prop.state.name === ''
+  ) {
+    msg += 'El nombre es obligatorio. \n'
   }
-  if(typeof prop.state.lastName === 'undefined' || prop.state.lastName === null || prop.state.lastName === '') {
-    msg += "El apellido es obligatorio. \n";
+  if (
+    typeof prop.state.lastName === 'undefined' ||
+    prop.state.lastName === null ||
+    prop.state.lastName === ''
+  ) {
+    msg += 'El apellido es obligatorio. \n'
   }
 
-  return msg;
+  return msg
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -1006,8 +1029,26 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignSelf: 'center'
   },
+  containerLogin: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    width: 340,
+    height: 'auto',
+    paddingRight: 15,
+    paddingBottom: 20,
+    marginTop: 20,
+    borderRadius: 20,
+    alignSelf: 'center'
+  },
   hide: {
     display: 'none'
+  },
+  logo: {
+    width: 300,
+    height: 300,
+    marginBottom: -40,
+    marginTop: -40,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   btnIngresar: {
     width: 200,
@@ -1018,6 +1059,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignSelf: 'center'
+  },
+  textInputLogin: {
+    backgroundColor: 'rgba(255,255,255,0.55)',
+    width: 300,
+    height: 50,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginLeft: 15,
+    marginTop: 10
   },
   textInput: {
     backgroundColor: '#0B1F35',
@@ -1126,4 +1176,4 @@ const theme = {
     primary: '#FF8141',
     backdrop: 'white'
   }
-};
+}
