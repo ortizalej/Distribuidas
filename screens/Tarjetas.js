@@ -143,9 +143,7 @@ export default class Tarjetas extends React.Component {
             this.Display.updateState(this.totalSumPesos, this.totalSumDolares);
             this.HistoricTable.updateState(this.state.rowToShow);
             var startDate = moment()
-            var endDate = moment(actualCard.cierre, "DD-MM-YYYY");
-            console.log(startDate)
-            console.log(endDate)
+            var endDate = moment(actualCard.vencimiento, "DD-MM-YYYY");
             this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
             console.log(this.differenceDate)
             this.forceUpdate()
@@ -218,7 +216,7 @@ export default class Tarjetas extends React.Component {
         this.Display.updateState(filterSumPesos, filterSumDolares);
         this.HistoricTable.updateState(showData);
         var startDate = moment()
-        var endDate = moment(actualCard.cierre, "DD-MM-YYYY");
+        var endDate = moment(actualCard.vencimiento, "DD-MM-YYYY");
         console.log(startDate)
         console.log(endDate)
         this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();

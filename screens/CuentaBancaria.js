@@ -69,7 +69,8 @@ export default class Tarjetas extends React.Component {
 
     }
   }
-
+  totalSumPesos = 0
+  totalSumaDolares = 0
   getCuentaData(data) {
 
     AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
@@ -206,6 +207,28 @@ export default class Tarjetas extends React.Component {
         }
       }
     }
+    if (this.state.data.ingresos.length > 0) {
+      for (let i = 0; i < this.state.data.ingresos.length; i++) {
+        if (actualCard.CBU === this.state.data.ingresos[i][5]) {
+          arrayDataDetail.push(
+            [
+              this.state.data.ingresos[i][0],
+              this.state.data.ingresos[i][1],
+              this.state.data.ingresos[i][2],
+              this.state.data.ingresos[i][3],
+              this.state.data.ingresos[i][4],
+              this.state.data.ingresos[i][5]
+            ]);
+          showData.push(
+            [
+              this.state.data.ingresos[i][0],
+              this.state.data.ingresos[i][1],
+              this.state.data.ingresos[i][2],
+              ''
+            ]);
+        }
+      }
+    }    
     let filterSumPesos = 0
     let filterSumDolares = 0
     for (let i = 0; i < arrayDataDetail.length; i++) {

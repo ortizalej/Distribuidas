@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native'
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage, Platform } from 'react-native'
 import { Button, Block } from 'galio-framework'
 import Display from '../components/DisplayMount'
 import Form from '../components/Formulario'
@@ -172,8 +172,10 @@ export default class Egresos extends React.Component {
       message: '¡Egreso eliminado con éxito!',
       type: 'success'
     })
-    Toast.show('¡Egreso eliminado con éxito!');
+    if (Platform.OS != 'ios') {
 
+      Toast.show('¡Egreso eliminado con éxito!');
+    }
   }
 
   formData(data) {

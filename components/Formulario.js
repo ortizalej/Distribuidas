@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Dimensions, Image, AsyncStorage } from 'react-native'
+import { StyleSheet, Dimensions, Image, AsyncStorage, Platform } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-material-dropdown'
 import { showMessage, hideMessage } from 'react-native-flash-message'
@@ -963,7 +963,9 @@ function actionButton(type, props) {
         props.props.actionButton(props.state.userName, props.state.password, props.state.name, props.state.lastName)
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(result);
+        if (Platform.OS != 'ios') {
+          Toast.show(result);
+        }
 
       }
       break;
@@ -979,12 +981,17 @@ function actionButton(type, props) {
           tipo: props.state.tipo
         })
         showMessage({ message: '¡Ingreso registrado con éxito!', type: 'success' })
-        Toast.show('¡Ingreso registrado con éxito!');
+        if (Platform.OS != 'ios') {
 
+          Toast.show('¡Ingreso registrado con éxito!');
+        }
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(result);
+        if (Platform.OS != 'ios') {
 
+          Toast.show(result);
+
+        }
       }
       break;
     case 'egreso':
@@ -1003,12 +1010,17 @@ function actionButton(type, props) {
           uriImage: props.state.uri
         })
         showMessage({ message: '¡Egreso registrado con éxito!', type: 'success' })
-        Toast.show('¡Egreso registrado con éxito!');
+        if (Platform.OS != 'ios') {
 
+          Toast.show('¡Egreso registrado con éxito!');
+        }
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(result);
+        if (Platform.OS != 'ios') {
 
+          Toast.show(result);
+
+        }
       }
       break;
     case 'prestados':
@@ -1023,11 +1035,17 @@ function actionButton(type, props) {
           moneda: props.state.moneda
         })
         showMessage({ message: '¡Prestamo prestado registrado con éxito!', type: 'success' })
-        Toast.show('¡Prestamo prestado registrado con éxito!');
+        if (Platform.OS != 'ios') {
+
+          Toast.show('¡Prestamo prestado registrado con éxito!');
+        }
 
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(result);
+        if (Platform.OS != 'ios') {
+
+          Toast.show(result);
+        }
       }
       break;
     case 'tomados':
@@ -1045,10 +1063,16 @@ function actionButton(type, props) {
           type: 'Tomado'
         })
         showMessage({ message: '¡Prestamo tomado registrado con éxito!', type: 'success' })
-        Toast.show('¡Prestamo tomado registrado con éxito!');
+        if (Platform.OS != 'ios') {
+
+          Toast.show('¡Prestamo tomado registrado con éxito!');
+        }
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(result);
+        if (Platform.OS != 'ios') {
+
+          Toast.show(result);
+        }
       }
       break;
     case 'presupuesto':
@@ -1059,10 +1083,16 @@ function actionButton(type, props) {
           tipo: props.state.tipo
         })
         showMessage({ message: '¡Presupuesto registado con éxito!', type: 'success' })
-        Toast.show('¡Presupuesto registado con éxito!');
+        if (Platform.OS != 'ios') {
+
+          Toast.show('¡Presupuesto registado con éxito!');
+        }
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(result);
+        if (Platform.OS != 'ios') {
+
+          Toast.show(result);
+        }
       }
       break;
     case 'inversion':
@@ -1075,13 +1105,20 @@ function actionButton(type, props) {
           empresa: props.state.destino
         })
         showMessage({ message: '¡Inversión registado con éxito!', type: 'success' })
-        Toast.show('¡Inversión registado con éxito!');
+        if (Platform.OS != 'ios') {
+
+          Toast.show('¡Inversión registado con éxito!');
+        }
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(result);
+        if (Platform.OS != 'ios') {
+
+          Toast.show(result);
+        }
       }
       break;
     case 'cuenta bancaria':
+      console.log('PROPS', props)
       result = validateCuentaBancaria(props)
       if (result === '') {
         props.getFormData({
@@ -1090,10 +1127,16 @@ function actionButton(type, props) {
           bankName: props.state.bankName
         })
         showMessage({ message: '¡Cuenta bancaria registada con éxito!', type: 'success' })
-        Toast.show('¡Cuenta bancaria registada con éxito!');
+        if (Platform.OS != 'ios') {
+
+          Toast.show('¡Cuenta bancaria registada con éxito!');
+        }
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-        Toast.show(result);
+        if (Platform.OS != 'ios') {
+
+          Toast.show(result);
+        }
       }
       break;
     default:
@@ -1131,10 +1174,9 @@ function validateEgreso(prop) {
   if (!prop.state.cantidad) { msg += "Ingrese un monto. \n"; }
   if (!prop.state.moneda) { msg += "Ingrese una moneda. \n"; }
   if (!prop.state.tipo) { msg += "Ingrese un tipo. \n"; }
-  if (prop.state.tipo =='Otros' && !prop.state.otros) { msg += "Ingrese el nuevo servicio. \n"; }
+  if (prop.state.tipo == 'Otros' && !prop.state.otros) { msg += "Ingrese el nuevo servicio. \n"; }
   if (!prop.state.medio) { msg += "Ingrese un medio. \n"; }
   if (prop.state.medio === "Transferencia Bancaria" && !prop.state.cuenta) { msg += "Ingrese una cuenta. \n"; }
-  if (prop.state.medio === "Tarjeta de Crédito" && !prop.state.cuenta) { msg += "Ingrese una cuenta. \n"; }
   if (prop.state.medio === "Tarjeta de Crédito" && !prop.state.cuotas) { msg += "Ingrese la cantidad de cuotas. \n"; }
   if (prop.state.medio === "Tarjeta de Crédito" && !prop.state.interes) { msg += "Ingrese el interés. \n"; }
   if (prop.state.medio === "Tarjeta de Débito" && !prop.state.cuenta) { msg += "Ingrese una cuenta. \n"; }
@@ -1173,7 +1215,7 @@ function validatePresupuesto(prop) {
   let msg = "";
 
   if (!prop.state.cantidad) { msg += "Ingrese un monto. \n"; }
-  if (!prop.state.fuente) { msg += "Ingrese un tipo. \n"; }
+  if (!prop.state.tipo) { msg += "Ingrese un tipo. \n"; }
 
   return msg
 }
@@ -1191,9 +1233,9 @@ function validateInversion(prop) {
 
 function validateCuentaBancaria(prop) {
   let msg = "";
-  if (!props.state.titularName) { msg += "Ingrese el nombre del titular. \n"; }
-  if (!props.state.CBU) { msg += "Ingrese el CBU. \n"; }
-  if (!props.state.bankName) { msg += "Ingrese el banco en donde está la cuenta. \n"; }
+  if (!prop.state.titularName) { msg += "Ingrese el nombre del titular. \n"; }
+  if (!prop.state.CBU) { msg += "Ingrese el CBU. \n"; }
+  if (!prop.state.bankName) { msg += "Ingrese el banco en donde está la cuenta. \n"; }
   return msg
 }
 

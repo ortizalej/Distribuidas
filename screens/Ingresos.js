@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native'
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage,Platform } from 'react-native'
 import { Button, Block } from 'galio-framework'
 import Display from '../components/DisplayMount'
 import Form from '../components/Formulario'
@@ -10,7 +10,7 @@ import Toast from 'react-native-simple-toast';
 
 const { width, height } = Dimensions.get('screen')
 
-function getMatchedData (dateFilter, rowValues) {
+function getMatchedData(dateFilter, rowValues) {
   let filterDataRows = []
   switch (dateFilter) {
     case 'Mensual':
@@ -29,7 +29,7 @@ function getMatchedData (dateFilter, rowValues) {
   return filterDataRows
 }
 
-function compareDates (filterDate, filterDataRows, rowValues) {
+function compareDates(filterDate, filterDataRows, rowValues) {
   for (let i = 0; i < rowValues.length; i++) {
     let baseDate = moment(rowValues[i][0], 'DD-MM-YYYY')
     if (baseDate.isAfter(filterDate)) {
@@ -38,7 +38,7 @@ function compareDates (filterDate, filterDataRows, rowValues) {
   }
 }
 
-function sumValues (rowValues) {
+function sumValues(rowValues) {
   let totalSumPesos = 0
   let totalSumaDolares = 0
   let sumas = []
@@ -58,7 +58,7 @@ function sumValues (rowValues) {
 }
 
 export default class Ingresos extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       rowToShow: [],
@@ -70,7 +70,7 @@ export default class Ingresos extends React.Component {
   colTable = ['Fecha', 'Cantidad', 'Moneda', '']
   totalSumPesos = 0
   totalSumaDolares = 0
-  getIngresoData (data) {
+  getIngresoData(data) {
     AsyncStorage.getItem(data.userName + '-' + data.password).then(value => {
       let userData = JSON.parse(value)
       this.state.data = userData
@@ -118,7 +118,7 @@ export default class Ingresos extends React.Component {
     })
   }
 
-  deleteIngresoData () {
+  deleteIngresoData() {
     let itemToDelete = this.state.rowtoDetail[0]
     let items = this.state.data.ingresos
 
@@ -140,12 +140,12 @@ export default class Ingresos extends React.Component {
     this.deleteData(items)
   }
 
-  insertData (arrayData) {
+  insertData(arrayData) {
     this.state.data.ingresos.push(arrayData)
     AsyncStorage.mergeItem(
       this.state.data.seguridad.userName +
-        '-' +
-        this.state.data.seguridad.password,
+      '-' +
+      this.state.data.seguridad.password,
       JSON.stringify(this.state.data),
       value => {
         console.log(value)
@@ -153,12 +153,12 @@ export default class Ingresos extends React.Component {
     )
   }
 
-  deleteData (ingresosItems) {
+  deleteData(ingresosItems) {
     this.state.data.ingresos = ingresosItems
     AsyncStorage.mergeItem(
       this.state.data.seguridad.userName +
-        '-' +
-        this.state.data.seguridad.password,
+      '-' +
+      this.state.data.seguridad.password,
       JSON.stringify(this.state.data),
       value => {
         console.log(value)
@@ -168,11 +168,14 @@ export default class Ingresos extends React.Component {
       message: '¡Ingreso eliminado con éxito!',
       type: 'success'
     })
-    Toast.show('¡Ingreso eliminado con éxito!');
+    if (Platform.OS != 'ios') {
 
+      Toast.show('¡Ingreso eliminado con éxito!');
+
+    }
   }
 
-  formData (data) {
+  formData(data) {
     var now = moment().format('DD-MM-YYYY')
     let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, '']
     let arrayData = [
@@ -192,7 +195,7 @@ export default class Ingresos extends React.Component {
     this.Display.updateState(totalSumPesos, totalSumDolares)
   }
 
-  getDisplayFilter (date) {
+  getDisplayFilter(date) {
     if (this.state.rowtoDetail.length > 0) {
       let filterDataToShow = getMatchedData(date, this.state.rowToShow)
       let filterData = getMatchedData(date, this.state.rowtoDetail)
@@ -203,7 +206,7 @@ export default class Ingresos extends React.Component {
     }
   }
 
-  deleteRow (index) {
+  deleteRow(index) {
     this.deleteIngresoData()
     this.state.rowtoDetail.splice(index, 1)
     this.state.rowToShow.splice(index, 1)
@@ -213,7 +216,7 @@ export default class Ingresos extends React.Component {
     this.Display.updateState(totalSumPesos, totalSumDolares)
   }
 
-  render () {
+  render() {
     let userData = this.props.route.params
     if (!this.state.data) {
       this.getIngresoData(userData)
@@ -230,7 +233,7 @@ export default class Ingresos extends React.Component {
             defaultDolares={this.totalSumaDolares}
             getDate={this.getDisplayFilter.bind(this)}
           />
-          <Form type={'Ingresos'} getFormData={this.formData.bind(this)} user={userData}/>
+          <Form type={'Ingresos'} getFormData={this.formData.bind(this)} user={userData} />
           <HistoricTable
             type={'Ingresos'}
             ref={table => {

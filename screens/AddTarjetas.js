@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Switch, AsyncStorage } from 'react-native'
+import { StyleSheet, View, Switch, AsyncStorage, Platform } from 'react-native'
 import {
   CreditCardInput,
   LiteCreditCardInput
@@ -35,7 +35,7 @@ export default class DisplayMount extends React.Component {
       data: undefined
     }
   }
-  cuentas =[];
+  cuentas = [];
   onChangeCuenta(value) {
     this.setState({
       cuenta: value
@@ -56,19 +56,19 @@ export default class DisplayMount extends React.Component {
       tipo: value
     })
   }
-  _onChange (value) {
+  _onChange(value) {
     this.setState({
       cardData: value
     })
   }
 
   getNewCardData(data) {
-    
+
     AsyncStorage.getItem(data.userName + '-' + data.password).then(value => {
       let userData = JSON.parse(value)
-      this.state.data = userData 
+      this.state.data = userData
       for (let i = 0; i < userData.cuentasBancarias.length; i++) {
-        this.cuentas.push({value:userData.cuentasBancarias[i].CBU})
+        this.cuentas.push({ value: userData.cuentasBancarias[i].CBU })
       }
     })
   }
@@ -225,24 +225,28 @@ function validateNewCard(props) {
           message: '¡Tarjeta agregada con éxito!',
           type: 'success'
         })
-        Toast.show('¡Tarjeta agregada con éxito!');
+        if (Platform.OS != 'ios') {
 
+          Toast.show('¡Tarjeta agregada con éxito!');
+        }
         console.log(props.state.data)
       }
     )
     props.props.navigation.navigate('Tarjetas')
   } else {
     showMessage({ message: result, type: 'danger', animationDuration: 300 })
-    Toast.show(result);
+    if (Platform.OS != 'ios') {
+
+      Toast.show(result);
+    }
   }
 }
 
 function validateNewCardData(prop) {
   let msg = "";
 
-   if (!prop.state.cardData) { msg += "Todos los campos de la tarjeta son requeridos \n"; }
-   if (!prop.state.tipo) { console.log(prop.state.tipo); msg += "Indique un tipo de tarjeta \n"; }
-   if (!prop.state.cuenta) { msg += "Seleccione una cuenta \n"; }
+  if (!prop.state.cardData) { msg += "Todos los campos de la tarjeta son requeridos \n"; }
+  if (!prop.state.tipo) { console.log(prop.state.tipo); msg += "Indique un tipo de tarjeta \n"; }
 
   return msg
 }
