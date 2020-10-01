@@ -4,6 +4,8 @@ import {
   CreditCardInput,
   LiteCreditCardInput
 } from 'react-native-credit-card-input'
+import { TextInput } from 'react-native-paper'
+import { Dropdown } from 'react-native-material-dropdown'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import {
   Item,
@@ -75,104 +77,94 @@ export default class DisplayMount extends React.Component {
               inputContainerStyle={styles.inputCointaer}
               onChange={this._onChange}
             />
-            <Item>
-              <Picker
-                textStyle={{ color: '#697A8C' }}
-                placeholder='Tipo'
-                placeholderTextColor='#697A8C'
-                selectedValue={this.state.tipo}
-                onValueChange={this.onChangeTipo.bind(this)}
-              >
-                <Picker.Item label='Credito' value='Credito' color='#697A8C' />
-                <Picker.Item label='Debito' value='Debito' color='#697A8C' />
-              </Picker>
-            </Item>
-            <Item>
-              <Picker
-                textStyle={{ color: '#697A8C' }}
-                placeholder='Cuentas Bancarias'
-                placeholderTextColor='#697A8C'
-                selectedValue={this.state.cuenta}
-                onValueChange={this.onChangeCuenta.bind(this)}
-              >
-                <Picker.Item label='Cuenta 1' value='cuenta1' color='#697A8C' />
-                <Picker.Item
-                  label='Cuentas 2 '
-                  value='cuenta2'
-                  color='#697A8C'
-                />
-              </Picker>
-            </Item>
-            <Item stackedLabel>
-              <DatePicker
-                style={{ width: 200 }}
-                date={this.state.date} //initial date from state
-                mode='date' //The enum of date, datetime and time
-                placeholder='Fecha de Cierre'
-                format='DD-MM-YYYY'
-                minDate='01-01-2016'
-                maxDate='01-01-2025'
-                confirmBtnText='Confirm'
-                cancelBtnText='Cancel'
-                customStyles={{
-                  dateIcon: {
-                    position: 'absolute',
-                    left: 0,
-                    top: 4,
-                    marginLeft: 0
-                  },
-                  dateInput: {
-                    marginLeft: 36,
-                    marginTop: 20
-                  },
-                  placeholderText: {
-                    fontSize: 14,
-                    color: 'white'
-                  },
-                  dateText: {
-                    textAlign: 'left',
-                    fontSize: 14,
-                    color: 'white'
-                  }
-                }}
-                onDateChange={this.onChangeCierre.bind(this)}
-              />
-            </Item>
-            <Item stackedLabel>
-              <DatePicker
-                style={{ width: 200 }}
-                date={this.state.vencimiento} //initial date from state
-                mode='date' //The enum of date, datetime and time
-                placeholder='Fecha de Vencimiento'
-                format='DD-MM-YYYY'
-                minDate='01-01-2016'
-                maxDate='01-01-2025'
-                confirmBtnText='Confirm'
-                cancelBtnText='Cancel'
-                customStyles={{
-                  dateIcon: {
-                    position: 'absolute',
-                    left: 0,
-                    top: 4,
-                    marginLeft: 0
-                  },
-                  dateInput: {
-                    marginLeft: 36,
-                    marginTop: 20
-                  },
-                  placeholderText: {
-                    fontSize: 14,
-                    color: 'white'
-                  },
-                  dateText: {
-                    textAlign: 'left',
-                    fontSize: 14,
-                    color: 'white'
-                  }
-                }}
-                onDateChange={this.onChangeVencimiento.bind(this)}
-              />
-            </Item>
+            <Dropdown
+              label='Tipo'
+              data={tarjetaOptionsTipo}
+              dropdownOffset={{ top: 10, left: 30 }}
+              containerStyle={styles.combo}
+              inputContainerStyle={{ borderBottomColor: 'transparent' }}
+              baseColor='#697A8C'
+              textColor='#697A8C'
+              selectedValue={this.state.tipo}
+              onValueChange={this.onChangeTipo.bind(this)}
+            />
+            <Dropdown
+              label='Cuentas bancarias'
+              data={CuentaOptions}
+              dropdownOffset={{ top: 10, left: 30 }}
+              containerStyle={styles.combo}
+              inputContainerStyle={{ borderBottomColor: 'transparent' }}
+              baseColor='#697A8C'
+              textColor='#697A8C'
+              selectedValue={this.state.cuenta}
+              onValueChange={this.onChangeCuenta.bind(this)}
+            />
+            <DatePicker
+              style={styles.dataPicker}
+              date={this.state.date} //initial date from state
+              mode='date' //The enum of date, datetime and time
+              placeholder='Fecha de Cierre'
+              format='DD-MM-YYYY'
+              minDate='01-01-2016'
+              maxDate='01-01-2025'
+              confirmBtnText='Confirm'
+              cancelBtnText='Cancel'
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36,
+                  marginTop: 20
+                },
+                placeholderText: {
+                  fontSize: 14,
+                  color: 'white'
+                },
+                dateText: {
+                  textAlign: 'left',
+                  fontSize: 14,
+                  color: 'white'
+                }
+              }}
+              onDateChange={this.onChangeCierre.bind(this)}
+            />
+            <DatePicker
+              style={styles.dataPicker}
+              date={this.state.vencimiento} //initial date from state
+              mode='date' //The enum of date, datetime and time
+              placeholder='Fecha de Vencimiento'
+              format='DD-MM-YYYY'
+              minDate='01-01-2016'
+              maxDate='01-01-2025'
+              confirmBtnText='Confirm'
+              cancelBtnText='Cancel'
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36,
+                  marginTop: 20
+                },
+                placeholderText: {
+                  fontSize: 14,
+                  color: 'white'
+                },
+                dateText: {
+                  textAlign: 'left',
+                  fontSize: 14,
+                  color: 'white'
+                }
+              }}
+              onDateChange={this.onChangeVencimiento.bind(this)}
+            />
             <Button
               style={styles.btnIngresar}
               onPress={() => {
@@ -215,9 +207,21 @@ const styles = StyleSheet.create({
     width: 200,
     height: 33,
     backgroundColor: '#F41F1F',
-    marginTop: 10,
+    marginTop: 30,
     marginBottom: 10,
     borderRadius: 8,
+    justifyContent: 'center',
+    alignSelf: 'center'
+  },
+  combo: {
+    borderWidth: 0.9,
+    borderColor: '#697A8C',
+    borderRadius: 5,
+    width: 300,
+    height: 50,
+    paddingLeft: 10,
+    marginTop: 10,
+    marginLeft: 20,
     justifyContent: 'center',
     alignSelf: 'center'
   },
@@ -233,5 +237,18 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  dataPicker: {
+    width: 200,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 10
   }
 })
+
+const tarjetaOptionsTipo = [
+  { value: 'Tarjeta de Crédito' },
+  { value: 'Tarjeta de Débito' }
+]
+const CuentaOptions = [{ value: 'Cuenta1' }, { value: 'Cuenta2' }]

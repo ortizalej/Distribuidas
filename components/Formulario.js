@@ -189,7 +189,6 @@ function renderIngresos (props) {
             style={styles.textInput}
             theme={theme}
           />
-
           <Dropdown
             label='Moneda'
             data={monedaOptions}
@@ -197,10 +196,10 @@ function renderIngresos (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.moneda}
             onChangeText={props.onChangeMoneda.bind(props)}
           />
-
           <Dropdown
             label='Fuente'
             data={fuenteOptions}
@@ -208,6 +207,7 @@ function renderIngresos (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.fuente}
             onChangeText={props.onChangeFuente.bind(props)}
           />
@@ -219,6 +219,7 @@ function renderIngresos (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.medio}
             onChangeText={props.onChangeMedio.bind(props)}
           />
@@ -237,6 +238,7 @@ function renderIngresos (props) {
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
               baseColor='#697A8C'
+              textColor='#697A8C'
               selectedValue={props.state.cuenta}
               onChangeText={props.onChangeCuenta.bind(props)}
             />
@@ -300,6 +302,7 @@ function renderEgresos (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.moneda}
             onChangeText={props.onChangeMoneda.bind(props)}
           />
@@ -311,6 +314,7 @@ function renderEgresos (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.tipo}
             onChangeText={props.onChangeTipo.bind(props)}
           />
@@ -329,6 +333,7 @@ function renderEgresos (props) {
               containerStyle={styles.combo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
               baseColor='#697A8C'
+              textColor='#697A8C'
               selectedValue={props.state.tipoServicio}
               onChangeText={props.onChangeTipoServicio.bind(props)}
             />
@@ -356,6 +361,7 @@ function renderEgresos (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.medio}
             onChangeText={props.onChangeMedio.bind(props)}
           />
@@ -374,6 +380,8 @@ function renderEgresos (props) {
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
               baseColor='#697A8C'
+              textColor='#697A8C'
+              selectedItemColor='#697A8C'
               selectedValue={props.state.cuenta}
               onChangeText={props.onChangeCuenta.bind(props)}
             />
@@ -393,6 +401,7 @@ function renderEgresos (props) {
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
               baseColor='#697A8C'
+              textColor='#697A8C'
               selectedValue={props.state.cuenta}
               onChangeText={props.onChangeCuenta.bind(props)}
             />
@@ -412,6 +421,7 @@ function renderEgresos (props) {
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
               baseColor='#697A8C'
+              textColor='#697A8C'
               selectedValue={props.state.cuenta}
               onChangeText={props.onChangeCuenta.bind(props)}
             />
@@ -430,6 +440,7 @@ function renderEgresos (props) {
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
               baseColor='#697A8C'
+              textColor='#697A8C'
               selectedValue={props.state.cuotas}
               onChangeText={props.onChangeCuotas.bind(props)}
             />
@@ -510,6 +521,7 @@ function renderPrestamosPrestados (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.moneda}
             onChangeText={props.onChangeMoneda.bind(props)}
           />
@@ -521,6 +533,7 @@ function renderPrestamosPrestados (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.medio}
             onChangeText={props.onChangeMedio.bind(props)}
           />
@@ -539,6 +552,7 @@ function renderPrestamosPrestados (props) {
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
               baseColor='#697A8C'
+              textColor='#697A8C'
               selectedValue={props.state.cuenta}
               onChangeText={props.onChangeCuenta.bind(props)}
             />
@@ -597,6 +611,7 @@ function renderPrestamosTomados (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.moneda}
             onChangeText={props.onChangeMoneda.bind(props)}
           />
@@ -608,6 +623,7 @@ function renderPrestamosTomados (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.medio}
             onChangeText={props.onChangeMedio.bind(props)}
           />
@@ -626,6 +642,7 @@ function renderPrestamosTomados (props) {
               containerStyle={styles.itemCombo}
               inputContainerStyle={{ borderBottomColor: 'transparent' }}
               baseColor='#697A8C'
+              textColor='#697A8C'
               selectedValue={props.state.cuenta}
               onChangeText={props.onChangeCuenta.bind(props)}
             />
@@ -638,6 +655,7 @@ function renderPrestamosTomados (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.cuotas}
             onChangeText={props.onChangeCuotas.bind(props)}
           />
@@ -706,6 +724,7 @@ function renderPresupuesto (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.tipo}
             onChangeText={props.onChangeTipo.bind(props)}
           />
@@ -752,6 +771,7 @@ function renderInversiones (props) {
             containerStyle={styles.combo}
             inputContainerStyle={{ borderBottomColor: 'transparent' }}
             baseColor='#697A8C'
+            textColor='#697A8C'
             selectedValue={props.state.tipo}
             onChangeText={props.onChangeTipo.bind(props)}
           />
@@ -925,7 +945,6 @@ function renderSingIn (prop) {
             style={styles.textInputLogin}
             theme={theme}
           />
-
           <TextInput
             label='Nombre'
             onChangeText={prop.onChangeName.bind(prop)}
