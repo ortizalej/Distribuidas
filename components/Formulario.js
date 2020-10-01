@@ -129,9 +129,9 @@ export default class Formulario extends React.Component {
     })
   }
   onChangeUserName(value) {
-      this.setState({
-        userName: value
-      })
+    this.setState({
+      userName: value
+    })
   }
   onChangeLastName(value) {
     this.setState({
@@ -244,20 +244,7 @@ function renderIngresos(props) {
 
           <Button
             style={styles.btnIngresar}
-            onPress={() => {
-              props.getFormData({
-                cantidad: props.state.cantidad,
-                medio: props.state.medio,
-                fuente: props.state.fuente,
-                cuenta: props.state.cuenta,
-                moneda: props.state.moneda,
-                tipo: props.state.tipo
-              })
-              showMessage({
-                message: '¡Ingreso registrado con éxito!',
-                type: 'success'
-              })
-            }}
+            onPress={() => { actionButton('ingreso', props) }}
           >
             <Text>INGRESAR</Text>
           </Button>
@@ -456,22 +443,7 @@ function renderEgresos(props) {
           </Button>
           <Button
             style={styles.btnIngresar}
-            onPress={() => {
-              props.getFormData({
-                cantidad: props.state.cantidad,
-                tipo: props.state.tipo,
-                medio: props.state.medio,
-                moneda: props.state.moneda,
-                interes: props.state.interes,
-                cuotas: props.state.cuotas,
-                otros: props.state.otros,
-                tipoServicio: props.state.tipoServicio
-              })
-              showMessage({
-                message: '¡Egreso registrado con éxito!',
-                type: 'success'
-              })
-            }}
+            onPress={() => { actionButton('egreso', props) }}
           >
             <Text>REGISTRAR</Text>
           </Button>
@@ -545,20 +517,7 @@ function renderPrestamosPrestados(props) {
           </Item>
           <Button
             style={styles.btnIngresar}
-            onPress={() => {
-              props.getFormData({
-                cantidad: props.state.cantidad,
-                destino: props.state.destino,
-                medio: props.state.medio,
-                type: 'Prestado',
-                cuenta: props.state.cuenta,
-                moneda: props.state.moneda
-              })
-              showMessage({
-                message: '¡Prestamo prestado registrado con éxito!',
-                type: 'success'
-              })
-            }}
+            onPress={() => { actionButton('prestados', props) }}
           >
             <Text>REGISTRAR</Text>
           </Button>
@@ -660,23 +619,7 @@ function renderPrestamosTomados(props) {
           />
           <Button
             style={styles.btnIngresar}
-            onPress={() => {
-              props.getFormData({
-                cantidad: props.state.cantidad,
-                propietario: props.state.propietario,
-                medio: props.state.medio,
-                vencimiento: props.state.vencimiento,
-                interes: props.state.vencimiento,
-                cuotas: props.state.cuotas,
-                cuentas: props.state.cuentas,
-                moneda: props.state.moneda,
-                type: 'Tomado'
-              })
-              showMessage({
-                message: '¡Prestamo tomado registrado con éxito!',
-                type: 'success'
-              })
-            }}
+            onPress={() => { actionButton('tomados', props) }}
           >
             <Text>REGISTRAR</Text>
           </Button>
@@ -685,6 +628,7 @@ function renderPrestamosTomados(props) {
     </Container>
   )
 }
+
 function renderPresupuesto(props) {
   return (
     <Container style={styles.container}>
@@ -712,16 +656,7 @@ function renderPresupuesto(props) {
 
           <Button
             style={styles.btnIngresar}
-            onPress={() => {
-              props.getFormData({
-                cantidad: props.state.cantidad,
-                tipo: props.state.tipo
-              })
-              showMessage({
-                message: '¡Presupuesto registado con éxito!',
-                type: 'success'
-              })
-            }}
+            onPress={() => { actionButton('presupuesto', props) }}
           >
             <Text>REGISTRAR</Text>
           </Button>
@@ -791,14 +726,7 @@ function renderInversiones(props) {
           </Item>
           <Button
             style={styles.btnIngresar}
-            onPress={() => {
-              props.getFormData({
-                cantidad: props.state.cantidad,
-                tipo: props.state.tipo,
-                interes: props.state.interes,
-                empresa: props.state.destino
-              })
-            }}
+            onPress={() => { actionButton('inversion', props) }}
           >
             <Text>REGISTRAR</Text>
           </Button>
@@ -807,6 +735,7 @@ function renderInversiones(props) {
     </Container>
   )
 }
+
 function renderLogin(prop) {
   return (
     <Container style={styles.container}>
@@ -880,13 +809,7 @@ function renderCuentaBancaria(props) {
           </Item>
           <Button
             style={styles.btnIngresar}
-            onPress={() => {
-              props.getFormData({
-                titularName: props.state.titularName,
-                CBU: props.state.CBU,
-                bankName: props.state.bankName
-              })
-            }}
+            onPress={() => { actionButton('cuenta bancaria', props) }}
           >
             <Text>REGISTRAR</Text>
           </Button>
@@ -953,20 +876,129 @@ function renderSingIn(prop) {
   )
 }
 
-function actionButton(type, prop) {
+function actionButton(type, props) {
   let result;
+  console.log("type", type);
   switch (type) {
     case 'login':
-      prop.props.actionButton(prop.state.userName, prop.state.password)
+      props.props.actionButton(props.state.userName, props.state.password)
+      break;
     case 'signUp':
-      result = validateSignUp(prop);
-      if(result === ''){
-        prop.props.actionButton(prop.state.userName, prop.state.password)
+      result = validateSignUp(props);
+      if (result === '') {
+        props.props.actionButton(props.state.userName, props.state.password)
       } else {
-        showMessage({message: result, type: 'danger', animationDuration: 300})
+        showMessage({ message: result, type: 'danger', animationDuration: 300 })
       }
+      break;
     case 'ingreso':
-        
+      result = validateIngreso(props);
+      if (result === '') {
+        props.getFormData({
+          cantidad: props.state.cantidad,
+          medio: props.state.medio,
+          fuente: props.state.fuente,
+          cuenta: props.state.cuenta,
+          moneda: props.state.moneda,
+          tipo: props.state.tipo
+        })
+        showMessage({ message: '¡Ingreso registrado con éxito!', type: 'success' })
+      } else {
+        showMessage({ message: result, type: 'danger', animationDuration: 300 })
+      }
+      break;
+    case 'egreso':
+      result = validateEgreso(props);
+      if (result === '') {
+        props.getFormData({
+          cantidad: props.state.cantidad,
+          tipo: props.state.tipo,
+          medio: props.state.medio,
+          moneda: props.state.moneda,
+          interes: props.state.interes,
+          cuotas: props.state.cuotas,
+          otros: props.state.otros,
+          tipoServicio: props.state.tipoServicio
+        })
+        showMessage({ message: '¡Egreso registrado con éxito!', type: 'success' })
+      } else {
+        showMessage({ message: result, type: 'danger', animationDuration: 300 })
+      }
+      break;
+    case 'prestados':
+      result = validatePrestamosPrestados(props);
+      if (result === '') {
+        props.getFormData({
+          cantidad: props.state.cantidad,
+          destino: props.state.destino,
+          medio: props.state.medio,
+          type: 'Prestado',
+          cuenta: props.state.cuenta,
+          moneda: props.state.moneda
+        })
+        showMessage({ message: '¡Prestamo prestado registrado con éxito!', type: 'success' })
+      } else {
+        showMessage({ message: result, type: 'danger', animationDuration: 300 })
+      }
+      break;
+    case 'tomados':
+      result = validatePrestamosTomados(props)
+      if (result === '') {
+        props.getFormData({
+          cantidad: props.state.cantidad,
+          propietario: props.state.propietario,
+          medio: props.state.medio,
+          vencimiento: props.state.vencimiento,
+          interes: props.state.vencimiento,
+          cuotas: props.state.cuotas,
+          cuentas: props.state.cuentas,
+          moneda: props.state.moneda,
+          type: 'Tomado'
+        })
+        showMessage({ message: '¡Prestamo tomado registrado con éxito!', type: 'success' })
+      } else {
+        showMessage({ message: result, type: 'danger', animationDuration: 300 })
+      }
+      break;
+    case 'presupuesto':
+      result = validatePresupuesto(props)
+      if (result === '') {
+        props.getFormData({
+          cantidad: props.state.cantidad,
+          tipo: props.state.tipo
+        })
+        showMessage({ message: '¡Presupuesto registado con éxito!', type: 'success' })
+      } else {
+        showMessage({ message: result, type: 'danger', animationDuration: 300 })
+      }
+      break;
+    case 'inversion':
+      result = validateInversion(props)
+      if (result === '') {
+        props.getFormData({
+          cantidad: props.state.cantidad,
+          tipo: props.state.tipo,
+          interes: props.state.interes,
+          empresa: props.state.destino
+        })
+        showMessage({ message: '¡Inversión registado con éxito!', type: 'success' })
+      } else {
+        showMessage({ message: result, type: 'danger', animationDuration: 300 })
+      }
+      break;
+    case 'cuenta bancaria':
+      result = validateCuentaBancaria(props)
+      if (result === '') {
+        props.getFormData({
+          titularName: props.state.titularName,
+          CBU: props.state.CBU,
+          bankName: props.state.bankName
+        })
+        showMessage({ message: '¡Cuenta bancaria registada con éxito!', type: 'success' })
+      } else {
+        showMessage({ message: result, type: 'danger', animationDuration: 300 })
+      }
+      break;
     default:
       break
   }
@@ -976,26 +1008,94 @@ function validateSignUp(prop) {
   let msg = "";
   const validationResult = validate(prop.state.userName);
 
-  if(typeof prop.state.userName === 'undefined' || typeof validationResult !== 'undefined' || prop.state.userName?.length < 6) {
-    msg += "El mail es inválido. \n";
-  }
-  if(typeof prop.state.password === 'undefined' || prop.state.password=== null || prop.state.password.length < 8) {
-    msg += "La contraseña es inválida \n";
-  }
-  if(typeof prop.state.name === 'undefined' || prop.state.name === null || prop.state.name === '') {
-    msg += "El nombre es obligatorio. \n";
-  }
-  if(typeof prop.state.lastName === 'undefined' || prop.state.lastName === null || prop.state.lastName === '') {
-    msg += "El apellido es obligatorio. \n";
-  }
+  if (typeof prop.state.userName === 'undefined' || typeof validationResult !== 'undefined' || prop.state.userName?.length < 6) { msg += "El mail es inválido. \n"; }
+  if (typeof prop.state.password === 'undefined' || prop.state.password === null || prop.state.password.length < 8) { msg += "La contraseña es inválida \n"; }
+  if (typeof prop.state.name === 'undefined' || prop.state.name === null || prop.state.name === '') { msg += "El nombre es obligatorio. \n"; }
+  if (typeof prop.state.lastName === 'undefined' || prop.state.lastName === null || prop.state.lastName === '') { msg += "El apellido es obligatorio. \n"; }
 
   return msg;
 }
 
 function validateIngreso(prop) {
+  let msg = "";
 
+  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
+  if (typeof prop.state.moneda === 'undefined' || prop.state.moneda === null) { msg += "Ingrese una moneda. \n"; }
+  if (typeof prop.state.fuente === 'undefined' || prop.state.fuente === null) { msg += "Ingrese una fuente. \n"; }
+  if (typeof prop.state.medio === 'undefined' || prop.state.medio === null) { msg += "Ingrese un medio. \n"; }
+  if (prop.state.medio === "Transferencia Bancaria" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
+
+  return msg
 }
 
+function validateEgreso(prop) {
+  let msg = "";
+
+  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
+  if (typeof prop.state.moneda === 'undefined' || prop.state.moneda === null) { msg += "Ingrese una moneda. \n"; }
+  if (typeof prop.state.tipo === 'undefined' || prop.state.fuente === null) { msg += "Ingrese un tipo. \n"; }
+  if (prop.state.tipo === 'Otros' && (typeof prop.state.otros === 'undefined' || prop.state.otros === null)) { msg += "Ingrese el nuevo servicio. \n"; }
+  if (typeof prop.state.medio === 'undefined' || prop.state.medio === null) { msg += "Ingrese un medio. \n"; }
+  if (prop.state.medio === "Transferencia Bancaria" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
+  if (prop.state.medio === "Tarjeta de Crédito" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
+  if (prop.state.medio === "Tarjeta de Crédito" && (typeof prop.state.cuotas === 'undefined' || prop.state.cuotas === null)) { msg += "Ingrese la cantidad de cuotas. \n"; }
+  if (prop.state.medio === "Tarjeta de Crédito" && (typeof prop.state.interes === 'undefined' || prop.state.interes === null)) { msg += "Ingrese el interés. \n"; }
+  if (prop.state.medio === "Tarjeta de Débito" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
+
+  return msg
+}
+
+function validatePrestamosPrestados(prop) {
+  let msg = "";
+
+  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
+  if (typeof prop.state.destino === 'undefined' || prop.state.destino === null) { msg += "Ingrese un destinatario. \n"; }
+  if (typeof prop.state.moneda === 'undefined' || prop.state.moneda === null) { msg += "Ingrese una moneda. \n"; }
+  if (typeof prop.state.medio === 'undefined' || prop.state.medio === null) { msg += "Ingrese un medio. \n"; }
+  if (prop.state.medio === "Transferencia Bancaria" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
+
+  return msg
+}
+
+function validatePrestamosTomados(prop) {
+  let msg = "";
+
+  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
+  if (typeof prop.state.propietario === 'undefined' || prop.state.propietario === null) { msg += "Ingrese un propietario. \n"; }
+  if (typeof prop.state.moneda === 'undefined' || prop.state.moneda === null) { msg += "Ingrese una moneda. \n"; }
+  if (typeof prop.state.medio === 'undefined' || prop.state.medio === null) { msg += "Ingrese un medio. \n"; }
+  if (prop.state.medio === "Transferencia Bancaria" && (typeof prop.state.cuenta === 'undefined' || prop.state.medio === null)) { msg += "Ingrese una cuenta. \n"; }
+  if (typeof prop.state.cuotas === 'undefined' || prop.state.cuotas === null) { msg += "Ingrese la cantidad de cuotas. \n"; }
+  if (typeof prop.state.interes === 'undefined' || prop.state.interes === null) { msg += "Ingrese el interés mensual. \n"; }
+  if (typeof prop.state.vencimiento === 'undefined' || prop.state.vencimiento === null) { msg += "Ingrese la fecha de vencimiento. \n"; }
+
+  return msg
+}
+
+function validatePresupuesto(prop) {
+  let msg = "";
+
+  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
+  if (typeof prop.state.tipo === 'undefined' || prop.state.fuente === null) { msg += "Ingrese un tipo. \n"; }
+
+  return msg
+}
+
+function validateInversion(prop) {
+  let msg = "";
+
+  if (typeof prop.state.cantidad === 'undefined' || prop.state.cantidad === null) { msg += "Ingrese un monto. \n"; }
+  if (typeof prop.state.tipo === 'undefined' || prop.state.tipo === null) { msg += "Ingrese un tipo. \n"; }
+  if (prop.state.tipo === "Plazo Fijo" && (typeof prop.state.interes === 'undefined' || prop.state.interes === null)) { msg += "Ingrese el interés. \n"; }
+  if (prop.state.tipo === "Acciones" && (typeof prop.state.destino === 'undefined' || prop.state.destino === null)) { msg += "Ingrese el nombre de la empresa. \n"; }
+
+  return msg
+}
+
+function validateCuentaBancaria(prop) {
+  let msg = "";
+  return msg
+}
 
 const styles = StyleSheet.create({
   container: {
