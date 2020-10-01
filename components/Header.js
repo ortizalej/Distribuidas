@@ -10,13 +10,13 @@ const { height, width } = Dimensions.get('window');
 const iPhoneX = () => Platform.OS === 'ios' && (height === 812 || width === 812 || height === 896 || width === 896);
 
 
-const NotificationButton = ({ isWhite, style}) => (
+const NotificationButton = ({ isWhite, style }) => (
   <TouchableOpacity style={[styles.button, style]}>
     <Icon
       family="entypo"
       size={16}
       name="bell"
-      color= 'white'
+      color='white'
     />
     <Block middle style={styles.notify} />
   </TouchableOpacity>
@@ -29,15 +29,19 @@ class Header extends React.Component {
   }
 
   renderRight = () => {
-    
+
     return (
-      <NotificationButton key='chat-home' navigation={this.props.navigation} isWhite={this.props.white} />
+      <NotificationButton
+        key='chat-home'
+        navigation={this.props.navigation}
+        isWhite={this.props.white}
+      />
     );
   }
 
 
   render() {
-    const { back, title, transparent} = this.props;
+    const { back, title, transparent } = this.props;
     // const { routeName } = navigation.state;
 
     return (
@@ -50,7 +54,7 @@ class Header extends React.Component {
           right={title != 'Login' && title != 'Sign In' ? this.renderRight() : null}
           rightStyle={{ alignItems: 'center' }}
           leftStyle={{ flex: 0.3, paddingTop: 2 }}
-          leftIconName={title != 'Login' &&  title != 'Sign In'? (back ? 'chevron-left' : 'navicon') : null}
+          leftIconName={title != 'Login' && title != 'Sign In' ? (back ? 'chevron-left' : 'navicon') : null}
           leftIconColor={theme.COLORS.WHITE}
           titleStyle={[
             styles.title,

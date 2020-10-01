@@ -8,7 +8,7 @@ import moment from 'moment'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import Form from '../components/Formulario'
 const { width, height } = Dimensions.get('screen')
-function getMatchedData (dateFilter, rowValues) {
+function getMatchedData(dateFilter, rowValues) {
   let filterDataRows = []
   switch (dateFilter) {
     case 'Mensual':
@@ -27,7 +27,7 @@ function getMatchedData (dateFilter, rowValues) {
   return filterDataRows
 }
 
-function compareDates (filterDate, filterDataRows, rowValues) {
+function compareDates(filterDate, filterDataRows, rowValues) {
   for (let i = 0; i < rowValues.length; i++) {
     let baseDate = moment(rowValues[i][0], 'DD-MM-YYYY')
     if (baseDate.isAfter(filterDate)) {
@@ -36,7 +36,7 @@ function compareDates (filterDate, filterDataRows, rowValues) {
   }
 }
 
-function sumValues (rowValues) {
+function sumValues(rowValues) {
   let totalSumPesos = 0
   let totalSumaDolares = 0
   let sumas = []
@@ -57,134 +57,205 @@ function sumValues (rowValues) {
 export default class Tarjetas extends React.Component {
   colTable = ['Fecha', 'Cantidad', 'Tipo', '']
 
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       type: 'Bank',
       carouselItems: [],
       rowToShow: [],
       rowtoDetail: [],
       data: undefined
+
     }
   }
 
-  getCuentaData (data) {
-    AsyncStorage.getItem(data.userName + '-' + data.password).then(value => {
+  getCuentaData(data) {
+
+    AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
       let userData = JSON.parse(value)
       this.state.data = userData
+      let actualCard = this.state.data.cuentasBancarias[0]
       console.log('CUENTAS', JSON.stringify(this.state.data.cuentasBancarias))
       this.Carrousel.updateState(this.state.data.cuentasBancarias)
 
-      let arrayDataDetail = []
-      let showData = []
-      // if (userData.ingresos.length > 0) {
+      let arrayDataDetail = [];
+      let showData = [];
+      if (userData.ingresos.length > 0) {
+        for (let i = 0; i < userData.ingresos.length; i++) {
+          if (actualCard.CBU === userData.ingresos[i][5]) {
+            arrayDataDetail.push(
+              [
+                userData.ingresos[i][0],
+                userData.ingresos[i][1],
+                userData.ingresos[i][2],
+                userData.ingresos[i][3],
+                userData.ingresos[i][4],
+                userData.ingresos[i][5]
+              ]);
+            showData.push(
+              [
+                userData.ingresos[i][0],
+                userData.ingresos[i][1],
+                userData.ingresos[i][2],
+                ''
+              ]);
+          }
+        }
+      }
+      if (userData.egresos.length > 0) {
+        for (let i = 0; i < userData.egresos.length; i++) {
+          if (actualCard.CBU === userData.egresos[i][5]) {
+            arrayDataDetail.push(
+              [
+                userData.egresos[i][0],
+                userData.egresos[i][1],
+                userData.egresos[i][2],
+                userData.egresos[i][3],
+                userData.egresos[i][4],
+                userData.egresos[i][5],
+                userData.egresos[i][6],
+                userData.egresos[i][7],
+                userData.egresos[i][8]
+              ]);
+            showData.push(
+              [
+                userData.egresos[i][0],
+                userData.egresos[i][1],
+                userData.egresos[i][2],
+                ''
+              ]);
+          }
+        }
+      }
+      this.setState({
+        rowToShow: showData,
+        rowtoDetail: arrayDataDetail
+      })
 
-      //     for (let i = 0; i < userData.ingresos.length; i++) {
-      //         arrayDataDetail.push(
-      //             [
-      //                 userData.ingresos[i][0],
-      //                 userData.ingresos[i][1],
-      //                 userData.ingresos[i][2],
-      //                 userData.ingresos[i][3],
-      //                 userData.ingresos[i][4],
-      //                 userData.ingresos[i][5]
-      //             ]);
-      //         showData.push(
-      //             [
-      //                 userData.ingresos[i][0],
-      //                 userData.ingresos[i][1],
-      //                 userData.ingresos[i][2],
-      //                 ''
-      //             ]);
-      //     }
 
-      //     if (userData.egresos.length > 0) {
-      //         for (let i = 0; i < userData.egresos.length; i++) {
-      //             arrayDataDetail.push(
-      //                 [
-      //                     userData.egresos[i][0],
-      //                     userData.egresos[i][1],
-      //                     userData.egresos[i][2],
-      //                     userData.egresos[i][3],
-      //                     userData.egresos[i][4],
-      //                     userData.egresos[i][5]
-      //                 ]);
-      //             showData.push(
-      //                 [
-      //                     userData.egresos[i][0],
-      //                     userData.egresos[i][1],
-      //                     userData.egresos[i][2],
-      //                     ''
-      //                 ]);
-      //         }
-      //     }
-      //     this.setState({
-      //         rowToShow: showData,
-      //         rowtoDetail: arrayDataDetail
-      //     })
+      for (let i = 0; i < this.state.rowtoDetail.length; i++) {
+        if (!this.state.rowtoDetail[i]) { continue; }
+        if (this.state.rowtoDetail[i][2] === 'Pesos') {
+          this.totalSumPesos += this.state.rowtoDetail[i][1];
+        } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+          this.totalSumaDolares += this.state.rowtoDetail[i][1]
+        }
+      }
 
-      //     for (let i = 0; i < this.state.rowtoDetail.length; i++) {
-      //         if (!this.state.rowtoDetail[i]) { continue; }
-      //         if (this.state.rowtoDetail[i][2] === 'Pesos') {
-      //             this.totalSumPesos += this.state.rowtoDetail[i][1];
-      //         } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
-      //             this.totalSumaDolares += this.state.rowtoDetail[i][1]
-      //         }
-      //     }
-
-      //     this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
-      //     this.HistoricTable.updateState(this.state.rowToShow);
-      // }
+      this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
+      this.HistoricTable.updateState(this.state.rowToShow);
     })
+
   }
 
-  insertData (accountData) {
-    console.log('ACCOUNT', accountData)
-    this.state.data.cuentasBancarias.push(accountData)
+  insertData(accountData) {
+    this.state.data.cuentasBancarias.push(accountData);
     this.state.carouselItems.push(accountData)
     let dataToShow = this.state.carouselItems
     this.Carrousel.updateState(dataToShow)
 
     AsyncStorage.mergeItem(
-      this.state.data.seguridad.userName +
-        '-' +
-        this.state.data.seguridad.password,
+      this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
       JSON.stringify(this.state.data)
     )
-    showMessage({
-      message: '¡Cuenta agregada con éxito!',
-      type: 'success'
-    })
+
   }
 
-  formData (data) {
-    this.insertData(data)
+  filterDataPerCard(index) {
+    let arrayDataDetail = [];
+    let showData = [];
+    let actualCard = this.state.data.cuentasBancarias[index];
+    let ingresos = this.state.data.ingresos
+    let egresos = this.state.data.egresos
+    console.log(actualCard)
+    if (ingresos.length > 0) {
+      for (let i = 0; i < ingresos.length; i++) {
+        if (actualCard.CBU === ingresos[i][5]) {
+          arrayDataDetail.push(
+            [
+              ingresos[i][0],
+              ingresos[i][1],
+              ingresos[i][2],
+              ingresos[i][3],
+              ingresos[i][4],
+              ingresos[i][5]
+            ]);
+          showData.push(
+            [
+              ingresos[i][0],
+              ingresos[i][1],
+              ingresos[i][2],
+              ''
+            ]);
+        }
+      }
+    }
+    if (egresos.length > 0) {
+      for (let i = 0; i < egresos.length; i++) {
+        if (actualCard.CBU === egresos[i][5]) {
+          arrayDataDetail.push(
+            [
+              egresos[i][0],
+              egresos[i][1],
+              egresos[i][2],
+              egresos[i][3],
+              egresos[i][4],
+              egresos[i][5],
+              egresos[i][6],
+              egresos[i][7],
+              egresos[i][8]
+            ]);
+          showData.push(
+            [
+              egresos[i][0],
+              egresos[i][1],
+              egresos[i][2],
+              ''
+            ]);
+        }
+      }
+    }
+    this.setState({
+      rowToShow: showData,
+      rowtoDetail: arrayDataDetail
+    })
+
+
+    for (let i = 0; i < this.state.rowtoDetail.length; i++) {
+      if (!this.state.rowtoDetail[i]) { continue; }
+      if (this.state.rowtoDetail[i][2] === 'Pesos') {
+        this.totalSumPesos += this.state.rowtoDetail[i][1];
+      } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+        this.totalSumaDolares += this.state.rowtoDetail[i][1]
+      }
+    }
+
+    this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
+    this.HistoricTable.updateState(this.state.rowToShow);
   }
-  getDisplayFilter (date) {
+  getDisplayFilter(date) {
     if (this.state.rowtoDetail.length > 0) {
-      let filterDataToShow = getMatchedData(date, this.state.rowToShow)
-      let filterData = getMatchedData(date, this.state.rowtoDetail)
+      let filterDataToShow = getMatchedData(date, this.state.rowToShow);
+      let filterData = getMatchedData(date, this.state.rowtoDetail);
       let filterSumPesos = sumValues(filterData)[0]
       let filterSumDolares = sumValues(filterData)[1]
-      this.HistoricTable.updateState(filterDataToShow)
-      this.Display.updateState(filterSumPesos, filterSumDolares)
+      this.HistoricTable.updateState(filterDataToShow);
+      this.Display.updateState(filterSumPesos, filterSumDolares);
     }
   }
 
-  render () {
+  render() {
     let userData = this.props.route.params
     console.log(userData)
     if (!this.state.data) {
       this.getCuentaData(userData)
     }
-    let totalSumPesos = 0
-    let totalSumaDolares = 0
+    let totalSumPesos = 0;
+    let totalSumaDolares = 0;
     for (let i = 0; i < this.state.rowtoDetail.length; i++) {
-      if (!this.state.rowtoDetail[i]) {
-        continue
-      }
+      if (!this.state.rowtoDetail[i]) { continue; }
       if (this.state.rowtoDetail[i][2] === 'Pesos') {
-        totalSumPesos += this.state.rowtoDetail[i][1]
+        totalSumPesos += this.state.rowtoDetail[i][1];
       } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
         totalSumaDolares += this.state.rowtoDetail[i][1]
       }
@@ -192,36 +263,34 @@ export default class Tarjetas extends React.Component {
     return (
       <Block style={styles.tarjetas}>
         <ScrollView showsVerticalScrollIndicator={false}>
+
           <CarrouselCard
             items={this.state.carouselItems}
             type={this.state.type}
-            ref={carrousel => {
-              this.Carrousel = carrousel
-            }}
-            onch
+            ref={(carrousel) => { this.Carrousel = carrousel }}
+            filterData={this.filterDataPerCard.bind(this)}
+
           />
           <Display
-            ref={display => {
-              this.Display = display
-            }}
+            ref={(display) => { this.Display = display }}
             defaultDate={this.defaultDate}
             defaultPesos={totalSumPesos}
             defaultDolares={totalSumaDolares}
             getDate={this.getDisplayFilter.bind(this)}
+
           />
-          <Form type={'Cuenta'} getFormData={this.formData.bind(this)} />
-          <HistoricTable
-            type={'Cuenta'}
-            ref={table => {
-              this.HistoricTable = table
-            }}
+          <Form type={'Cuenta'}
+            getFormData={this.formData.bind(this)}
+          />
+          <HistoricTable type={'Cuenta'}
+            ref={(table) => { this.HistoricTable = table }}
             cols={this.colTable}
             rows={this.state.rowToShow}
             detailRows={this.state.rowtoDetail}
           />
         </ScrollView>
       </Block>
-    )
+    );
   }
 }
 const styles = StyleSheet.create({
