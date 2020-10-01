@@ -89,6 +89,12 @@ export default class Inversiones extends React.Component {
 
         this.HistoricTable.updateState(this.state.rowToShow)
         this.Carrousel.updateState(graphToShow)
+      } else {
+        this.setState({
+          dataGraph: new Map()
+        })
+        this.Carrousel.updateState([])
+
       }
     })
   }
@@ -164,13 +170,13 @@ export default class Inversiones extends React.Component {
         this.state.data.seguridad.password,
       JSON.stringify(this.state.data),
       () => {
-        showMessage({
-          message: '¡Inversión eliminada con éxito!',
-          type: 'success'
-        })
+        // showMessage({
+        //   message: '¡Inversión eliminada con éxito!',
+        //   type: 'success'
+        // })
 
-        this.insertData(inversionesItems);
-
+        // this.insertData(inversionesItems);
+        this.getInversionesData(this.props.route.params)
       }
     )
   }

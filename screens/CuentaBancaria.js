@@ -147,20 +147,18 @@ export default class Tarjetas extends React.Component {
     })
 
   }
-
   insertData(accountData) {
     this.state.data.cuentasBancarias.push(accountData);
     this.state.carouselItems.push(accountData)
-    let dataToShow = this.state.carouselItems
-    this.Carrousel.updateState(dataToShow)
-
-    AsyncStorage.mergeItem(
+    console.log(this.state.data.cuentasBancarias)
+    this.Carrousel.updateState(this.state.data.cuentasBancarias)
+    AsyncStorage.mergeItem( 
       this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
       JSON.stringify(this.state.data)
     )
+    this.getCuentaData(this.props.route.params)
 
   }
-
   filterDataPerCard(index) {
     let arrayDataDetail = [];
     let showData = [];
@@ -243,7 +241,10 @@ export default class Tarjetas extends React.Component {
       this.Display.updateState(filterSumPesos, filterSumDolares);
     }
   }
-
+  formData (data) {
+    console.log(data)
+    this.insertData(data)
+  }
   render() {
     let userData = this.props.route.params
     console.log(userData)

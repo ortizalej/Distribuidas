@@ -1,12 +1,12 @@
 import React from 'react'
-import { StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native'
 import { Button, Block, Text } from 'galio-framework'
 import Display from '../components/DisplayMount'
 import Form from '../components/Formulario'
 import HistoricTable from '../components/HistoricTable'
 const { width, height } = Dimensions.get('screen')
 import moment from 'moment'
-function getMatchedData (dateFilter, rowValues) {
+function getMatchedData(dateFilter, rowValues) {
   let filterDataRows = []
   switch (dateFilter) {
     case 'Mensual':
@@ -25,7 +25,7 @@ function getMatchedData (dateFilter, rowValues) {
   return filterDataRows
 }
 
-function compareDates (filterDate, filterDataRows, rowValues) {
+function compareDates(filterDate, filterDataRows, rowValues) {
   for (let i = 0; i < rowValues.length; i++) {
     let baseDate = moment(rowValues[i][0], 'DD-MM-YYYY')
     if (baseDate.isAfter(filterDate)) {
@@ -34,7 +34,7 @@ function compareDates (filterDate, filterDataRows, rowValues) {
   }
 }
 
-function sumValues (rowValues) {
+function sumValues(rowValues) {
   let totalSumPesos = 0
   let totalSumaDolares = 0
   let sumas = []
@@ -55,70 +55,133 @@ function sumValues (rowValues) {
 export default class Prestamos extends React.Component {
   defaultDate = 'Anual'
   colTable = ['Fecha', 'Cantidad', 'Moneda', '']
-  rowToShowPrestado = [
-    ['02-09-2020', 1000, 'Pesos', ''],
-    ['02-07-2020', 1000, 'Dolares', ''],
-    ['13-01-2020', 1000, 'Pesos', '']
-    // INIT QUERY
-  ]
-  rowtoDetailPrestado = [
-    ['02-09-2020', 1000, 'Pesos', 'Medio', 'Destino', 'Cuenta'],
-    ['02-07-2020', 1000, 'Dolares', 'Medio', 'Destino', 'Cuenta'],
-    ['13-01-2020', 1000, 'Pesos', 'Medio', 'Destino', 'Cuenta']
-    // INIT QUERY
-  ]
+  constructor(props) {
+    super(props)
+    this.state = {
+      rowToShowPrestado: [],
+      rowtoDetailPrestado: [],
+      rowToShowTomado: [],
+      rowtoDetailTomado: [],
+      data: undefined
+    }
+  }
+  totalSumPesosPrestados = 0
+  totalSumaDolaresPrestados = 0
+  totalSumPesosTomados = 0
+  totalSumaDolaresTomados = 0
+  getPrestamoData(data) {
+    AsyncStorage.getItem(data.userName + '-' + data.password).then(value => {
+      let userData = JSON.parse(value)
+      this.state.data = userData
+      if (userData.prestamos.prestado.length > 0) {
+        let arrayDataDetailPrestado = []
+        let showDataPrestado = []
+        console.log(userData)
+        for (let i = 0; i < userData.prestamos.prestado.length; i++) {
+          arrayDataDetailPrestado.push([
+            userData.prestamos.prestado[i][0],
+            userData.prestamos.prestado[i][1],
+            userData.prestamos.prestado[i][2],
+            userData.prestamos.prestado[i][3],
+            userData.prestamos.prestado[i][4]
+          ])
 
-  rowToShowTomado = [
-    ['02-09-2020', 1000, 'Pesos', ''],
-    ['02-07-2020', 1000, 'Dolares', ''],
-    ['13-01-2020', 1000, 'Pesos', '']
-    // INIT QUERY
-  ]
+          showDataPrestado.push([
+            userData.prestamos.prestado[i][0],
+            userData.prestamos.prestado[i][1],
+            userData.prestamos.prestado[i][2], 
+            ''
+          ])
+        }
+        this.setState({
+          rowToShowPrestado: showDataPrestado,
+          rowtoDetailPrestado: arrayDataDetailPrestado
+        })
+        console.log('PRESTADO',showDataPrestado)
+        for (let i = 0; i < this.state.rowtoDetailPrestado.length; i++) {
+          if (!this.state.rowtoDetailPrestado[i]) {
+            continue
+          }
+          if (this.state.rowtoDetailPrestado[i][2] === 'Pesos') {
+            this.totalSumPesosPrestados += this.state.rowtoDetailPrestado[i][1]
+          } else if (this.state.rowtoDetailPrestado[i][2] === 'Dolares') {
+            this.totalSumaDolaresPrestados += this.state.rowtoDetailPrestado[i][1]
+          }
+        }
+        this.displayPrestados.updateState(this.totalSumPesosPrestados, this.totalSumaDolaresPrestados)
 
-  rowtoDetailTomado = [
-    [
-      '02-09-2020',
-      1000,
-      'Pesos',
-      'Medio',
-      'propietario',
-      'cuenta',
-      'interes',
-      'cuotas',
-      'vencimiento'
-    ],
-    [
-      '02-07-2020',
-      1000,
-      'Dolares',
-      'Medio',
-      'propietario',
-      'cuenta',
-      'interes',
-      'cuotas',
-      'vencimiento'
-    ],
-    [
-      '13-01-2020',
-      1000,
-      'Pesos',
-      'Medio',
-      'propietario',
-      'cuenta',
-      'interes',
-      'cuotas',
-      'vencimiento'
-    ]
-    // INIT QUERY
-  ]
-  formData (data) {
+        this.tablePrestados.updateState(showDataPrestado)
+      }
+      if (userData.prestamos.tomado.length > 0) {
+        let arrayDataDetailTomado = []
+        let showDataTomado = []
+        for (let i = 0; i < userData.prestamos.tomado.length; i++) {
+          arrayDataDetailTomado.push([
+            userData.prestamos.tomado[i][0],
+            userData.prestamos.tomado[i][1],
+            userData.prestamos.tomado[i][2],
+            userData.prestamos.tomado[i][3],
+            userData.prestamos.tomado[i][4],
+            userData.prestamos.tomado[i][5],
+            userData.prestamos.tomado[i][6],
+            userData.prestamos.tomado[i][7]           
+          ]) 
+          showDataTomado.push([
+            userData.prestamos.tomado[i][0],
+            userData.prestamos.tomado[i][1],
+            userData.prestamos.tomado[i][2],
+            ''
+          ])
+        }
+
+        this.setState({
+          rowToShowTomado: showDataTomado,
+          rowtoDetailTomado: arrayDataDetailTomado 
+        })
+
+        for (let i = 0; i < this.state.rowtoDetailTomado.length; i++) {
+          if (!this.state.rowtoDetailTomado[i]) {
+            continue
+          }
+          if (this.state.rowtoDetailTomado[i][2] === 'Pesos') {
+            this.totalSumPesosTomados += this.state.rowtoDetailTomado[i][1]
+          } else if (this.state.rowtoDetailTomado[i][2] === 'Dolares') {
+            this.totalSumaDolaresTomados += this.state.rowtoDetailTomado[i][1]
+          }
+        }
+        this.displayTomados.updateState(this.totalSumPesosTomados, this.totalSumaDolaresTomados)
+        this.tableTomados.updateState(this.state.rowToShowTomado)
+      }
+    })
+  }
+
+  insertData(arrayData, type) {
+    if (type === 'Prestado') {
+      this.state.data.prestamos.prestado.push(arrayData)
+      console.log(JSON.stringify(this.state.data))
+    } else if (type === 'Tomado') {
+      this.state.data.prestamos.tomado.push(arrayData)
+
+    }
+    AsyncStorage.mergeItem(
+      this.state.data.seguridad.userName +
+      '-' +
+      this.state.data.seguridad.password,
+      JSON.stringify(this.state.data),
+      value => {
+        console.log(value)
+      }
+    )
+  }
+
+  formData(data) {
     var now = moment().format('DD-MM-YYYY')
     let arrayDataToShow = [
       now,
       parseInt(
         (parseInt(data.cantidad) *
           (1 + (data.interes ? parseInt(data.interes) : 0) / 100)) /
-          (data.cuotas ? parseInt(data.cuotas) : 1)
+        (data.cuotas ? parseInt(data.cuotas) : 1)
       ),
       data.moneda,
       ''
@@ -132,12 +195,14 @@ export default class Prestamos extends React.Component {
         data.destino,
         data.cuenta
       ]
-      this.rowtoDetailPrestado.push(arrayDataPrestado)
-      this.rowToShowPrestado.push(arrayDataToShow)
-      let totalSumPesos = sumValues(this.rowtoDetailPrestado)[0]
-      let totalSumDolares = sumValues(this.rowtoDetailPrestado)[1]
+      this.insertData(arrayDataPrestado, data.type)
 
-      this.tablePrestados.updateState(this.rowToShowPrestado)
+      this.state.rowtoDetailPrestado.push(arrayDataPrestado)
+      this.state.rowToShowPrestado.push(arrayDataToShow)
+      let totalSumPesos = sumValues(this.state.rowtoDetailPrestado)[0]
+      let totalSumDolares = sumValues(this.state.rowtoDetailPrestado)[1]
+
+      this.tablePrestados.updateState(this.state.rowToShowPrestado)
       this.displayPrestados.updateState(totalSumPesos, totalSumDolares)
     } else if (data.type === 'Tomado') {
       let arrayDataTomado = [
@@ -145,7 +210,7 @@ export default class Prestamos extends React.Component {
         parseInt(
           (parseInt(data.cantidad) *
             (1 + (data.interes ? parseInt(data.interes) : 0) / 100)) /
-            (data.cuotas ? parseInt(data.cuotas) : 1)
+          (data.cuotas ? parseInt(data.cuotas) : 1)
         ),
         data.moneda,
         data.medio,
@@ -155,79 +220,57 @@ export default class Prestamos extends React.Component {
         data.cuota,
         data.vencimiento
       ]
-      this.rowtoDetailTomado.push(arrayDataTomado)
-      this.rowToShowTomado.push(arrayDataToShow)
-      let totalSumPesos = sumValues(this.rowtoDetailTomado)[0]
-      let totalSumDolares = sumValues(this.rowtoDetailTomado)[1]
-      this.tableTomados.updateState(this.rowToShowTomado)
+      this.insertData(arrayDataTomado, data.type)
+      this.state.rowtoDetailTomado.push(arrayDataTomado)
+      this.state.rowToShowTomado.push(arrayDataToShow)
+      let totalSumPesos = sumValues(this.state.rowtoDetailTomado)[0]
+      let totalSumDolares = sumValues(this.state.rowtoDetailTomado)[1]
+      this.tableTomados.updateState(this.state.rowToShowTomado)
       this.displayTomados.updateState(totalSumPesos, totalSumDolares)
     }
   }
-  getDisplayFilterPrestados (date) {
-    if (this.rowtoDetailPrestado.length > 0) {
-      let filterDataToShow = getMatchedData(date, this.rowToShowPrestado)
-      let filterData = getMatchedData(date, this.rowtoDetailPrestado)
+  getDisplayFilterPrestados(date) {
+    if (this.state.rowtoDetailPrestado.length > 0) {
+      let filterDataToShow = getMatchedData(date, this.state.rowToShowPrestado)
+      let filterData = getMatchedData(date, this.state.rowtoDetailPrestado)
       let filterSumPesos = sumValues(filterData)[0]
       let filterSumDolares = sumValues(filterData)[0]
       this.tablePrestados.updateState(filterDataToShow)
       this.displayPrestados.updateState(filterSumPesos, filterSumDolares)
     }
   }
-  getDisplayFilterTomados (date) {
-    if (this.rowtoDetailTomado.length > 0) {
-      let filterDataToShow = getMatchedData(date, this.rowToShowTomado)
-      let filterData = getMatchedData(date, this.rowtoDetailTomado)
+  getDisplayFilterTomados(date) {
+    if (this.state.rowtoDetailTomado.length > 0) {
+      let filterDataToShow = getMatchedData(date, this.state.rowToShowTomado)
+      let filterData = getMatchedData(date, this.state.rowtoDetailTomado)
       let filterSumPesos = sumValues(filterData)[0]
       let filterSumDolares = sumValues(filterData)[0]
       this.tableTomados.updateState(filterDataToShow)
       this.displayTomados.updateState(filterSumPesos, filterSumDolares)
     }
   }
-  deleteRow (index, type) {
+  deleteRow(index, type) {
     if (type === 'Tomados') {
-      this.rowtoDetailTomado.splice(index, 1)
-      this.rowToShowTomado.splice(index, 1)
-      let totalSumPesos = sumValues(this.rowtoDetailTomado)[0]
-      let totalSumDolares = sumValues(this.rowtoDetailTomado)[1]
-      this.tableTomados.updateState(this.rowToShowTomado)
+      this.state.rowtoDetailTomado.splice(index, 1)
+      this.state.rowToShowTomado.splice(index, 1)
+      let totalSumPesos = sumValues(this.state.rowtoDetailTomado)[0]
+      let totalSumDolares = sumValues(this.state.rowtoDetailTomado)[1]
+      this.tableTomados.updateState(this.state.rowToShowTomado)
       this.displayTomados.updateState(totalSumPesos, totalSumDolares)
     } else if (type === 'Prestados') {
-      this.rowtoDetailPrestado.splice(index, 1)
-      this.rowToShowPrestado.splice(index, 1)
-      let totalSumPesos = sumValues(this.rowtoDetailPrestado)[0]
-      let totalSumDolares = sumValues(this.rowtoDetailPrestado)[1]
-      this.tablePrestados.updateState(this.rowToShowPrestado)
+      this.state.rowtoDetailPrestado.splice(index, 1)
+      this.state.rowToShowPrestado.splice(index, 1)
+      let totalSumPesos = sumValues(this.state.rowtoDetailPrestado)[0]
+      let totalSumDolares = sumValues(this.state.rowtoDetailPrestado)[1]
+      this.tablePrestados.updateState(this.state.rowToShowPrestado)
       this.displayPrestados.updateState(totalSumPesos, totalSumDolares)
     }
   }
 
-  render () {
-    let totalSumPesosPrestados = 0
-    let totalSumDolaresPrestados = 0
-
-    let totalSumDolaresTomados = 0
-    let totalSumPesosTomados = 0
-
-    for (let i = 0; i < this.rowtoDetailPrestado.length; i++) {
-      if (!this.rowtoDetailPrestado[i]) {
-        continue
-      }
-      if (this.rowtoDetailPrestado[i][2] === 'Pesos') {
-        totalSumPesosPrestados += this.rowtoDetailPrestado[i][1]
-      } else if (this.rowtoDetailPrestado[i][2] === 'Dolares') {
-        totalSumDolaresPrestados += this.rowtoDetailPrestado[i][1]
-      }
-    }
-
-    for (let i = 0; i < this.rowtoDetailTomado.length; i++) {
-      if (!this.rowtoDetailTomado[i]) {
-        continue
-      }
-      if (this.rowtoDetailTomado[i][2] === 'Pesos') {
-        totalSumPesosTomados += this.rowtoDetailTomado[i][1]
-      } else if (this.rowtoDetailPrestado[i][2] === 'Dolares') {
-        totalSumDolaresTomados += this.rowtoDetailTomado[i][1]
-      }
+  render() {
+    let userData = this.props.route.params
+    if (!this.state.data) {
+      this.getPrestamoData(userData)
     }
     return (
       <Block center style={styles.egresos}>
@@ -240,8 +283,8 @@ export default class Prestamos extends React.Component {
               this.displayPrestados = displayPrestados
             }}
             defaultDate={this.defaultDate}
-            defaultPesos={totalSumPesosPrestados}
-            defaultDolares={totalSumDolaresPrestados}
+            defaultPesos={this.totalSumPesosPrestados}
+            defaultDolares={this.totalSumDolaresPrestados}
             getDate={this.getDisplayFilterPrestados.bind(this)}
           />
           <Form
@@ -254,8 +297,8 @@ export default class Prestamos extends React.Component {
               this.tablePrestados = tablePrestados
             }}
             cols={this.colTable}
-            rows={this.rowToShowPrestado}
-            detailRows={this.rowtoDetailPrestado}
+            rows={this.state.rowToShowPrestado}
+            detailRows={this.state.rowtoDetailPrestado}
             deleteRow={this.deleteRow.bind(this)}
           />
           {/* Prestamos Tomados */}
@@ -266,8 +309,8 @@ export default class Prestamos extends React.Component {
               this.displayTomados = displayTomados
             }}
             defaultDate={this.defaultDate}
-            defaultPesos={totalSumPesosTomados}
-            defaultDolares={totalSumDolaresTomados}
+            defaultPesos={this.totalSumPesosTomados}
+            defaultDolares={this.totalSumDolaresTomados}
             getDate={this.getDisplayFilterTomados.bind(this)}
           />
           <Form
@@ -280,8 +323,8 @@ export default class Prestamos extends React.Component {
               this.tableTomados = tableTomados
             }}
             cols={this.colTable}
-            rows={this.rowToShowTomado}
-            detailRows={this.rowtoDetailTomado}
+            rows={this.state.rowToShowTomado}
+            detailRows={this.state.rowtoDetailTomado}
             deleteRow={this.deleteRow.bind(this)}
           />
         </ScrollView>

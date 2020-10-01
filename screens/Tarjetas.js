@@ -13,6 +13,8 @@ import moment from 'moment';
 import CountDown from 'react-native-countdown-component';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import DatePicker from 'react-native-datepicker'
+
 
 const { width, height } = Dimensions.get('screen');
 function getMatchedData(dateFilter, rowValues) {
@@ -59,13 +61,12 @@ function sumValues(rowValues) {
     sumas.push(totalSumaDolares)
     return sumas;
 }
-var startDate = moment("25-12-2015", "DD-MM-YYYY")
-var endDate = moment("25-12-2016", "DD-MM-YYYY");
-var differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
+
 
 export default class Tarjetas extends React.Component {
     defaultDate = 'Anual'
     colTable = ['Fecha', 'Cantidad', 'Moneda', ''];
+    differenceDate = 0;
     constructor(props) {
         super(props);
         this.state = {
@@ -89,26 +90,86 @@ export default class Tarjetas extends React.Component {
             rowtoDetail: []
         }
     }
-    // insertData(arrayData) { 
-    //     this.state.data.ingresos.push(arrayData)
-    //     AsyncStorage.mergeItem(
-    //         this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
-    //         JSON.stringify(this.state.data),
-    //         (value) => {
-    //             console.log(value)
-    //         })
-    // }
+    getTarjetasData(data) {
 
-    // deleteData(ingresosItems) {
-    //     this.state.data.ingresos = ingresosItems
-    //     AsyncStorage.mergeItem(
-    //         this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
-    //         JSON.stringify(this.state.data),
-    //         (value) => {
-    //             console.log(value)
-    //         })
-    // }
+        AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
+            let userData = JSON.parse(value)
+            this.state.data = userData
+            let actualCard = this.state.data.tarjetas[0]
+            console.log('TARJETAS', JSON.stringify(this.state.data.cuentasBancarias))
+            let arrayDataDetail = [];
+            let showData = [];
+            if (userData.ingresos.length > 0) {
+                for (let i = 0; i < userData.ingresos.length; i++) {
+                    if (actualCard.number === userData.ingresos[i][5]) {
+                        arrayDataDetail.push(
+                            [
+                                userData.ingresos[i][0],
+                                userData.ingresos[i][1],
+                                userData.ingresos[i][2],
+                                userData.ingresos[i][3],
+                                userData.ingresos[i][4],
+                                userData.ingresos[i][5]
+                            ]);
+                        showData.push(
+                            [
+                                userData.ingresos[i][0],
+                                userData.ingresos[i][1],
+                                userData.ingresos[i][2],
+                                ''
+                            ]);
+                    }
+                }
+            }
+            if (userData.egresos.length > 0) {
+                for (let i = 0; i < userData.egresos.length; i++) {
+                    if (actualCard.number === userData.egresos[i][5]) {
+                        arrayDataDetail.push(
+                            [
+                                userData.egresos[i][0],
+                                userData.egresos[i][1],
+                                userData.egresos[i][2],
+                                userData.egresos[i][3],
+                                userData.egresos[i][4],
+                                userData.egresos[i][5],
+                                userData.egresos[i][6],
+                                userData.egresos[i][7],
+                                userData.egresos[i][8]
+                            ]);
+                        showData.push(
+                            [
+                                userData.egresos[i][0],
+                                userData.egresos[i][1],
+                                userData.egresos[i][2],
+                                ''
+                            ]);
+                    }
+                }
+            }
+            this.setState({
+                rowToShow: showData,
+                rowtoDetail: arrayDataDetail
+            })
 
+
+            for (let i = 0; i < this.state.rowtoDetail.length; i++) {
+                if (!this.state.rowtoDetail[i]) { continue; }
+                if (this.state.rowtoDetail[i][2] === 'Pesos') {
+                    this.totalSumPesos += this.state.rowtoDetail[i][1];
+                } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
+                    this.totalSumaDolares += this.state.rowtoDetail[i][1]
+                }
+            }
+
+            this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
+            this.HistoricTable.updateState(this.state.rowToShow);
+            var startDate = moment("DD-MM-YYYY")
+            var endDate = moment("25-12-2016", "DD-MM-YYYY");
+            this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
+            this.CountDown.until = differenceDate
+        })
+
+    }
     formData(data) {
         var now = moment().format('DD-MM-YYYY');
         let arrayDataToShow = [now, parseInt(data.cantidad), data.moneda, ''];
@@ -129,14 +190,6 @@ export default class Tarjetas extends React.Component {
             this.HistoricTable.updateState(filterDataToShow);
             this.Display.updateState(filterSumPesos, filterSumDolares);
         }
-    }
-    deleteRow(index) {
-        this.state.rowtoDetail.splice(index, 1);
-        this.state.rowtoshow.splice(index, 1);
-        let totalSumPesos = sumValues(this.state.rowtoDetail)[0]
-        let totalSumDolares = sumValues(this.state.rowtoDetail)[1]
-        this.HistoricTable.updateState(this.state.rowtoshow);
-        this.Display.updateState(totalSumPesos, totalSumDolares);
     }
 
     render() {
@@ -173,13 +226,14 @@ export default class Tarjetas extends React.Component {
                         defaultDolares={totalSumaDolares}
                         getDate={this.getDisplayFilter.bind(this)}
                     />
-                    {differenceDate > 0 ?
+                    {this.differenceDate > 0 ?
                         <CountDown
+                            ref={(countdown) => { this.CountDown = countdown }}
+
                             style={{ marginTop: 50 }}
-                            until={differenceDate}
+                            until={this.differenceDate}
                             digitTxtStyle={{ fontSize: 12, color: 'black' }}
                             timeToShow={['D', 'H', 'M', 'S']}
-                            onFinish={() => alert('finished')}
                             size={20}
                             onFinish={componentWillMount}
                             onPress={componentWillMount}
@@ -217,7 +271,6 @@ export default class Tarjetas extends React.Component {
                                     color: 'white'
                                 }
                             }}
-                            onDateChange={this.onChangeVencimiento.bind(this)}
                         />
                     }
                     <HistoricTable type={'Tarjetas'}
@@ -225,7 +278,6 @@ export default class Tarjetas extends React.Component {
                         cols={this.colTable}
                         rows={[]}
                         detailRows={[]}
-                        deleteRow={this.deleteRow.bind(this)}
                     />
                 </ScrollView>
             </Block>
@@ -239,8 +291,8 @@ async function componentWillMount(title, message) {
     console.log(token)
     let body = JSON.stringify({
         to: token,
-        title: 'New Notification',
-        body: 'The notification worked!',
+        title: 'Actualizar la fecha de vencimiento',
+        body: 'Recuerda actualizar la fecha de Vencimiento de tu tarjeta',
     })
     console.log(body)
     fetch('https://exp.host/--/api/v2/push/send', {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { Button, Block, Text, Input, theme, View } from 'galio-framework';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
+import { Button, Block, Text, Input, theme, View,  } from 'galio-framework';
 import {
   BarChart,
   PieChart,
@@ -22,46 +22,78 @@ const graphStyle = {
   borderRadius: 16,
   marginLeft: 10
 }
-const dataMedioPago = {
-  labels: ['MP', 'Tarjeta', 'Transf.'],
-  datasets: [{
-    data: [50, 20, 2]
-  }]
-}
-
-const dataCuenta = {
-  labels: ['Cuenta1', 'Cuenta2', 'Cuenta3'],
-  datasets: [{
-    data: [50, 20, 2]
-  }]
-}
-
-const dataVencimientoSemanal = {
-  legend: ["Egresos", "Inversiones", "Prestamos"],
-  labels: ["Semana1", "Semana2", "Semana3"],
-  data: [
-    [60, 60, 60],
-    [30, 30, 60],
-    [30, 30, 60]
-
-  ],
-  barColors: ["#e57373", "#e53935", "#b71c1c"]
-};
-
-const dataRealvsPres = {
-  legend: ["Egresos", "Inversiones", "Prestamos"],
-  labels: ["Real", "Presupuesto"],
-  data: [
-    [60, 60, 60],
-    [20]
-
-  ],
-  barColors: ["#e57373", "#e53935", "#b71c1c"]
-};
 
 
-export default class Home extends React.Component {  
+export default class Home extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      dataMedioPago: {
+        labels: ['Tarjeta', 'Transf.'],
+        datasets: [{
+          data: [0, 0]
+        }]
+      },
+      dataCuenta: {
+        labels: [],
+        datasets: [{
+          data: [0]
+        }]
+      },
+      dataVencimientoSemanal: {
+        legend: ["Egresos", "Inversiones", "Prestamos"],
+        labels: ["Semana Pasada", "Esta semana"],
+        data: [
+          [60, 60, 60],
+          [30, 30, 60],
+
+        ],
+        barColors: ["#e57373", "#e53935", "#b71c1c"]
+      },
+      dataRealvsPres: {
+        legend: ["Egresos", "Inversiones", "Prestamos"],
+        labels: ["Real", "Presupuesto"],
+        data: [
+          [60, 60, 60],
+          [20]
+
+        ],
+        barColors: ["#e57373", "#e53935", "#b71c1c"]
+      },
+      data: undefined
+    }
+  }
+  getHomeData(data) {
+    AsyncStorage.getItem(data.userName + '-' + data.password).then(value => {
+      let userData = JSON.parse(value)
+      this.state.data = userData
+
+      if (userData.egresos.length > 0) {
+        let egresosTranf = 0
+        let egresosTarjeta = 0
+        let totalEgresos = 0
+        for (let i = 0; i < userData.egresos.length; i++) {
+
+          //Monto Por mes
+          if (userData.egresos[i][3] == 'Tarjeta de Crédito' || userData.egresos[i][3] == 'Tarjeta de Debito') {
+            egresosTarjeta += userData[i][1]
+          } else if (userData.egresos[i][3] == 'Transferencia Bancaria') {
+            egresosTranf += userData[i][1]
+          }
+
+
+        }
+        this.state.dataMedioPago.datasets[0].data[0] = egresosTarjeta
+        this.state.dataMedioPago.datasets[0].data[1] = egresosTranf
+
+      }
+    })
+  }
   render() {
+    let userData = this.props.route.params
+    if (!this.state.data) {
+      this.getHomeData(userData)
+    }
     return (
       <Block style={styles.home}>
         <ScrollView style={styles.scrollView}>
@@ -69,7 +101,7 @@ export default class Home extends React.Component {
 
           <BarChart
             style={graphStyle}
-            data={dataMedioPago}
+            data={this.state.dataMedioPago}
             width={width}
             height={310}
             yAxisLabel="$"
@@ -79,7 +111,7 @@ export default class Home extends React.Component {
 
           <BarChart
             style={graphStyle}
-            data={dataCuenta}
+            data={this.state.dataCuenta}
             width={width}
             height={310}
             yAxisLabel="$"
@@ -89,7 +121,7 @@ export default class Home extends React.Component {
 
           <StackedBarChart
             style={graphStyle}
-            data={dataVencimientoSemanal}
+            data={this.state.dataVencimientoSemanal}
             width={width}
             height={220}
             chartConfig={chartConfig}
@@ -98,7 +130,7 @@ export default class Home extends React.Component {
 
           <StackedBarChart
             style={graphStyle}
-            data={dataRealvsPres}
+            data={this.state.dataRealvsPres}
             width={width}
             height={220}
             chartConfig={chartConfig}

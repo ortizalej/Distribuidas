@@ -62,7 +62,7 @@ export default class Egresos extends React.Component {
       rowToShow: [],
       rowtoDetail: [],
       data: undefined
-    }
+    } 
   }
   defaultDate = 'Anual'
   colTable = ['Fecha', 'Cantidad', 'Moneda', '']
@@ -86,7 +86,8 @@ export default class Egresos extends React.Component {
             userData.egresos[i][5],
             userData.egresos[i][6],
             userData.egresos[i][7],
-            userData.egresos[i][8]
+            userData.egresos[i][8],
+            userData.egresos[i][9]
           ])
           showData.push([
             userData.egresos[i][0],
@@ -172,6 +173,7 @@ export default class Egresos extends React.Component {
   }
 
   formData (data) {
+    console.log(JSON.stringify(data))
     var now = moment().format('DD-MM-YYYY')
     let arrayDataToShow = [
       now,
@@ -196,9 +198,10 @@ export default class Egresos extends React.Component {
       data.tipoServicio,
       data.interes,
       data.cuotas,
-      data.otros
+      data.otros,
+      data.uriImage
     ]
-
+    console.log(arrayData)
     this.insertData(arrayData)
     this.state.rowtoDetail.push(arrayData)
     this.state.rowToShow.push(arrayDataToShow)

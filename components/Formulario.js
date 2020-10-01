@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Dimensions, Image } from 'react-native'
+import { StyleSheet, Dimensions, Image, AsyncStorage } from 'react-native'
 import { TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-material-dropdown'
 import { showMessage, hideMessage } from 'react-native-flash-message'
@@ -646,12 +646,8 @@ function renderPrestamosTomados (props) {
     </Container>
   )
 }
-<<<<<<< HEAD
 
 function renderPresupuesto(props) {
-=======
-function renderPresupuesto (props) {
->>>>>>> 8fa9d67e938c1ad7df4ad3916e593124101ef07d
   return (
     <Container style={styles.container}>
       <Content bounces={false}>
@@ -759,12 +755,8 @@ function renderInversiones (props) {
     </Container>
   )
 }
-<<<<<<< HEAD
 
 function renderLogin(prop) {
-=======
-function renderLogin (prop) {
->>>>>>> 8fa9d67e938c1ad7df4ad3916e593124101ef07d
   return (
     <Container style={styles.containerLogin}>
       <Content>
@@ -911,7 +903,6 @@ function renderSingIn (prop) {
   )
 }
 
-<<<<<<< HEAD
 function actionButton(type, props) {
   let result;
   console.log("type", type);
@@ -922,17 +913,7 @@ function actionButton(type, props) {
     case 'signUp':
       result = validateSignUp(props);
       if (result === '') {
-        props.props.actionButton(props.state.userName, props.state.password)
-=======
-function actionButton (type, prop) {
-  switch (type) {
-    case 'login':
-      prop.props.actionButton(prop.state.userName, prop.state.password)
-    case 'sign in':
-      let result = validateFields(prop)
-      if (result === '') {
-        prop.props.actionButton(prop.state.userName, prop.state.password)
->>>>>>> 8fa9d67e938c1ad7df4ad3916e593124101ef07d
+        props.props.actionButton(props.state.userName, props.state.password, props.state.name, props.state.lastName)
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
       }
@@ -964,7 +945,8 @@ function actionButton (type, prop) {
           interes: props.state.interes,
           cuotas: props.state.cuotas,
           otros: props.state.otros,
-          tipoServicio: props.state.tipoServicio
+          tipoServicio: props.state.tipoServicio,
+          uriImage: props.state.uri
         })
         showMessage({ message: '¡Egreso registrado con éxito!', type: 'success' })
       } else {

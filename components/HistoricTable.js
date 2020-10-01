@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, View, ScrollView, Alert, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, Dimensions, View, ScrollView, Alert, TouchableOpacity, Text, Image, Modal } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 const { width, height } = Dimensions.get('screen');
 
@@ -46,6 +46,7 @@ export default class HistoricTable extends React.Component {
         Interes: ${data[6] ?? '-'}
         Cuota: ${data[7] ?? '-'}
         Otros: ${data[8] ?? '-'}
+        URI: ${data[9] ?? '-'}
         `
       case 'Inversiones':
         return `
@@ -101,11 +102,18 @@ export default class HistoricTable extends React.Component {
   }
 
   openImage(data) {
+    console.log(data[9])
     return (
-      <Image
-        source={{ uri: selectedImage.localUri }}
-        style={styles.thumbnail}
-      />
+      <Modal
+        animationType="slide"
+        visible={true}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <Image source={{uri:data[9]}} />
+
+      </Modal>
     )
 
   }
@@ -118,7 +126,7 @@ export default class HistoricTable extends React.Component {
       buttons = [
         { text: 'Cancel', type: 'cancel' },
         { text: 'Borrar', onPress: () => this.deleteRow(index, type) },
-        { text: 'Abrir adjunto', onPress: () => this.openImage(data[index][9]) }
+        { text: 'Abrir adjunto', onPress: () => this.openImage(data[index]) }
       ];
     } else {
       buttons = [
@@ -134,7 +142,7 @@ export default class HistoricTable extends React.Component {
   render() {
     const state = this.state;
     const element = (data, index) => (
-      <TouchableOpacity onPress={() => this._alertIndex(index, this.props.detailRows, this.props.type)}>
+      <TouchableOpacity onPress={() => this._alertIndex(index, this.props.detailRows, this.props.type)} hitSlop={{ top: 30, bottom: 30, left: 30, right: 30 }}>
         <View style={styles.btn}>
           <Text style={styles.btnText}>+</Text>
         </View>

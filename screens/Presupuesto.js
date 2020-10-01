@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
 import { Button, Block, Text, Input, theme, View } from 'galio-framework';
 import {
     StackedBarChart
@@ -27,7 +27,7 @@ export default class Presupuesto extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {
+            graphData: {
                 legend: [
                     "Servicio",
                     "Impuesto Nacionales",
@@ -43,95 +43,106 @@ export default class Presupuesto extends React.Component {
                 ],
                 labels: ["Real", "Presupuesto"],
                 data: [
-                    [20, 40, 50],
-                    [30, 20, 50, 20, 40, 50, 20, 30, 50, 20, 30]
+                    [0, 0, 0,0, 0, 0,0, 0, 0,0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.01]
 
                 ],
                 barColors: ["#e57373", "#e53935", "#b71c1c", "#e57373", "#e53935", "#b71c1c", "#e57373", "#e53935", "#b71c1c", "#e57373", "#e53935"]
-            }
+            },
+            data: undefined
         }
     }
     formData(data) {
         if (data.tipo === 'Servicio') {
-            this.state.data.data[1][0] = parseInt(data.cantidad);
+            this.state.graphData.data[1][0] = parseInt(data.cantidad);
         } else if (data.tipo === 'Impuesto Nacionales') {
-            this.state.data.data[1][1] = parseInt(data.cantidad);
+            this.state.graphData.data[1][1] = parseInt(data.cantidad);
         } else if (data.tipo === 'Impuesto Municipales') {
-            this.state.data.data[1][2] = parseInt(data.cantidad);
+            this.state.graphData.data[1][2] = parseInt(data.cantidad);
         } else if (data.tipo === 'Impuesto Provinciales') {
-            this.state.data.data[1][3] = parseInt(data.cantidad);
+            this.state.graphData.data[1][3] = parseInt(data.cantidad);
         } else if (data.tipo === 'Educacion') {
-            this.state.data.data[1][4] = parseInt(data.cantidad);
+            this.state.graphData.data[1][4] = parseInt(data.cantidad);
         } else if (data.tipo === 'Salud') {
-            this.state.data.data[1][5] = parseInt(data.cantidad);
+            this.state.graphData.data[1][5] = parseInt(data.cantidad);
         } else if (data.tipo === 'Gastos Varios') {
-            this.state.data.data[1][6] = parseInt(data.cantidad);
+            this.state.graphData.data[1][6] = parseInt(data.cantidad);
         } else if (data.tipo === 'Comida') {
-            this.state.data.data[1][7] = parseInt(data.cantidad);
+            this.state.graphData.data[1][7] = parseInt(data.cantidad);
         } else if (data.tipo === 'Entretenimiento') {
-            this.state.data.data[1][8] = parseInt(data.cantidad);
+            this.state.graphData.data[1][8] = parseInt(data.cantidad);
         } else if (data.tipo === 'Viaticos') {
-            this.state.data.data[1][9] = parseInt(data.cantidad);
+            this.state.graphData.data[1][9] = parseInt(data.cantidad);
         } else if (data.tipo === 'Otros') {
-            this.state.data.data[1][10] = parseInt(data.cantidad);
+            this.state.graphData.data[1][10] = parseInt(data.cantidad);
         }
+        this.insertData()
         this.forceUpdate()
     }
-
-    getCuentaData(data) {
-
+    insertData() {
+        if(this.state.data.presupuestos[0]) {
+            this.state.data.presupuestos[0] = this.state.graphData.data[1]
+        } else {
+            this.state.data.presupuestos.push(this.state.graphData.data[1])
+        }
+        AsyncStorage.mergeItem(
+          this.state.data.seguridad.userName + 
+            '-' +
+            this.state.data.seguridad.password,
+          JSON.stringify(this.state.data),
+          value => {
+            console.log(value)
+          }
+        )
+      }
+    getPresupuestoData(data) {
         AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
             let userData = JSON.parse(value)
-            this.state.data = userData
-            let actualCard = this.state.data.cuentasBancarias[0]
-            console.log('CUENTAS', JSON.stringify(this.state.data.cuentasBancarias))
-            this.Carrousel.updateState(this.state.data.cuentasBancarias)
+            this.state.data = userData 
+            console.log(userData.egresos)
 
-            let arrayDataDetail = [];
-            let showData = [];
-            if (userData.ingresos.length > 0) {
-                for (let i = 0; i < userData.ingresos.length; i++) {
-                    if (actualCard.CBU === userData.ingresos[i][5]) {
-                        arrayDataDetail.push(
-                            [
-                                userData.ingresos[i][0],
-                                userData.ingresos[i][1],
-                                userData.ingresos[i][2],
-                                userData.ingresos[i][3],
-                                userData.ingresos[i][4],
-                                userData.ingresos[i][5]
-                            ]);
-                        showData.push(
-                            [
-                                userData.ingresos[i][0],
-                                userData.ingresos[i][1],
-                                userData.ingresos[i][2],
-                                ''
-                            ]);
+            if (userData.egresos.length > 0) {
+                for (let i = 0; i < userData.egresos.length; i++) {
+                    if(userData.egresos[i][2] == "Pesos"){
+                        if (userData.egresos[i][4] === 'Servicio') {
+                            this.state.graphData.data[0][0] = userData.egresos[i][1];
+                        } else if (userData.egresos[i][4] === 'Impuesto Nacionales') {
+                            this.state.graphData.data[0][1] = userData.egresos[i][1];
+                        } else if (userData.egresos[i][4] === 'Impuesto Municipales') {
+                            this.state.graphData.data[0][2] = userData.egresos[i][1];
+                        } else if (userData.egresos[i][4] === 'Impuesto Provinciales') {
+                            this.state.graphData.data[0][3] = userData.egresos[i][1];
+                        } else if (userData.egresos[i][4] === 'Educacion') {
+                            this.state.graphData.data[0][4] = userData.egresos[i][1];
+                        } else if (userData.egresos[i][4] === 'Salud') {
+                            this.state.graphData.data[0][5] = userData.egresos[i][1];
+                        } else if (userData.egresos[i][4] === 'Gastos Varios') {
+                            this.state.graphData.data[0][6] = userData.egresos[i][1];
+                        } else if (userData.egresos[i][4] === 'Comida') {
+                            this.state.graphData.data[0][7] = userData.egresos[i][1];
+                        } else if (userData.egresos[i][4] === 'Entretenimiento') {
+                            this.state.graphData.data[0][8] = userData.egresos[i][1];
+                        } else if (userData.egresos[i][4] === 'Viaticos') { 
+                            this.state.graphData.data[0][9] = userData.egresos[i][1];
+                        } else if (userData.egresos[i][4] === 'Otros') {
+                            this.state.graphData.data[0][10] = userData.egresos[i][1];
+                        }
                     }
-                }
+                } 
             }
-            this.setState({
-                rowToShow: showData,
-                rowtoDetail: arrayDataDetail
-            })
-
-
-            for (let i = 0; i < this.state.rowtoDetail.length; i++) {
-                if (!this.state.rowtoDetail[i]) { continue; }
-                if (this.state.rowtoDetail[i][2] === 'Pesos') {
-                    this.totalSumPesos += this.state.rowtoDetail[i][1];
-                } else if (this.state.rowtoDetail[i][2] === 'Dolares') {
-                    this.totalSumaDolares += this.state.rowtoDetail[i][1]
-                }
+            console.log(this.state.data.presupuestos)
+            if(this.state.data.presupuestos[0]) { 
+                this.state.graphData.data[1] = this.state.data.presupuestos[0]
             }
+            this.forceUpdate()
 
-            this.Display.updateState(this.totalSumPesos, this.totalSumaDolares);
-            this.HistoricTable.updateState(this.state.rowToShow);
         })
-
-    }    
+    }
     render() {
+        let userData = this.props.route.params
+        if (!this.state.data) {
+            this.getPresupuestoData(userData)
+        }
         return (
             <Block style={styles.presupuesto}>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -139,13 +150,14 @@ export default class Presupuesto extends React.Component {
                         type={'Presupuesto'}
                         getFormData={this.formData.bind(this)}
                     />
-                        <StackedBarChart
-                            style={graphStyle}
-                            data={this.state.data}
-                            width={width}
-                            height={800}
-                            chartConfig={chartConfig}
-                        />
+                    <StackedBarChart
+                        style={graphStyle}
+                        data={this.state.graphData}
+                        width={width}
+                        height={800}
+                        chartConfig={chartConfig}
+                        
+                    />
                 </ScrollView>
             </Block>
         );

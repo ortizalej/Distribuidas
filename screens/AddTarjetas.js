@@ -47,6 +47,7 @@ export default class DisplayMount extends React.Component {
     })
   }
   onChangeTipo (value) {
+    console.log(value)
     this.setState({
       tipo: value
     })
@@ -86,7 +87,7 @@ export default class DisplayMount extends React.Component {
               baseColor='#697A8C'
               textColor='#697A8C'
               selectedValue={this.state.tipo}
-              onValueChange={this.onChangeTipo.bind(this)}
+              onChangeText={this.onChangeTipo.bind(this)}
             />
             <Dropdown
               label='Cuentas bancarias'
@@ -97,7 +98,7 @@ export default class DisplayMount extends React.Component {
               baseColor='#697A8C'
               textColor='#697A8C'
               selectedValue={this.state.cuenta}
-              onValueChange={this.onChangeCuenta.bind(this)}
+              onChangeText={this.onChangeCuenta.bind(this)}
             />
             <DatePicker
               style={styles.dataPicker}
