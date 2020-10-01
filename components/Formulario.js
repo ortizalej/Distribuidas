@@ -905,7 +905,6 @@ function renderSingIn (prop) {
 
 function actionButton(type, props) {
   let result;
-  console.log("type", type);
   switch (type) {
     case 'login':
       props.props.actionButton(props.state.userName, props.state.password)
@@ -943,6 +942,7 @@ function actionButton(type, props) {
           medio: props.state.medio,
           moneda: props.state.moneda,
           interes: props.state.interes,
+          cuenta: props.state.cuenta,
           cuotas: props.state.cuotas,
           otros: props.state.otros,
           tipoServicio: props.state.tipoServicio,
@@ -1256,10 +1256,11 @@ const tarjetaDebitoOptions = [
   { value: 'Tarjeta débito 2' }
 ]
 const tarjetaCreditoOptions = [
-  { value: 'Tarjeta crédito 1' },
-  { value: 'Tarjeta crédito 2' }
+  { value: '4517555555555555' },
+  { value: '4517888888888888' }
 ]
 const coutaOptions = [
+  { value: '1' },
   { value: '3' },
   { value: '6' },
   { value: '12' },

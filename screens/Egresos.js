@@ -198,6 +198,7 @@ export default class Egresos extends React.Component {
       data.tipoServicio,
       data.interes,
       data.cuotas,
+      data.cuenta,
       data.otros,
       data.uriImage
     ]
