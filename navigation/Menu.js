@@ -24,6 +24,7 @@ function CustomDrawerContent({
     "Inversiones",
     "Prestamos",
     "Presupuestos",
+    "Configuracion",
     "Cerrar Sesion"
   ];
   return (

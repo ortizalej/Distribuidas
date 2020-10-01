@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from '../screens/Home';
 import PresupuestoScreen from '../screens/Presupuesto'
+import ConfiguracionScreen from '../screens/Configuracion'
 import IngresosScreen from '../screens/Ingresos';
 import EgresosScreen from '../screens/Egresos';
 import TarjetasScreen from '../screens/Tarjetas';
@@ -43,7 +44,6 @@ function HomeStack(user) {
 
 function LoginStack(props) {
   return (
-
     <Drawer.Navigator>
       <Drawer.Screen
         name="Login"
@@ -84,7 +84,6 @@ function PresupuestoStack(user) {
         name="Presupuesto"
         component={PresupuestoScreen}
         initialParams={user.route.params}
-
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Presupuesto" scene={scene} navigation={navigation} />
@@ -93,7 +92,23 @@ function PresupuestoStack(user) {
       />
     </Stack.Navigator>
   );
+}
 
+function ConfiguracionStack(user) {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Configuracion"
+        component={ConfiguracionScreen}
+        initialParams={user.route.params}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header title="Configuracion" scene={scene} navigation={navigation} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
 }
 
 function IngresosStack(user) {
@@ -290,7 +305,6 @@ function AppStack(props) {
       initialRouteName="Home"
     >
       <Drawer.Screen
-
         name="Home"
         component={HomeStack}
         options={{ unmountOnBlur: true }}
@@ -300,84 +314,70 @@ function AppStack(props) {
         name="Ingresos"
         component={IngresosStack}
         options={{ unmountOnBlur: true }}
-
         initialParams={user}
-
       />
       <Drawer.Screen
         name="Egresos"
         component={EgresosStack}
         options={{ unmountOnBlur: true }}
-
         initialParams={user}
         listeners
-
       />
       <Drawer.Screen
         name="Tarjetas"
         component={TarjetasStack}
         options={{ unmountOnBlur: true }}
-
         initialParams={user}
-
       />
       <Drawer.Screen
         name="Cuentas bancarias"
         component={CuentaStack}
         options={{ unmountOnBlur: true }}
-
         initialParams={user}
-
       />
       <Drawer.Screen
         name="Inversiones"
         component={InversionesStack}
         options={{ unmountOnBlur: true }}
-
         initialParams={user}
-
       />
       <Drawer.Screen
         name="Prestamos"
         component={PrestamosStack}
         options={{ unmountOnBlur: true }}
-
         initialParams={user}
-
       />
       <Drawer.Screen
         name="Presupuestos"
         component={PresupuestoStack}
         options={{ unmountOnBlur: true }}
-
         initialParams={user}
-
       />
       <Drawer.Screen
         name="Agregar Tarjeta"
         component={AgregarTarjetasStack}
         options={{ unmountOnBlur: true }}
-
         initialParams={user}
-
       />
       <Drawer.Screen
         name="ImageViewer"
         component={AgregarImageViewerStack}
         options={{ unmountOnBlur: true }}
-
       />
       <Drawer.Screen
         name="Sign In"
         component={SingInStack}
         options={{ unmountOnBlur: true }}
-
+      />
+      <Drawer.Screen
+        name="Configuracion"
+        component={ConfiguracionStack}
+        options={{ unmountOnBlur: true }}
       />
       <Drawer.Screen
         name="Cerrar Sesion"
         component={LoginStack}
         options={{ unmountOnBlur: true }}
-
       />
 
     </Drawer.Navigator>
