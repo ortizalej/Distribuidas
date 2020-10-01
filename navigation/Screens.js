@@ -23,7 +23,7 @@ const { width } = Dimensions.get("screen");
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-function HomeStack() {
+function HomeStack(user) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
