@@ -373,6 +373,7 @@ function AppStack(props) {
         name="Configuracion"
         component={ConfiguracionStack}
         options={{ unmountOnBlur: true }}
+        initialParams={user}
       />
       <Drawer.Screen
         name="Cerrar Sesion"
