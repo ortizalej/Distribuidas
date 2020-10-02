@@ -7,7 +7,9 @@ import HistoricTable from '../components/HistoricTable'
 import moment from 'moment'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import Form from '../components/Formulario'
+
 const { width, height } = Dimensions.get('screen')
+
 function getMatchedData(dateFilter, rowValues) {
   let filterDataRows = []
   switch (dateFilter) {

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Switch, PointPropType, Block } from "react-native";
-
 import { CardView } from "react-native-credit-card-input";
 
 export default class ViewCard extends React.Component {

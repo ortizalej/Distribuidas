@@ -1,12 +1,7 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView, AsyncStorage, PureComponent } from 'react-native';
 import { Button, Block, Text, Input, theme, View, } from 'galio-framework';
-import {
-  BarChart,
-  PieChart,
-  LineChart,
-  StackedBarChart
-} from 'react-native-chart-kit'
+import { BarChart, PieChart, LineChart, StackedBarChart } from 'react-native-chart-kit'
 import moment from 'moment'
 
 const { width, height } = Dimensions.get('screen');
@@ -24,7 +19,6 @@ const graphStyle = {
   borderRadius: 16,
   marginLeft: 10
 }
-
 
 export default class Home extends React.PureComponent {
   constructor(props) {

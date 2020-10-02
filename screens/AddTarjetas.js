@@ -1,23 +1,10 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Switch, AsyncStorage, Platform } from 'react-native'
-import {
-  CreditCardInput,
-  LiteCreditCardInput
-} from 'react-native-credit-card-input'
+import { CreditCardInput, LiteCreditCardInput } from 'react-native-credit-card-input'
 import { TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-material-dropdown'
 import { showMessage, hideMessage } from 'react-native-flash-message'
-
-import {
-  Item,
-  Picker,
-  Container,
-  Content,
-  Form,
-  Button,
-  Text,
-  Input
-} from 'native-base'
+import { Item, Picker, Container, Content, Form, Button, Text, Input } from 'native-base'
 import DatePicker from 'react-native-datepicker'
 import { color } from 'react-native-reanimated'
 

@@ -1,13 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Switch, SafeAreaView, Dimensions } from "react-native";
-import {
-    Container,
-    Content,
-    Form,
-} from "native-base";
-import {
-    LineChart,
-} from "react-native-chart-kit";
+import { Container, Content, Form} from "native-base";
+import { LineChart } from "react-native-chart-kit";
 import Carousel from 'react-native-snap-carousel';
 import ViewCard from '../components/ViewCard';
 import BankCard from '../components/BankAccountCard'
@@ -23,6 +17,7 @@ const chartConfig = {
     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`
 };
+
 export default class CarrouselCard extends React.Component {
     constructor(props) {
         super(props);

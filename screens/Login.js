@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-  AsyncStorage,
-  ImageBackground,
-  Platform
-} from 'react-native'
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage, ImageBackground, Platform } from 'react-native'
 import { Button, Block } from 'galio-framework'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import Form from '../components/Formulario'

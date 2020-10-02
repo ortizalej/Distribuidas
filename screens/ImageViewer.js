@@ -1,17 +1,9 @@
 import React from 'react'
-import {
-    StyleSheet,
-    Dimensions,
-    ScrollView,
-    AsyncStorage,
-    ImageBackground,
-    View,
-    Image,
-
-} from 'react-native'
+import { StyleSheet, Dimensions, ScrollView, AsyncStorage, ImageBackground, View, Image } from 'react-native'
 import { Button, Block } from 'galio-framework'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import Form from '../components/Formulario'
+
 const { width, height } = Dimensions.get('screen')
 
 export default class ImageViewer extends React.Component {

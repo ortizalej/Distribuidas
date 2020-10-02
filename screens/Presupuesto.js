@@ -1,11 +1,9 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView, AsyncStorage } from 'react-native';
 import { Button, Block, Text, Input, theme, View } from 'galio-framework';
-import {
-    StackedBarChart
-
-} from 'react-native-chart-kit'
+import { StackedBarChart } from 'react-native-chart-kit'
 import Form from '../components/Formulario'
+
 const { width, height } = Dimensions.get('screen');
 const chartConfig = {
     backgroundColor: '#071019',

@@ -11,8 +11,8 @@ import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import DatePicker from 'react-native-datepicker'
 
-
 const { width, height } = Dimensions.get('screen');
+
 function getMatchedData(dateFilter, rowValues) {
     let filterDataRows = [];
     switch (dateFilter) {

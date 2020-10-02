@@ -4,8 +4,10 @@ import { Button, Block, Text } from 'galio-framework'
 import Display from '../components/DisplayMount'
 import Form from '../components/Formulario'
 import HistoricTable from '../components/HistoricTable'
-const { width, height } = Dimensions.get('screen')
 import moment from 'moment'
+
+const { width, height } = Dimensions.get('screen')
+
 function getMatchedData(dateFilter, rowValues) {
   let filterDataRows = []
   switch (dateFilter) {

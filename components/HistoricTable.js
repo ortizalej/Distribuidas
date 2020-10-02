@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Dimensions, View, ScrollView, Alert, TouchableOpacity, Text, Image, Modal } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+
 const { width, height } = Dimensions.get('screen');
 
 export default class HistoricTable extends React.Component {
@@ -27,7 +28,6 @@ export default class HistoricTable extends React.Component {
     this.props.navigateToImage(index, type)
   }
   renderText(data, type) {
-
     switch (type) {
       case 'Ingresos':
         return `
