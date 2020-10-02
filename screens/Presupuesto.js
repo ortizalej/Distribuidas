@@ -80,8 +80,6 @@ export default class Presupuesto extends React.Component {
         this.forceUpdate()
     }
     insertData() {
-        console.log('PRESUPUESTO',this.state.data.presupuestos)
-
         if(this.state.data.presupuestos[0]) {
             this.state.data.presupuestos[0] = this.state.graphData.data[1]
         } else {
@@ -99,8 +97,7 @@ export default class Presupuesto extends React.Component {
     getPresupuestoData(data) {
         AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
             let userData = JSON.parse(value)
-            this.state.data = userData 
-            console.log(userData.egresos)
+            this.state.data = userData
 
             if (userData.egresos.length > 0) {
                 for (let i = 0; i < userData.egresos.length; i++) {

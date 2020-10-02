@@ -16,7 +16,6 @@ const { width, height } = Dimensions.get('screen')
 
 export default class ImageViewer extends React.Component {
     render() {
-        console.log('PROPS', this.props)
         return (
             <View>
                 <Image source={{uri: this.props.data}} style={

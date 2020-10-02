@@ -262,8 +262,6 @@ function renderEgresos(props) {
   let tarjetaDebito = []
   AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
     let userData = JSON.parse(value)
-    console.log(userData)
-    console.log(userData.tarjetas)
     for (let i = 0; i < userData.tarjetas.length; i++) {
 
       if (userData.tarjetas[i].tipo === 'Tarjeta de Crédito') {
@@ -286,7 +284,6 @@ function renderEgresos(props) {
     }
 
     let pickerResult = await ImagePicker.launchImageLibraryAsync()
-    console.log(pickerResult)
     props.onChangeUri(pickerResult.uri)
   }
   return (
@@ -489,7 +486,6 @@ function renderPrestamosPrestados(props) {
   let cuentas = [];
   AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
     let userData = JSON.parse(value)
-    console.log(userData)
     for (let i = 0; i < userData.cuentasBancarias.length; i++) {
       cuentas.push({ value: userData.cuentasBancarias[i].CBU })
     }
@@ -576,7 +572,6 @@ function renderPrestamosTomados(props) {
   let cuentas = [];
   AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
     let userData = JSON.parse(value)
-    console.log(userData)
     for (let i = 0; i < userData.cuentasBancarias.length; i++) {
       cuentas.push({ value: userData.cuentasBancarias[i].CBU })
     }
@@ -952,8 +947,6 @@ function actionButton(type, props) {
         props.props.actionButton(props.state.userName, props.state.password, props.state.name, props.state.lastName)
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-
-
       }
       break;
     case 'ingreso':
@@ -970,7 +963,6 @@ function actionButton(type, props) {
         showMessage({ message: '¡Ingreso registrado con éxito!', type: 'success' })
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-
       }
       break;
     case 'egreso':
@@ -992,7 +984,6 @@ function actionButton(type, props) {
 
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-
       }
       break;
     case 'prestados':
@@ -1007,11 +998,8 @@ function actionButton(type, props) {
           moneda: props.state.moneda
         })
         showMessage({ message: '¡Prestamo prestado registrado con éxito!', type: 'success' })
-
-
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-
       }
       break;
     case 'tomados':
@@ -1032,7 +1020,6 @@ function actionButton(type, props) {
 
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-
       }
       break;
     case 'presupuesto':
@@ -1043,7 +1030,6 @@ function actionButton(type, props) {
           tipo: props.state.tipo
         })
         showMessage({ message: '¡Presupuesto registado con éxito!', type: 'success' })
-
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
 
@@ -1062,11 +1048,9 @@ function actionButton(type, props) {
 
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-
       }
       break;
     case 'cuenta bancaria':
-      console.log('PROPS', props)
       result = validateCuentaBancaria(props)
       if (result === '') {
         props.getFormData({
@@ -1075,10 +1059,8 @@ function actionButton(type, props) {
           bankName: props.state.bankName
         })
         showMessage({ message: '¡Cuenta bancaria registada con éxito!', type: 'success' })
-
       } else {
         showMessage({ message: result, type: 'danger', animationDuration: 300 })
-
       }
       break;
     default:

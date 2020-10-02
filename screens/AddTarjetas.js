@@ -224,8 +224,6 @@ function validateNewCard(props) {
           message: '¡Tarjeta agregada con éxito!',
           type: 'success'
         })
-4
-        console.log(props.state.data)
       }
     )
     props.props.navigation.navigate('Tarjetas')
@@ -239,7 +237,7 @@ function validateNewCardData(prop) {
   let msg = "";
 
   if (!prop.state.cardData) { msg += "Todos los campos de la tarjeta son requeridos \n"; }
-  if (!prop.state.tipo) { console.log(prop.state.tipo); msg += "Indique un tipo de tarjeta \n"; }
+  if (!prop.state.tipo) { msg += "Indique un tipo de tarjeta \n"; }
 
   return msg
 }

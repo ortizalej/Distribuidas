@@ -145,7 +145,6 @@ export default class Tarjetas extends React.Component {
             var startDate = moment()
             var endDate = moment(actualCard.vencimiento, "DD-MM-YYYY");
             this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
-            console.log(this.differenceDate)
             this.forceUpdate()
         })
     }
@@ -176,7 +175,6 @@ export default class Tarjetas extends React.Component {
         let showData = [];
         let actualCard = this.state.data.tarjetas[index];
 
-        console.log(actualCard)
         if (this.state.data.egresos.length > 0) {
             for (let i = 0; i < this.state.data.egresos.length; i++) {
                 if (actualCard.numero === this.state.data.egresos[i][8]) {
@@ -217,10 +215,7 @@ export default class Tarjetas extends React.Component {
         this.HistoricTable.updateState(showData);
         var startDate = moment()
         var endDate = moment(actualCard.vencimiento, "DD-MM-YYYY");
-        console.log(startDate)
-        console.log(endDate)
         this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
-        console.log(this.differenceDate)
         this.forceUpdate()
     }
     render() {
@@ -326,13 +321,11 @@ export default class Tarjetas extends React.Component {
 async function componentWillMount(title, message) {
     // get expo push token
     const token = await Notifications.getExpoPushTokenAsync()
-    console.log(token)
     let body = JSON.stringify({
         to: token,
         title: 'Actualizar la fecha de vencimiento',
         body: 'Recuerda actualizar la fecha de Vencimiento de tu tarjeta',
     })
-    console.log(body)
     fetch('https://exp.host/--/api/v2/push/send', {
         method: 'POST',
         headers: {
@@ -342,9 +335,7 @@ async function componentWillMount(title, message) {
         },
         body: body,
     }).then((response) => response.json())
-        .then((responseJson) => {
-            console.log(responseJson)
-        })
+        .then((responseJson) => {})
         .catch((error) => { console.log(error) });
 }
 

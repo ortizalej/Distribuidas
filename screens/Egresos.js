@@ -146,7 +146,6 @@ export default class Egresos extends React.Component {
   }
 
   insertData(arrayData) {
-    console.log('DATA TO SAVE', arrayData)
     this.state.data.egresos.push(arrayData)
     AsyncStorage.mergeItem(
       this.state.data.seguridad.userName +
@@ -163,9 +162,7 @@ export default class Egresos extends React.Component {
       '-' +
       this.state.data.seguridad.password,
       JSON.stringify(this.state.data),
-      value => {
-        console.log(value)
-      }
+      value => {}
     )
     showMessage({
       message: '¡Egreso eliminado con éxito!',
@@ -175,7 +172,6 @@ export default class Egresos extends React.Component {
   }
 
   formData(data) {
-    console.log(JSON.stringify(data))
     var now = moment().format('DD-MM-YYYY')
     let arrayDataToShow = [
       now,
@@ -224,9 +220,7 @@ export default class Egresos extends React.Component {
     }
   }
   navigateToImage(data) {
-    console.log('DATA', data)
     this.setState({ uriImage: data[10] })
-
   }
   deleteRow(index) {
     this.deleteEgresoData()
