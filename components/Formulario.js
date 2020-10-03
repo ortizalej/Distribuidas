@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet, Dimensions, Image, AsyncStorage, Platform } from 'react-native'
-import { TextInput } from 'react-native-paper'
+import { TextInput, Button,Text } from 'react-native-paper'
 import { Dropdown } from 'react-native-material-dropdown'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import { validate } from 'validate.js'
-import { Container, Content, Item, Input, Form, Button, Text, Picker } from 'native-base'
+import { Container, Content, Item, Input, Form, Picker } from 'native-base'
 import * as ImagePicker from 'expo-image-picker'
 
 const { width, height } = Dimensions.get('screen')

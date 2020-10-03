@@ -3,7 +3,10 @@ import { StyleSheet, Dimensions, ScrollView, AsyncStorage, Platform } from 'reac
 import { Button, Block } from 'galio-framework'
 import Form from '../components/Formulario'
 import { showMessage, hideMessage } from 'react-native-flash-message'
-import { Container, Text } from 'native-base'
+import { Container } from 'native-base'
+
+import { TextInput,Text } from 'react-native-paper'
+
 import moment from 'moment'
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
