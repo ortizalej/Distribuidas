@@ -939,7 +939,12 @@ function actionButton(type, props) {
   let result;
   switch (type) {
     case 'login':
-      props.props.actionButton(props.state.userName, props.state.password)
+      result = validateLogin(props);
+      if (result === '') {
+        props.props.actionButton(props.state.userName, props.state.password)
+      } else {
+        showGlobalMessage({ result })
+      }
       break;
     case 'signUp':
       result = validateSignUp(props);
@@ -1070,6 +1075,16 @@ function showGlobalMessage(result) {
       ToastAndroid.CENTER
     );
   }
+}
+
+function validateLogin(prop) {
+  let msg = "";
+  const validationResult = validate(prop.state.userName);
+
+  if (!prop.state.userName || typeof validationResult !== 'undefined' || prop.state.userName?.length < 6) { msg += "Ingrese su mail. \n"; }
+  if (!prop.state.password) { msg += "Ingrese su contraseña\n"; }
+
+  return msg
 }
 
 function validateSignUp(prop) {
