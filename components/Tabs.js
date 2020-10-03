@@ -1,10 +1,9 @@
 import React from 'react';
 import { StyleSheet, Dimensions, FlatList, Animated } from 'react-native';
 import { Block, theme } from 'galio-framework';
-
-const { width } = Dimensions.get('screen');
 import materialTheme from '../constants/Theme';
 
+const { width } = Dimensions.get('screen');
 const defaultMenu = [
   { id: 'popular', title: 'Popular', },
   { id: 'beauty', title: 'Beauty', },

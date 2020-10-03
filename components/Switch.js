@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Platform } from 'react-native';
-
 import materialTheme from '../constants/Theme';
 
 export default class MkSwitch extends React.Component {

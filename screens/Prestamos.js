@@ -4,8 +4,10 @@ import { Button, Block, Text } from 'galio-framework'
 import Display from '../components/DisplayMount'
 import Form from '../components/Formulario'
 import HistoricTable from '../components/HistoricTable'
-const { width, height } = Dimensions.get('screen')
 import moment from 'moment'
+
+const { width, height } = Dimensions.get('screen')
+
 function getMatchedData(dateFilter, rowValues) {
   let filterDataRows = []
   switch (dateFilter) {
@@ -76,7 +78,6 @@ export default class Prestamos extends React.Component {
       if (userData.prestamos.prestado.length > 0) {
         let arrayDataDetailPrestado = []
         let showDataPrestado = []
-        console.log(userData)
         for (let i = 0; i < userData.prestamos.prestado.length; i++) {
           arrayDataDetailPrestado.push([
             userData.prestamos.prestado[i][0],
@@ -97,7 +98,6 @@ export default class Prestamos extends React.Component {
           rowToShowPrestado: showDataPrestado,
           rowtoDetailPrestado: arrayDataDetailPrestado
         })
-        console.log('PRESTADO',showDataPrestado)
         for (let i = 0; i < this.state.rowtoDetailPrestado.length; i++) {
           if (!this.state.rowtoDetailPrestado[i]) {
             continue
@@ -158,7 +158,6 @@ export default class Prestamos extends React.Component {
   insertData(arrayData, type) {
     if (type === 'Prestado') {
       this.state.data.prestamos.prestado.push(arrayData)
-      console.log(JSON.stringify(this.state.data))
     } else if (type === 'Tomado') {
       this.state.data.prestamos.tomado.push(arrayData)
 
@@ -168,9 +167,7 @@ export default class Prestamos extends React.Component {
       '-' +
       this.state.data.seguridad.password,
       JSON.stringify(this.state.data),
-      value => {
-        console.log(value)
-      }
+      value => {}
     )
   }
 

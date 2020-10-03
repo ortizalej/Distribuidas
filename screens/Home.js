@@ -1,12 +1,7 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView, AsyncStorage, PureComponent } from 'react-native';
 import { Button, Block, Text, Input, theme, View, } from 'galio-framework';
-import {
-  BarChart,
-  PieChart,
-  LineChart,
-  StackedBarChart
-} from 'react-native-chart-kit'
+import { BarChart, PieChart, LineChart, StackedBarChart } from 'react-native-chart-kit'
 import moment from 'moment'
 
 const { width, height } = Dimensions.get('screen');
@@ -24,7 +19,6 @@ const graphStyle = {
   borderRadius: 16,
   marginLeft: 10
 }
-
 
 export default class Home extends React.PureComponent {
   constructor(props) {
@@ -59,7 +53,6 @@ export default class Home extends React.PureComponent {
     AsyncStorage.getItem(data.userName + '-' + data.password).then(value => {
       let userData = JSON.parse(value)
       this.state.data = userData
-      console.log(moment().add(1, 'weeks').startOf('week').format('DD-MM-YYYY'));
       if (userData.egresos.length > 0) {
         let egresosTranf = 0
         let egresosTarjeta = 0
@@ -103,22 +96,16 @@ export default class Home extends React.PureComponent {
           for (let j = 0; j < userData.egresos.length; j++) {
             //Monto Por Cuenta
             if (userData.cuentasBancarias[i].CBU == userData.egresos[j][8]) {
-              console.log(userData.egresos[j][8])
               cuentaBancariaSaldo -= userData.egresos[j][1]
             }
-
           }
-
-
           this.state.dataCuenta.datasets[0].data.push(cuentaBancariaSaldo)
         }
       }
-      console.log(this.state.dataRealvsPres);
       this.forceUpdate()
-
-
     })
   }
+
   render() {
     let userData = this.props.route.params
     if (!this.state.data) {

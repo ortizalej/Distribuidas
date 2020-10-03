@@ -7,7 +7,9 @@ import HistoricTable from '../components/HistoricTable'
 import moment from 'moment'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import Form from '../components/Formulario'
+
 const { width, height } = Dimensions.get('screen')
+
 function getMatchedData(dateFilter, rowValues) {
   let filterDataRows = []
   switch (dateFilter) {
@@ -152,7 +154,6 @@ export default class Tarjetas extends React.Component {
   insertData(accountData) {
     this.state.data.cuentasBancarias.push(accountData);
     this.state.carouselItems.push(accountData)
-    console.log(this.state.data.cuentasBancarias)
     this.Carrousel.updateState(this.state.data.cuentasBancarias)
     AsyncStorage.mergeItem(
       this.state.data.seguridad.userName + '-' + this.state.data.seguridad.password,
@@ -172,7 +173,6 @@ export default class Tarjetas extends React.Component {
     }
   }
   formData(data) {
-    console.log(data)
     this.insertData(data)
   }
 
@@ -183,8 +183,11 @@ export default class Tarjetas extends React.Component {
     let arrayDataDetail = [];
     let showData = [];
     let actualCard = this.state.data.cuentasBancarias[index];
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 50f6ea38f314bc7f1afaf45ee2ac67af70632828
     if (this.state.data.egresos.length > 0) {
       for (let i = 0; i < this.state.data.egresos.length; i++) {
         if (actualCard.CBU === this.state.data.egresos[i][8]) {
@@ -250,7 +253,10 @@ export default class Tarjetas extends React.Component {
   }
   render() {
     let userData = this.props.route.params
+<<<<<<< HEAD
 
+=======
+>>>>>>> 50f6ea38f314bc7f1afaf45ee2ac67af70632828
     if (!this.state.data) {
       this.getCuentaData(userData)
     }

@@ -146,9 +146,7 @@ export default class Ingresos extends React.Component {
       '-' +
       this.state.data.seguridad.password,
       JSON.stringify(this.state.data),
-      value => {
-        console.log(value)
-      }
+      value => {}
     )
   }
 
@@ -159,9 +157,7 @@ export default class Ingresos extends React.Component {
       '-' +
       this.state.data.seguridad.password,
       JSON.stringify(this.state.data),
-      value => {
-        console.log(value)
-      }
+      value => {}
     )
     showMessage({
       message: '¡Ingreso eliminado con éxito!',

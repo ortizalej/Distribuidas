@@ -20,7 +20,6 @@ import { Icon, Header } from '../components';
 import { materialTheme } from "../constants/";
 
 const { width } = Dimensions.get("screen");
-
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 

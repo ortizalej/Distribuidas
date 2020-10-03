@@ -33,7 +33,6 @@ export default class Inversiones extends React.Component {
         let arrayDataDetail = []
         let showData = []
         let graphData = new Map()
-        console.log(userData)
         for (let i = 0; i < userData.inversiones.length; i++) {
           arrayDataDetail.push([
             userData.inversiones[i][0],

@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions, ScrollView, AsyncStorage, ImageBackground } fro
 import { Button, Block } from 'galio-framework'
 import Form from '../components/Formulario'
 import { showMessage, hideMessage } from 'react-native-flash-message'
+
 const { width, height } = Dimensions.get('screen')
 
 export default class SignIn extends React.Component {

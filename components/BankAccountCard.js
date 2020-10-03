@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Dimensions, View, Modal, TouchableHighlight } from 'react-native';
 import { Block } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
-import {
-    Item,
-    Label,
-    Text,
-    Picker
-} from "native-base";
+import { Item, Label, Text, Picker } from "native-base";
 import { TextInput } from 'react-native-paper'
 
 export default class DisplayMount extends React.Component {

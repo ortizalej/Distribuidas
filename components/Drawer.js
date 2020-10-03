@@ -1,10 +1,8 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { Block, Text, theme } from "galio-framework";
-
 import Icon from "./Icon";
 import materialTheme from "../constants/Theme";
-
 
 const color = "#F42D1F";
 

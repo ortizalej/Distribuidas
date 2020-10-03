@@ -1,23 +1,10 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Switch, AsyncStorage, Platform } from 'react-native'
-import {
-  CreditCardInput,
-  LiteCreditCardInput
-} from 'react-native-credit-card-input'
+import { CreditCardInput, LiteCreditCardInput } from 'react-native-credit-card-input'
 import { TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-material-dropdown'
 import { showMessage, hideMessage } from 'react-native-flash-message'
-
-import {
-  Item,
-  Picker,
-  Container,
-  Content,
-  Form,
-  Button,
-  Text,
-  Input
-} from 'native-base'
+import { Item, Picker, Container, Content, Form, Button, Text, Input } from 'native-base'
 import DatePicker from 'react-native-datepicker'
 import { color } from 'react-native-reanimated'
 
@@ -224,8 +211,6 @@ function validateNewCard(props) {
           message: '¡Tarjeta agregada con éxito!',
           type: 'success'
         })
-4
-        console.log(props.state.data)
       }
     )
     props.props.navigation.navigate('Tarjetas')
@@ -239,7 +224,7 @@ function validateNewCardData(prop) {
   let msg = "";
 
   if (!prop.state.cardData) { msg += "Todos los campos de la tarjeta son requeridos \n"; }
-  if (!prop.state.tipo) { console.log(prop.state.tipo); msg += "Indique un tipo de tarjeta \n"; }
+  if (!prop.state.tipo) { msg += "Indique un tipo de tarjeta \n"; }
 
   return msg
 }

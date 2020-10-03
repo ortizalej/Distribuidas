@@ -5,7 +5,6 @@ import { useSafeArea } from "react-native-safe-area-context";
 import { Icon, Drawer as DrawerCustomItem } from '../components/';
 import { Images, materialTheme } from "../constants/";
 
-
 function CustomDrawerContent({
   drawerPosition,
   navigation,

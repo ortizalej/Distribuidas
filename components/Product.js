@@ -2,7 +2,6 @@ import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
-
 import materialTheme from '../constants/Theme';
 
 const { width } = Dimensions.get('screen');

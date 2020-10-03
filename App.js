@@ -63,8 +63,6 @@ export default class App extends React.Component {
         />
       );
     } else {
-      console.log(this.state.isLoadingComplete)
-
       return (
         <NavigationContainer>
           <GalioProvider theme={materialTheme}>
