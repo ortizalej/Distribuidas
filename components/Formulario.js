@@ -1060,11 +1060,23 @@ function actionButton(type, props) {
         })
         showMessage({ message: '¡Cuenta bancaria registada con éxito!', type: 'success' })
       } else {
-        showMessage({ message: result, type: 'danger', animationDuration: 300 })
+        showGlobalMessage({ result })
       }
       break;
     default:
       break
+  }
+}
+
+function showGlobalMessage(result) {
+  if(Platform.OS !== "android") {
+    showMessage({ message: result, type: 'danger', animationDuration: 300 })
+  } else {
+    ToastAndroid.showWithGravity(
+      result,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER
+    );
   }
 }
 
