@@ -191,6 +191,7 @@ export default class Inversiones extends React.Component {
       data.tipo,
       ''
     ]
+    console.log("data.destino", data.destino);
     let arrayData = [
       now,
       parseInt(
