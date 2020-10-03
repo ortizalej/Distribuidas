@@ -28,10 +28,6 @@ export default class HistoricTable extends React.Component {
     this.props.navigateToImage(index, type)
   }
   renderText(data, type) {
-<<<<<<< HEAD
-    console.log(data)
-=======
->>>>>>> 50f6ea38f314bc7f1afaf45ee2ac67af70632828
     switch (type) {
       case 'Ingresos':
         return `
