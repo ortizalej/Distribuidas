@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Dimensions, Image, AsyncStorage, Platform } from 'react-native'
+import { StyleSheet, Dimensions, Image, AsyncStorage, Platform, ToastAndroid } from 'react-native'
 import { TextInput, Button,Text } from 'react-native-paper'
 import { Dropdown } from 'react-native-material-dropdown'
 import { showMessage, hideMessage } from 'react-native-flash-message'
@@ -892,7 +892,7 @@ function renderSingIn(prop) {
             theme={theme}
           />
           <TextInput
-            label='Contraseña'
+            label='Contraseña (8 caracteres mínimo)'
             secureTextEntry={true}
             onChangeText={prop.onChangePassword.bind(prop)}
             mode='outlined'
@@ -946,7 +946,7 @@ function actionButton(type, props) {
       if (result === '') {
         props.props.actionButton(props.state.userName, props.state.password, props.state.name, props.state.lastName)
       } else {
-        showMessage({ message: result, type: 'danger', animationDuration: 300 })
+        showGlobalMessage({ result })
       }
       break;
     case 'ingreso':
@@ -960,10 +960,8 @@ function actionButton(type, props) {
           moneda: props.state.moneda,
           tipo: props.state.tipo
         })
-        showMessage({ message: '¡Ingreso registrado con éxito!', type: 'success' })
-      } else {
-        showMessage({ message: result, type: 'danger', animationDuration: 300 })
-      }
+      } 
+      showGlobalMessage({ result })
       break;
     case 'egreso':
       result = validateEgreso(props);
@@ -980,11 +978,8 @@ function actionButton(type, props) {
           tipoServicio: props.state.tipoServicio,
           uriImage: props.state.uri
         })
-        showMessage({ message: '¡Egreso registrado con éxito!', type: 'success' })
-
-      } else {
-        showMessage({ message: result, type: 'danger', animationDuration: 300 })
-      }
+      } 
+      showGlobalMessage({ result })
       break;
     case 'prestados':
       result = validatePrestamosPrestados(props);
@@ -997,10 +992,8 @@ function actionButton(type, props) {
           cuenta: props.state.cuenta,
           moneda: props.state.moneda
         })
-        showMessage({ message: '¡Prestamo prestado registrado con éxito!', type: 'success' })
-      } else {
-        showMessage({ message: result, type: 'danger', animationDuration: 300 })
-      }
+      } 
+      showGlobalMessage({ result })
       break;
     case 'tomados':
       result = validatePrestamosTomados(props)
@@ -1016,11 +1009,8 @@ function actionButton(type, props) {
           moneda: props.state.moneda,
           type: 'Tomado'
         })
-        showMessage({ message: '¡Prestamo tomado registrado con éxito!', type: 'success' })
-
-      } else {
-        showMessage({ message: result, type: 'danger', animationDuration: 300 })
-      }
+      } 
+      showGlobalMessage({ result })
       break;
     case 'presupuesto':
       result = validatePresupuesto(props)
@@ -1029,27 +1019,20 @@ function actionButton(type, props) {
           cantidad: props.state.cantidad,
           tipo: props.state.tipo
         })
-        showMessage({ message: '¡Presupuesto registado con éxito!', type: 'success' })
-      } else {
-        showMessage({ message: result, type: 'danger', animationDuration: 300 })
-
-      }
+      } 
+      showGlobalMessage({ result })
       break;
     case 'inversion':
       result = validateInversion(props)
       if (result === '') {
-        console.log(props.state.interes)
         props.getFormData({
           cantidad: props.state.cantidad,
           tipo: props.state.tipo,
           interes: props.state.interes,
           destino: props.state.destino
         })
-        showMessage({ message: '¡Inversión registado con éxito!', type: 'success' })
-
-      } else {
-        showMessage({ message: result, type: 'danger', animationDuration: 300 })
-      }
+      } 
+      showGlobalMessage({ result })
       break;
     case 'cuenta bancaria':
       result = validateCuentaBancaria(props)
@@ -1059,10 +1042,8 @@ function actionButton(type, props) {
           CBU: props.state.CBU,
           bankName: props.state.bankName
         })
-        showMessage({ message: '¡Cuenta bancaria registada con éxito!', type: 'success' })
-      } else {
-        showGlobalMessage({ result })
-      }
+      } 
+      showGlobalMessage({ result })
       break;
     default:
       break
@@ -1070,12 +1051,22 @@ function actionButton(type, props) {
 }
 
 function showGlobalMessage(result) {
-  if(Platform.OS !== "android") {
-    showMessage({ message: result, type: 'danger', animationDuration: 300 })
+  let type = 'danger';
+  if(result.result == ''){
+    result.result = 'Operación realizada con éxito';
+    type =  'success';
+  }
+  
+  if(Platform.OS === "ios") {
+    showMessage({ 
+      message: result.result, 
+      type: type, 
+      animationDuration: 300 
+    })
   } else {
     ToastAndroid.showWithGravity(
       result,
-      ToastAndroid.SHORT,
+      ToastAndroid.LONG,
       ToastAndroid.CENTER
     );
   }

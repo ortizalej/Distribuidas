@@ -32,10 +32,10 @@ export default class SignIn extends React.Component {
     })
     AsyncStorage.setItem(userName + '-' + password, JSON.stringify(insertUser))
       .then(() => {
-        console.log('‘It was saved successfully’')
+        console.log('Usuario registrado exitosamente')
       })
       .catch(() => {
-        console.log('‘There was an error saving the product’')
+        console.log('Hubo un problema al registrar el usuario en la base de datos')
       })
     this.props.navigation.navigate('Login')
   }
