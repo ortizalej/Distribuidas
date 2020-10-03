@@ -70,7 +70,9 @@ export default class Tarjetas extends React.Component {
             cards: [],
             rowToShow: [],
             rowtoDetail: [],
-            data: undefined
+            data: undefined,
+            actualCard: undefined,
+            vencimientoCard: undefined
         }
     }
 
@@ -81,6 +83,7 @@ export default class Tarjetas extends React.Component {
         AsyncStorage.getItem(data.userName + "-" + data.password).then((value) => {
             let userData = JSON.parse(value)
             this.state.data = userData
+            console.log(userData)
             let actualCard = this.state.data.tarjetas[0]
             let arrayDataDetail = [];
             let showData = [];
@@ -128,7 +131,8 @@ export default class Tarjetas extends React.Component {
             }
             this.setState({
                 rowToShow: showData,
-                rowtoDetail: arrayDataDetail
+                rowtoDetail: arrayDataDetail,
+                actualCard: actualCard
             })
 
             for (let i = 0; i < this.state.rowtoDetail.length; i++) {
@@ -170,14 +174,36 @@ export default class Tarjetas extends React.Component {
             this.Display.updateState(filterSumPesos, filterSumDolares);
         }
     }
-    
+
     deleteRow(index) {
+    }
+    onChangeCierre(value) {
+        for (let i = 0; i < this.state.data.tarjetas.length; i++) {
+            if (this.state.actualCard.numero == this.state.data.tarjetas[i].numero) {
+                this.state.data.tarjetas[i].vencimiento = value
+            }
+        }
+        AsyncStorage.mergeItem(
+            this.state.data.seguridad.userName +
+            '-' +
+            this.state.data.seguridad.password,
+            JSON.stringify(this.state.data)
+        )
+        this.setState({
+            vencimientoCard: value
+        })
+        var startDate = moment()
+        var endDate = moment(value, "DD-MM-YYYY");
+        this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
+        this.forceUpdate()
     }
 
     filterData(index) {
         let arrayDataDetail = [];
         let showData = [];
         let actualCard = this.state.data.tarjetas[index];
+        this.state.actualCard = actualCard;
+        console.log(actualCard)
 
         if (this.state.data.egresos.length > 0) {
             for (let i = 0; i < this.state.data.egresos.length; i++) {
@@ -199,7 +225,7 @@ export default class Tarjetas extends React.Component {
                             this.state.data.egresos[i][0],
                             this.state.data.egresos[i][1],
                             this.state.data.egresos[i][2],
-                            '' 
+                            ''
                         ]);
                 }
             }
@@ -275,16 +301,16 @@ export default class Tarjetas extends React.Component {
                             onFinish={componentWillMount}
                             onPress={componentWillMount}
                         />
-                        :  
+                        :
                         <DatePicker
                             style={{ width: 200 }}
-                            date={this.state.vencimiento} //initial date from state
+                            date={this.state.vencimientoCard} //initial date from state
                             mode="date" //The enum of date, datetime and time
                             placeholder="Fecha de Vencimiento"
                             format="DD-MM-YYYY"
                             minDate="01-01-2016"
                             maxDate="01-01-2025"
-                            confirmBtnText="Confirm" 
+                            confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
                             customStyles={{
                                 dateIcon: {
@@ -308,6 +334,8 @@ export default class Tarjetas extends React.Component {
                                     color: 'white'
                                 }
                             }}
+                            onDateChange={this.onChangeCierre.bind(this)}
+
                         />
                     }
                     <HistoricTable type={'Tarjetas'}
@@ -316,8 +344,6 @@ export default class Tarjetas extends React.Component {
                         rows={this.state.rowToShow}
                         detailRows={this.state.rowtoDetail}
                         deleteRow={this.deleteRow.bind(this)}
-
-
                     />
                 </ScrollView>
             </Block>
@@ -342,7 +368,7 @@ async function componentWillMount(title, message) {
         },
         body: body,
     }).then((response) => response.json())
-        .then((responseJson) => {})
+        .then((responseJson) => { })
         .catch((error) => { console.log(error) });
 }
 
