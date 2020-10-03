@@ -101,8 +101,6 @@ export default class HistoricTable extends React.Component {
     }
   }
 
-
-
   _alertIndex(index, data, type) {
     const title = 'Informacion Detallada';
     let message = this.renderText(data[index], type)
@@ -158,6 +156,7 @@ export default class HistoricTable extends React.Component {
     )
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

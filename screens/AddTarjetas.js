@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Switch, AsyncStorage, Platform } from 'react-native'
+import { StyleSheet, View, Switch, AsyncStorage, Platform, ToastAndroid } from 'react-native'
 import { CreditCardInput, LiteCreditCardInput } from 'react-native-credit-card-input'
 import { TextInput, Button, Text} from 'react-native-paper'
 import { Dropdown } from 'react-native-material-dropdown'
@@ -215,8 +215,7 @@ function validateNewCard(props) {
     )
     props.props.navigation.navigate('Tarjetas')
   } else {
-    showMessage({ message: result, type: 'danger', animationDuration: 300 })
-
+    showGlobalMessage(result)
   }
 }
 
@@ -227,6 +226,18 @@ function validateNewCardData(prop) {
   if (!prop.state.tipo) { msg += "Indique un tipo de tarjeta \n"; }
 
   return msg
+}
+
+function showGlobalMessage(result) {
+  if(Platform.OS !== "android") {
+    showMessage({ message: result, type: 'danger', animationDuration: 300 })
+  } else {
+    ToastAndroid.showWithGravity(
+      result,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER
+    );
+  }
 }
 
 const styles = StyleSheet.create({
