@@ -1,7 +1,12 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView, AsyncStorage, PureComponent } from 'react-native';
 import { Button, Block, Text, Input, theme, View, } from 'galio-framework';
-import { BarChart, PieChart, LineChart, StackedBarChart } from 'react-native-chart-kit'
+import {
+  BarChart,
+  PieChart,
+  LineChart,
+  StackedBarChart
+} from 'react-native-chart-kit'
 import moment from 'moment'
 
 const { width, height } = Dimensions.get('screen');
@@ -20,11 +25,18 @@ const graphStyle = {
   marginLeft: 10
 }
 
+
 export default class Home extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      dataMedioPago: {
+      dataMedioPagoPesos: {
+        labels: ['Tarjeta', 'Transf.'],
+        datasets: [{
+          data: [0, 0]
+        }]
+      },
+      dataMedioPagoDolares: {
         labels: ['Tarjeta', 'Transf.'],
         datasets: [{
           data: [0, 0]
@@ -37,14 +49,10 @@ export default class Home extends React.PureComponent {
         }]
       },
       dataRealvsPres: {
-        legend: ["Egresos"],
         labels: ["Real", "Presupuesto"],
-        data: [
-          [1, null, null],
-          [null,1]
-
-        ],
-        barColors: ["#e57373", "#e53935", "#b71c1c"]
+        datasets: [{
+          data: [0, 0]
+        }]
       },
       data: undefined
     }
@@ -54,33 +62,48 @@ export default class Home extends React.PureComponent {
       let userData = JSON.parse(value)
       this.state.data = userData
       if (userData.egresos.length > 0) {
-        let egresosTranf = 0
-        let egresosTarjeta = 0
-        let totalEgresos = 0
+        let egresosTranfPesos = 0
+        let egresosTarjetaPesos = 0
+        let totalEgresosPesos = 0
+
+        let egresosTranfDolares = 0
+        let egresosTarjetaDolares = 0
+        let totalEgresosDolares = 0
         for (let i = 0; i < userData.egresos.length; i++) {
-
           //Monto Por mes
-          if (userData.egresos[i][3] == 'Tarjeta de Crédito' || userData.egresos[i][3] == 'Tarjeta de Débito') {
-            egresosTarjeta += userData.egresos[i][1]
-          } else if (userData.egresos[i][3] == 'Transferencia Bancaria') {
-            egresosTranf += userData.egresos[i][1]
+          if(userData.egresos[i][2] === "Pesos") {
+            if (userData.egresos[i][3] == 'Tarjeta de Crédito' || userData.egresos[i][3] == 'Tarjeta de Débito') {
+              egresosTarjetaPesos += userData.egresos[i][1]
+            } else if (userData.egresos[i][3] == 'Transferencia Bancaria') {
+              egresosTranfPesos += userData.egresos[i][1]
+            }
+            totalEgresosPesos += userData.egresos[i][1]
+          } else {
+            if (userData.egresos[i][3] == 'Tarjeta de Crédito' || userData.egresos[i][3] == 'Tarjeta de Débito') {
+              egresosTarjetaDolares += userData.egresos[i][1]
+            } else if (userData.egresos[i][3] == 'Transferencia Bancaria') {
+              egresosTranfDolares += userData.egresos[i][1]
+            }
+            totalEgresosDolares += userData.egresos[i][1]
           }
-          totalEgresos += userData.egresos[i][1]
         }
-        this.state.dataMedioPago.datasets[0].data[0] = egresosTarjeta
-        this.state.dataMedioPago.datasets[0].data[1] = egresosTranf
-        this.state.dataRealvsPres.data[0][0] = totalEgresos
 
+        console.log("Tarjeta", egresosTarjetaPesos, "Transf", egresosTranfPesos)
+        this.state.dataMedioPagoPesos.datasets[0].data[0] = egresosTarjetaPesos
+        this.state.dataMedioPagoPesos.datasets[0].data[1] = egresosTranfPesos
+
+        this.state.dataMedioPagoDolares.datasets[0].data[0] = egresosTarjetaDolares
+        this.state.dataMedioPagoDolares.datasets[0].data[1] = egresosTranfDolares
+
+        this.state.dataRealvsPres.datasets[0].data[0] = totalEgresosPesos
       }
       if (userData.presupuestos.length > 0) {
         let totalPresupuesto = 0
 
         for (let i = 0; i < userData.presupuestos[0].length; i++) {
-
           totalPresupuesto += userData.presupuestos[0][i]
         }
-        this.state.dataRealvsPres.data[1][1] = totalPresupuesto
-
+        this.state.dataRealvsPres.datasets[0].data[1]= totalPresupuesto
       }
 
       if (userData.cuentasBancarias.length > 0) {
@@ -105,7 +128,6 @@ export default class Home extends React.PureComponent {
       this.forceUpdate()
     })
   }
-
   render() {
     let userData = this.props.route.params
     if (!this.state.data) {
@@ -114,18 +136,27 @@ export default class Home extends React.PureComponent {
     return (
       <Block style={styles.home}>
         <ScrollView style={styles.scrollView}>
-          <Text style={styles.titleGraph}>Monto Gastado Por Mes</Text>
-
+          <Text style={styles.titleGraph}>Monto Gastado Por Mes en Pesos</Text>
           <BarChart
             style={graphStyle}
-            data={this.state.dataMedioPago}
+            data={this.state.dataMedioPagoPesos}
             width={width}
             height={310}
             yAxisLabel="$"
             chartConfig={chartConfig}
           />
-          <Text style={styles.titleGraph}>Saldos de Cuentas Bancarias</Text>
 
+        <Text style={styles.titleGraph}>Monto Gastado Por Mes en Dolares</Text>
+          <BarChart
+            style={graphStyle}
+            data={this.state.dataMedioPagoDolares}
+            width={width}
+            height={310}
+            yAxisLabel="$"
+            chartConfig={chartConfig}
+          />
+
+          <Text style={styles.titleGraph}>Saldos de Cuentas Bancarias</Text>
           <BarChart
             style={graphStyle}
             data={this.state.dataCuenta}
@@ -135,13 +166,13 @@ export default class Home extends React.PureComponent {
             chartConfig={chartConfig}
           />
 
-          <Text style={styles.titleGraph}>Desvio Presupuestal</Text>
-
-          <StackedBarChart
+          <Text style={styles.titleGraph}>Desvio Presupuestal en Pesos</Text>
+          <BarChart
             style={graphStyle}
             data={this.state.dataRealvsPres}
             width={width}
-            height={220}
+            height={310}
+            yAxisLabel="$"
             chartConfig={chartConfig}
           />
         </ScrollView>
@@ -177,4 +208,3 @@ const styles = StyleSheet.create({
     marginLeft: 10
   }
 });
-
