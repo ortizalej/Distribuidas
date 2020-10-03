@@ -1038,11 +1038,12 @@ function actionButton(type, props) {
     case 'inversion':
       result = validateInversion(props)
       if (result === '') {
+        console.log(props.state.interes)
         props.getFormData({
           cantidad: props.state.cantidad,
           tipo: props.state.tipo,
           interes: props.state.interes,
-          empresa: props.state.destino
+          destino: props.state.destino
         })
         showMessage({ message: '¡Inversión registado con éxito!', type: 'success' })
 
@@ -1161,7 +1162,7 @@ function validateInversion(prop) {
 
   if (!prop.state.cantidad) { msg += "Ingrese un monto. \n"; }
   if (!prop.state.tipo) { msg += "Ingrese un tipo. \n"; }
-  if (prop.state.tipo === "Plazo Fijo" && !prop.state.intere) { msg += "Ingrese el interés. \n"; }
+  if (prop.state.tipo === "Plazo Fijo" && !prop.state.interes) { msg += "Ingrese el interés. \n"; }
   if (prop.state.tipo === "Acciones" && !prop.state.destino) { msg += "Ingrese el nombre de la empresa. \n"; }
 
   return msg
