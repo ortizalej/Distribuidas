@@ -145,7 +145,6 @@ export default class Tarjetas extends React.Component {
             var startDate = moment()
             var endDate = moment(actualCard.vencimiento, "DD-MM-YYYY");
             this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
-            console.log(this.differenceDate)
             this.forceUpdate()
         })
     }
@@ -171,6 +170,10 @@ export default class Tarjetas extends React.Component {
             this.Display.updateState(filterSumPesos, filterSumDolares);
         }
     }
+    
+    deleteRow(index) {
+    }
+
     filterData(index) {
         let arrayDataDetail = [];
         let showData = [];
@@ -217,10 +220,7 @@ export default class Tarjetas extends React.Component {
         this.HistoricTable.updateState(showData);
         var startDate = moment()
         var endDate = moment(actualCard.vencimiento, "DD-MM-YYYY");
-        console.log(startDate)
-        console.log(endDate)
         this.differenceDate = moment.duration(endDate.diff(startDate)).asSeconds();
-        console.log(this.differenceDate)
         this.forceUpdate()
     }
     render() {
@@ -314,8 +314,11 @@ export default class Tarjetas extends React.Component {
                     <HistoricTable type={'Tarjetas'}
                         ref={(table) => { this.HistoricTable = table }}
                         cols={this.colTable}
-                        rows={[]}
-                        detailRows={[]}
+                        rows={this.state.rowToShow}
+                        detailRows={this.state.rowtoDetail}
+                        deleteRow={this.deleteRow.bind(this)}
+
+
                     />
                 </ScrollView>
             </Block>

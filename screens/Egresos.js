@@ -80,6 +80,7 @@ export default class Egresos extends React.Component {
         let arrayDataDetail = []
         let showData = []
         for (let i = 0; i < userData.egresos.length; i++) {
+          
           arrayDataDetail.push([
             userData.egresos[i][0],
             userData.egresos[i][1],
@@ -92,17 +93,21 @@ export default class Egresos extends React.Component {
             userData.egresos[i][8],
             userData.egresos[i][9]
           ])
+
           showData.push([
             userData.egresos[i][0],
             userData.egresos[i][1],
             userData.egresos[i][2],
             ''
           ])
+
         }
+        
         this.setState({
           rowToShow: showData,
           rowtoDetail: arrayDataDetail
         })
+
         for (let i = 0; i < this.state.rowtoDetail.length; i++) {
           if (!this.state.rowtoDetail[i]) {
             continue

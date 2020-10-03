@@ -13,7 +13,7 @@ export default class HistoricTable extends React.Component {
       detailRows: props.detailRows
     }
   }
-  updateState(value) {
+  updateState(value, detail) {
     this.setState(
       {
         tableData: value
@@ -27,7 +27,7 @@ export default class HistoricTable extends React.Component {
     this.props.navigateToImage(index, type)
   }
   renderText(data, type) {
-
+    console.log(data)
     switch (type) {
       case 'Ingresos':
         return `
@@ -87,7 +87,6 @@ export default class HistoricTable extends React.Component {
               Banco: ${data[3] ?? '-'}
               Titular: ${data[4] ?? '-'}
               Tipo: ${data[5] ?? '-'}
-
               `
       case 'Tarjetas':
         return `
@@ -96,9 +95,7 @@ export default class HistoricTable extends React.Component {
           Moneda: ${data[2] ?? '-'}
           Titular: ${data[3] ?? '-'}
           Numero de Tarjeta: ${data[4] ?? '-'}
-          Marca: ${data[5] ?? '-'}
-    
-                  `
+          Marca: ${data[5] ?? '-'} `
       default:
         break;
     }
@@ -116,7 +113,11 @@ export default class HistoricTable extends React.Component {
         { text: 'Borrar', onPress: () => this.deleteRow(index, type) },
         { text: 'Abrir adjunto', onPress: () =>this.navigateToImage(data[index])}
       ];
-    } else {
+    } else if(type === 'Tarjetas' || type === 'Cuenta') {
+      buttons = [
+        { text: 'Cancel', type: 'cancel' },
+      ];
+    }else {
       buttons = [
         { text: 'Cancel', type: 'cancel' },
         { text: 'Borrar', onPress: () => this.deleteRow(index, type) }

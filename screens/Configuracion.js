@@ -8,6 +8,8 @@ import moment from 'moment'
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import XLSX from "xlsx";
+import { NetworkInfo } from 'react-native-network-info';
+
 
 
 export default class Configuracion extends React.Component {
@@ -35,13 +37,13 @@ export default class Configuracion extends React.Component {
             <Block center style={styles.ingresos}>
                 <Button
                     style={styles.btnStyle}
-                    onPress={() => { console.log("Generar Back-up") }}
+                    onPress={() => { exportDataToMongoDB(userData) }}
                 >
                     <Text>Generar Back-up</Text>
                 </Button>
                 <Button
                     style={styles.btnStyle}
-                    onPress={() => { console.log("Recuperar Back-Up") }}
+                    onPress={() => { importDataToMongoDB(userData) }}
                 >
                     <Text>Recuperar Back-Up</Text>
                 </Button>
@@ -64,11 +66,58 @@ export default class Configuracion extends React.Component {
 async function exportExcel(fileName, data) {
     await createExcel(fileName, data);
 }
+function exportDataToMongoDB(user) {
 
+    AsyncStorage.getItem(user.userName + '-' + user.password).then(value => {
+        console.log(user.userName)
+        let body = {
+            username: user.userName,
+            password: user.password,
+            data: value
+        }
+        fetch('https://api-proyect.herokuapp.com/send', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body),
+        }).then((response) => response.json())
+            .then((json) => {
+                console.log(json);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    })
+}
+function importDataToMongoDB(user) {
+
+    let body = {
+        username: user.userName,
+        password: user.password,
+    }
+    fetch('https://api-proyect.herokuapp.com/get', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body),
+    }).then((response) => response.json())
+        .then((json) => {
+            console.log(json);
+            AsyncStorage.mergeItem(
+                user.userName +'-' +user.password,
+                json.data
+            )
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
 async function createExcel(fileName, data) {
     var wb = XLSX.utils.book_new();
 
-    
     /*Ingresos */
     var ingresos = XLSX.utils.json_to_sheet(data.ingresos);
     XLSX.utils.book_append_sheet(wb, ingresos, "Ingresos");
@@ -113,7 +162,7 @@ async function createExcel(fileName, data) {
 
     await Sharing.shareAsync(uri, {
         UTI: "com.microsoft.excel.xlsx",
-      });
+    });
 }
 
 
