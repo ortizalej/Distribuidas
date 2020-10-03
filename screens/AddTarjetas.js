@@ -234,7 +234,7 @@ function showGlobalMessage(result) {
   } else {
     ToastAndroid.showWithGravity(
       result,
-      ToastAndroid.SHORT,
+      ToastAndroid.LONG,
       ToastAndroid.CENTER
     );
   }
