@@ -1,4 +1,6 @@
-Pasos a seguir para ejecutar la app:
+GRUPO 10
+
+-Pasos a seguir para ejecutar la app:
 
 - Tener expo instalado anteriormente
 
