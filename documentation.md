@@ -41,9 +41,9 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
   - Los saldos en nuestras cuentas bancarias.
   - Desvío presupuestal en pesos.
 
-   ![Dashboard2](\assets\pantallas\dashboard1.jpg)
+   ![Dashboard2](/assets/pantallas/dashboard1.jpg)
 
-   ![Dashboard2](\assets\pantallas\dashboard2.jpg)
+   ![Dashboard2](/assets/pantallas/dashboard2.jpg)
 
 
 
@@ -52,14 +52,14 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
     - La contraseña ingresada debe tener almenos 8 caracteres.
     - El usuario ingresado debe tener almenos 6 caracteres.
 
-    ![Menu Hamburguesa](\assets\pantallas\hamburguesa.jpg)
+    ![Menu Hamburguesa](/assets/pantallas/hamburguesa.jpg)
 ---
 ## Ingresos
 
 - ### Ver ingreso acumulado.
     Una vez posicionado en la sección de ingresos, se encuentra un display principal que indica el ingreso acumulado según el período de tiempo que se muestra debajo.
 
-    ![Ingreso acumulado](\assets\pantallas\ingresosdisplay.jpg)
+    ![Ingreso acumulado](/assets/pantallas/ingresosdisplay.jpg)
 
 
 - ### Registro de un nuevo ingreso.
@@ -69,28 +69,28 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
     - Al seleccionar 'Medio' se encuentran las opciones: efectivo o transferencia bancaria.
       - Si seleccionamos transferencia bancaria, tendremos que elegir una cuenta bancaria vinculada del usuario. 
 
-    ![Añadir ingreso](\assets\pantallas\ingresosañadir.jpg)
+    ![Añadir ingreso](/assets/pantallas/ingresosañadir.jpg)
 
 
 - ### Ver historial de ingresos.
     Deslizando hacia abajo, se encuentra una tabla que representa un historial de todos los ingresos que se realizaron el el periódo de tiempo seleccionado.
 
-    ![Historial ingreso](\assets\pantallas\ingresoshistorial2.jpg)
+    ![Historial ingreso](/assets/pantallas/ingresoshistorial2.jpg)
   - ### Ver detalle de un ingreso.
     Al pulsar sobre el botón '+', se puede ver un detalle con toda la información del ingreso.
 
-    ![Detalle ingreso](\assets\pantallas\ingresoshistorialdetalle.jpg)
+    ![Detalle ingreso](/assets/pantallas/ingresoshistorialdetalle.jpg)
 
 
     - ### Eliminar un ingreso.
         Cuando se esta visualizando un detalle, pulsando el botón 'borrar' se elimina el registro de esa transacción.
 
-        ![Borrar ingreso](\assets\pantallas\ingresoshistorialdetalleborrar.jpg)
+        ![Borrar ingreso](/assets/pantallas/ingresoshistorialdetalleborrar.jpg)
 
 - ### Filtrar datos de ingresos por período de tiempo.
     Para modificar toda la información mostrada, se debe seleccionar el período de tiempo deseado como se indica en la imagen. Se puede seleccionar: anual, semestral o mensual.
 
-    ![Filtrar tiempo](\assets\pantallas\ingresotiempo.jpg)
+    ![Filtrar tiempo](/assets/pantallas/ingresotiempo.jpg)
 
 ---
 ## Egresos
@@ -98,7 +98,7 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
 - ### Ver egreso acumulado.
     En la parte superior, se encuentra un display principal que indica el egreso acumulado según el período de tiempo que se muestra debajo.
 
-    ![Acumulado egreso](\assets\pantallas\egresodisplay2.jpg)
+    ![Acumulado egreso](/assets/pantallas/egresodisplay2.jpg)
 
 
 - ### Registro de un nuevo egreso.
@@ -112,17 +112,17 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
     - Si seleccionamos tarjeta de crédito o débito, tendremos que elegir una tarjeta vinculada del usuario.
 
 
-    ![Acumulado egreso](\assets\pantallas\egresonuevo2.jpg)
+    ![Acumulado egreso](/assets/pantallas/egresonuevo2.jpg)
 
 - ### Ver historial de egresos.
     Bajando se encuentra una tabla historial de todos los egresos realizados.
 
-    ![Historial egreso](\assets\pantallas\egresohistorial2.jpg)
+    ![Historial egreso](/assets/pantallas/egresohistorial2.jpg)
 
   - ### Ver detalle de un egreso.
     Al pulsar sobre el botón '+', se puede ver un detalle con toda la información del egreso.
     
-    ![Detalle egreso](\assets\pantallas\egresodetalle.jpg)
+    ![Detalle egreso](/assets/pantallas/egresodetalle.jpg)
 
 
     - ### Eliminar un egreso.
@@ -131,13 +131,13 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
     - ### Ver archivo adjunto.
       Para visualizar el archivo adjunto debemos pulsar 'Abrir adjunto' y se veerá el archivo debajo de la tabla de historial.
 
-      ![Egreso Imagen](\assets\pantallas\egresoimagen.jpg)
+      ![Egreso Imagen](/assets/pantallas/egresoimagen.jpg)
 
 
 - ### Filtrar datos de egresos por período de tiempo.
     Para modificar toda la información mostrada, se debe seleccionar el período de tiempo deseado como se indica en la imagen. Se puede seleccionar: anual, semestral o mensual.
 
-    ![Filtrar tiempo](\assets\pantallas\ingresotiempo.jpg)
+    ![Filtrar tiempo](/assets/pantallas/ingresotiempo.jpg)
 
 ---
 ## Tarjetas
@@ -145,7 +145,7 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
 - ### Ver tarjetas del usuario.
   Las tarjetas se visualizan en un carrusel, desplazando hacia la izquierda avanzamos en las tarjetas del usuario. La información mostrada en pantalla, es correspondiente a la tarjeta seleccionada.
 
-  ![Tarjetas del usuario](\assets\pantallas\tarjetasusuario.jpg)
+  ![Tarjetas del usuario](/assets/pantallas/tarjetasusuario.jpg)
 
 
 - ### Agregar nueva tarjeta.
@@ -153,21 +153,21 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
     - Al seleccionar 'Tipo' se encuentran las opciones: crédito y débito.
     - Al seleccionar 'Cuenta bancaria' se encuentran un listado de las cuentas bancarias vinculadas del usuario.
 
-  ![Boton agregar tarjeta](\assets\pantallas\tarjetasbotonadd.jpg)
+  ![Boton agregar tarjeta](/assets/pantallas/tarjetasbotonadd.jpg)
 
-  ![Agregar tarjeta](\assets\pantallas\tarjetasagregar2.jpg)
+  ![Agregar tarjeta](/assets/pantallas/tarjetasagregar2.jpg)
 
 
 - ### Ver egreso acumulado por tarjeta.
   En la parte central de la pantalla, se encuentra un display principal que indica el egreso acumulado según el período de tiempo que se muestra debajo, de la tarjeta seleccionada.
 
-  ![Display Tarjeta](\assets\pantallas\tarjetasdisplay.jpg)
+  ![Display Tarjeta](/assets/pantallas/tarjetasdisplay.jpg)
 
 
 - ### Solicitar información en fecha de cierre resumen.
   El contador que se encuentra debajo del date picker, indica cuánto tiempo falta para que se cumpla la fecha de cierre resumen. Al llegar a 0, solicita ingresar la nueva fecha de cierre resumen y de vencimiento resumen.
 
-  ![Tiempo vencimiento tarjetas](\assets\pantallas\tarjetastiempo.jpg)
+  ![Tiempo vencimiento tarjetas](/assets/pantallas/tarjetastiempo.jpg)
 
 
 
@@ -175,11 +175,11 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
 - ### Ver historial de egresos por tarjeta.
   Bajando se encuentra una tabla historial de todos los movimientos realizados con la tarjeta seleccionada.
 
-  ![Tarjetas historial](\assets\pantallas\tarjetashistorial.jpg)
+  ![Tarjetas historial](/assets/pantallas/tarjetashistorial.jpg)
     - #### Ver detalle de un movimiento.
       Al pulsar sobre el botón '+', se puede ver un detalle con toda la información del movimiento.
 
-      ![Tarjeta detalle](\assets\pantallas\tarjetadetalle.jpg)
+      ![Tarjeta detalle](/assets/pantallas/tarjetadetalle.jpg)
 
 
 
@@ -187,7 +187,7 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
 - ### Filtrar datos de egreso por período de tiempo.
   Para modificar toda la información mostrada, se debe seleccionar el período de tiempo deseado como se indica en la imagen. Se puede seleccionar: anual, semestral o mensual.
 
-  ![Tarjetas periodo](\assets\pantallas\tarjetasperiodo.jpg)
+  ![Tarjetas periodo](/assets/pantallas/tarjetasperiodo.jpg)
 
 
 ---
@@ -196,24 +196,24 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
 - #### Ver cuentas bancarias del usuario.
   Las cuentas bancarias se visualizan en un carrusel, desplanzado hacia la izquierda avanzamos en las cuentas vinculadas del usuario. La información mostrada en pantalla, es correspondiente a la cuenta seleccionada.
 
-  ![Cuentas usuario](\assets\pantallas\cuentasusuario.jpg)
+  ![Cuentas usuario](/assets/pantallas/cuentasusuario.jpg)
 
 - ### Agregar nueva cuenta.
   Para agregar una nueva cuenta bancaria, debemos completar el forumalrio que aparece debajo del display, ingresando el titular, CBU y banco de la cuenta.
 
-  ![Cuentas agregar](\assets\pantallas\cuentasagregar.jpg)
+  ![Cuentas agregar](/assets/pantallas/cuentasagregar.jpg)
 
 
 - ### Ver saldo actual de la cuenta.
   Debajo de la información de la cuenta, se encuentra un display con el saldo actual de la cuenta seleccionada.
 
-  ![Cuentas salgo](\assets\pantallas\cuentassaldo.jpg)
+  ![Cuentas salgo](/assets/pantallas/cuentassaldo.jpg)
 
 
 - ### Ver historial de transacciones de la cuenta.
   Al bajar, se encuentra una tabla que nos muestra un listado de los movimientos realizados desde esa cuenta.
 
-  ![Cuentas detalle](\assets\pantallas\cuentasdetalle.jpg)
+  ![Cuentas detalle](/assets/pantallas/cuentasdetalle.jpg)
 
 
 
@@ -222,7 +222,7 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
 - ### Ver gráficos de inversiones.
   Si ya tenemos inversiones registradas, se ve un carrusel con diversos gráficos que representan las inversiones del usuario.
 
-  ![Inversion grafico](\assets\pantallas\inversiongrafico.jpg)
+  ![Inversion grafico](/assets/pantallas/inversiongrafico.jpg)
 
 
 - ### Agregar nueva inversión.
@@ -231,18 +231,18 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
   - Al seleccionar 'Plazo fijo' nos solicita ingresar el interés anual en %.
   - Al seleccionar 'Acciones' nos solicita ingresar el nombre de la empresa.
 
-  ![Agregar inversion](\assets\pantallas\inversionesagregar2.jpg)
+  ![Agregar inversion](/assets/pantallas/inversionesagregar2.jpg)
 
 
 
 - ### Ver historial de inversiones.
   Al bajar, se encuentra una tabla que nos muestra un listado de las inversiones realizadas del usuario.
 
-  ![Agregar inversion](\assets\pantallas\inversioneshistorial.jpg)
+  ![Agregar inversion](/assets/pantallas/inversioneshistorial.jpg)
     - #### Ver detalle de una inversión.
       Al pulsar el '+' de la derecha, se muestra la información detallada de la inversión.
 
-      ![Inversión detalle](\assets\pantallas\inversiondetalle.jpg)
+      ![Inversión detalle](/assets/pantallas/inversiondetalle.jpg)
       - #### Eliminar una inversión.
         Cuando se visualiza un detalle, pulsando el botón 'borrar' se elimina el registro de ese movimiento.
 
@@ -255,7 +255,7 @@ Al ingresar en la sección de préstamos, primero veremos toda la información a
 - ### Ver total de dinero prestado.
   Tendremos un display que indica el dinero total prestado.
 
-  ![Prestamista display](\assets\pantallas\prestamistadisplay.jpg)
+  ![Prestamista display](/assets/pantallas/prestamistadisplay.jpg)
 
 
 - ### Añadir nuevo dinero prestado.
@@ -264,19 +264,19 @@ Al ingresar en la sección de préstamos, primero veremos toda la información a
   - Al seleccionar 'Medio' se encuentran las opciones: Efectivo o Transferencia Bancaria.
   - Al seleccionar 'Transferencia Bancaria' se debe seleccionar una cuenta asociada del usuario.
   
-  ![Prestamista agregar](\assets\pantallas\prestamistaagregar.jpg)
+  ![Prestamista agregar](/assets/pantallas/prestamistaagregar.jpg)
 
 
 
 - ### Ver historial de dinero prestado.
   Al bajar, se encuentra una tabla que nos muestra un listado del dinero prestado del usuario.
 
-  ![Prestamista historial](\assets\pantallas\prestamistahistorial.jpg)
+  ![Prestamista historial](/assets/pantallas/prestamistahistorial.jpg)
 
     - #### Ver detalle de un dinero prestado.
       Al pulsar el '+' de la derecha, se muestra la información detallada del dinero prestado.
 
-      ![Prestamista detalle](\assets\pantallas\prestamistadetalle.jpg)
+      ![Prestamista detalle](/assets/pantallas/prestamistadetalle.jpg)
 
 
       - ### Eliminar un dinero prestado.
@@ -286,7 +286,7 @@ Al ingresar en la sección de préstamos, primero veremos toda la información a
 - ### Filtrar el dinero prestado por período de tiempo.
   Para modificar toda la información mostrada, se debe seleccionar el período de tiempo deseado como se indica en la imagen. Se puede seleccionar: anual, semestral o mensual.
 
-  ![Prestamista tiempo](\assets\pantallas\prestamistatiempo.jpg)
+  ![Prestamista tiempo](/assets/pantallas/prestamistatiempo.jpg)
 
 
 ### (Dinero tomado)
@@ -295,7 +295,7 @@ Si bajamos hasta la mitad inferior de la sección, encontraremos la información
 - ### Ver total de dinero tomado.
   Tendremos un display que indica el dinero total tomado.
 
-  ![Deuda total](\assets\pantallas\deudatotal.jpg)
+  ![Deuda total](/assets/pantallas/deudatotal.jpg)
 
 
 - ### Añadir nuevo dinero tomado.
@@ -306,19 +306,19 @@ Si bajamos hasta la mitad inferior de la sección, encontraremos la información
 - Al seleccionar 'Transferencia Bancaria' se debe seleccionar una cuenta asociada del usuario.
 - Al selecciona 'Cuotas' debemos seleccionar en cuántas cuotas hemos tomado el préstamo.
 
-  ![Deuda agregar](\assets\pantallas\deudaagregar.jpg)
+  ![Deuda agregar](/assets/pantallas/deudaagregar.jpg)
 
 
 - ### Ver historial de dinero tomado.
   Al bajar, se encuentra una tabla que nos muestra un listado del dinero tomado por usuario.
 
-  ![Deuda historial](\assets\pantallas\deudahistorial.jpg)
+  ![Deuda historial](/assets/pantallas/deudahistorial.jpg)
 
 
   - #### Ver detalle de un dinero tomado.
      Al pulsar el '+' de la derecha, se muestra la información detallada del dinero tomado.
 
-    ![Deuda detalle](\assets\pantallas\deudadetalle.jpg)
+    ![Deuda detalle](/assets/pantallas/deudadetalle.jpg)
 
 
   - ### Eliminar un dinero tomado.
@@ -335,20 +335,20 @@ En esta sección podremos agregar un presupuesto mensual que estimamos gastar. E
   - Si seleccionamos servicio, tendremos que elegir una el tipo de servicio: luz, agua u otro.
     - Si seleccionamos otro, debemos detallar el servicio.
 
-  ![Presupuesto agregar](\assets\pantallas\presupuestoagregar.jpg)
+  ![Presupuesto agregar](/assets/pantallas/presupuestoagregar.jpg)
 
 
 - ### Ver comparación de presupuesto versus real.
   Debajo del formulario de agregar presupuesto, vemos un grafico comparativo donde podremos ver el presupuesto estimado versus el presupuesto real, diferenciado por los distintos tipos que fuimos dando de alta.
 
-  ![Presupuesto versus](\assets\pantallas\presupuestoversus.jpg)
+  ![Presupuesto versus](/assets/pantallas/presupuestoversus.jpg)
 
 
   ---
 
   ## Configuración
 
-  ![Configuracion](\assets\pantallas\configuracion.jpg)
+  ![Configuracion](/assets/pantallas/configuracion.jpg)
 
   - ### Back-up
     Si queremos realizar un back-up de nuestros datos, debemos pulsar el boton 'Generar back-up'. Esto impacta en nuestra base de datos en la nube (mongoDB), quedando almacenados de manera permanente.

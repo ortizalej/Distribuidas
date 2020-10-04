@@ -46,6 +46,10 @@ class DrawerItem extends React.Component {
         return (
           <Icon size={16} name="ios-log-in" family="ionicon" color={focused ? color : materialTheme.COLORS.MUTED} />
         );
+      case "Configuracion":
+        return (
+          <Icon size={16} name="light-up" family="entypo" color={focused ? color : materialTheme.COLORS.MUTED} />
+        );
       default:
         return null;
     }
