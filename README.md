@@ -1,5 +1,6 @@
 Pasos a seguir para ejecutar la app:
-Tener expo instalado anteriormente
+
+- Tener expo instalado anteriormente
 
 1) git  clone https://github.com/ortizalej/Distribuidas.git
 2) npm install 
