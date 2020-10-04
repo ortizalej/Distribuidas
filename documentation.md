@@ -23,14 +23,13 @@ Estos diseños se pueden ver en: https://www.figma.com/file/mwWjJyMfzCLbTrls4n8i
 - ### Registro de un nuevo usuario.  
   Para registrar un nuevo usuario, debemos presionar 'Registrarse' en la pantala de LogIn y completar los datos solicitados.
 
-  ![Registro](\assets\pantallas\registrarse.jpg)
+  ![Registro](/assets/pantallas/registrarse.jpg)
 
 
 - ### Inicio de sesión de un usuario registrado.
   Al abrir la aplicación por primera vez en el telefono o luego de ser encendido, el usuario podrá iniciar sesión.
 
-  ![Login](\assets\pantallas\logi.jpg)
-
+  ![Login](/assets/pantallas/logi.jpg)
 
 ---
 ## Inicio
