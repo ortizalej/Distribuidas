@@ -1070,7 +1070,7 @@ function showGlobalMessage(result) {
     })
   } else {
     ToastAndroid.showWithGravity(
-      result,
+      result.result,
       ToastAndroid.LONG,
       ToastAndroid.CENTER
     );

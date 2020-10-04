@@ -80,7 +80,6 @@ export default class CarrouselCard extends React.Component {
                     ref={(c) => { this.carousel = c; }}
                     data={this.state.carouselItems}
                     layout={'default'} 
-                    layoutCardOffset={`18`} 
                     renderItem={
                         this.state.type === 'Card' ?
                             this._renderItemCard : this.state.type === 'Bank' ?
